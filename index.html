@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Iuran Warga</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Input Iuran Duka Cita</h2>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <form id="iuranForm">
+                    <div class="mb-3">
+                        <label>Nama Jenazah</label>
+                        <input type="text" id="namaJenazah" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Ahli Waris (Pembayar)</label>
+                        <input type="text" id="ahliWaris" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>No. HP (WhatsApp)</label>
+                        <input type="number" id="noHP" class="form-control" placeholder="62812xxx" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Jumlah Iuran (Rp)</label>
+                        <input type="number" id="jumlahIuran" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Simpan & Generate Kwitansi</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4>Riwayat Iuran</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Jenazah</th>
+                            <th>Ahli Waris</th>
+                            <th>Iuran</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                    <tfoot>
+                        <tr class="table-dark">
+                            <td colspan="2"><strong>Total Terkumpul</strong></td>
+                            <td colspan="2"><strong id="totalIuran">Rp 0</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            // MASUKKAN CONFIG FIREBASE KAMU DI SINI
+            apiKey: "AIzaSy...",
+            authDomain: "project-id.firebaseapp.com",
+            databaseURL: "https://project-id.firebaseio.com",
+            projectId: "project-id",
+            storageBucket: "project-id.appspot.com",
+            messagingSenderId: "...",
+            appId: "..."
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const dbRef = ref(db, 'iuran');
+
+        // Submit Data
+        document.getElementById('iuranForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = {
+                namaJenazah: document.getElementById('namaJenazah').value,
+                ahliWaris: document.getElementById('ahliWaris').value,
+                noHP: document.getElementById('noHP').value,
+                iuran: parseInt(document.getElementById('jumlahIuran').value),
+                tanggal: new Date().toLocaleDateString('id-ID')
+            };
+            push(dbRef, data);
+            kirimWA(data);
+            e.target.reset();
+        });
+
+        // Tampilkan Data & Hitung Total Otomatis
+        onValue(dbRef, (snapshot) => {
+            const tableBody = document.getElementById('tableBody');
+            let total = 0;
+            tableBody.innerHTML = '';
+            
+            snapshot.forEach((child) => {
+                const val = child.val();
+                total += val.iuran;
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${val.namaJenazah}</td>
+                        <td>${val.ahliWaris}</td>
+                        <td>Rp ${val.iuran.toLocaleString()}</td>
+                        <td><button onclick="ulangWA('${val.ahliWaris}', '${val.noHP}', '${val.iuran}', '${val.namaJenazah}')" class="btn btn-sm btn-success">Kirim WA</button></td>
+                    </tr>
+                `;
+            });
+            document.getElementById('totalIuran').innerText = `Rp ${total.toLocaleString()}`;
+        });
+
+        // Fungsi Kwitansi WhatsApp
+        window.kirimWA = (data) => {
+            const pesan = `*KWITANSI DIGITAL*%0A-----------------------%0A*Terima Kasih Pak/Bu ${data.ahliWaris}*%0ATelah membayar iuran duka cita.%0A%0A*Detail:*%0A- Alm/Ahli: ${data.namaJenazah}%0A- Jumlah: Rp ${data.iuran.toLocaleString()}%0A- Tanggal: ${data.tanggal}%0A-----------------------%0A_Pesan otomatis sistem._`;
+            window.open(`https://wa.me/${data.noHP}?text=${pesan}`, '_blank');
+        };
+    </script>
+</body>
+</html>
