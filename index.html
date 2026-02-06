@@ -2,99 +2,95 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Iuran Duka | SaaS Style</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Iuran App</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
-        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F3F4F6; }
+        .safe-area-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 80px); }
+        .tab-active { color: #2563eb; }
+        input:focus { border-color: #2563eb; ring: 2px #bfdbfe; }
     </style>
 </head>
-<body class="text-slate-800">
+<body class="antialiased">
 
-    <div class="min-h-screen flex flex-col md:flex-row">
-        <aside class="w-full md:w-64 bg-slate-900 text-white p-6 shadow-xl">
-            <div class="flex items-center gap-3 mb-10">
-                <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center font-bold">S</div>
-                <h1 class="text-xl font-bold tracking-tight">SI-DUKA</h1>
-            </div>
-            <nav class="space-y-2">
-                <a href="#" class="flex items-center p-3 bg-blue-600 rounded-xl transition">📊 Dashboard</a>
-                <a href="#" class="flex items-center p-3 text-slate-400 hover:text-white transition">📜 Riwayat</a>
-                <a href="#" class="flex items-center p-3 text-slate-400 hover:text-white transition">⚙️ Settings</a>
-            </nav>
-        </aside>
-
-        <main class="flex-1 p-6 md:p-10">
-            <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-900">Input Iuran Baru</h2>
-                    <p class="text-slate-500">Kelola dana duka cita warga dengan transparan.</p>
-                </div>
-                <div class="px-6 py-3 bg-white shadow-sm rounded-2xl border border-slate-200">
-                    <span class="text-sm text-slate-500 block">Total Terkumpul</span>
-                    <span id="totalIuran" class="text-xl font-bold text-blue-600 uppercase">Rp 0</span>
-                </div>
-            </header>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-1">
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
-                        <form id="iuranForm" class="space-y-4">
-                            <div>
-                                <label class="text-sm font-semibold text-slate-600 mb-1 block">Nama Jenazah</label>
-                                <input type="text" id="namaJenazah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Contoh: Alm. Budi" required>
-                            </div>
-                            <div>
-                                <label class="text-sm font-semibold text-slate-600 mb-1 block">Ahli Waris (Pembayar)</label>
-                                <input type="text" id="ahliWaris" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Nama pengirim" required>
-                            </div>
-                            <div>
-                                <label class="text-sm font-semibold text-slate-600 mb-1 block">No. WhatsApp</label>
-                                <input type="number" id="noHP" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="628123xxx" required>
-                            </div>
-                            <div>
-                                <label class="text-sm font-semibold text-slate-600 mb-1 block">Jumlah Iuran (Rp)</label>
-                                <input type="number" id="jumlahIuran" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="0" required>
-                            </div>
-                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl shadow-lg transition transform active:scale-95">
-                                Simpan & Kirim Kwitansi
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-2">
-                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="p-6 border-b border-slate-100 flex justify-between items-center">
-                            <h3 class="font-bold">Transaksi Terakhir</h3>
-                            <span class="px-3 py-1 bg-green-100 text-green-600 text-xs font-bold rounded-full uppercase">Live Update</span>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
-                                <thead class="bg-slate-50 text-slate-400 text-xs uppercase font-semibold">
-                                    <tr>
-                                        <th class="p-4">Detail</th>
-                                        <th class="p-4">Iuran</th>
-                                        <th class="p-4 text-center">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableBody" class="divide-y divide-slate-100">
-                                    </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <div class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 py-4 flex justify-between items-center">
+        <div>
+            <p class="text-xs text-gray-500 font-medium uppercase tracking-wider">Dashboard</p>
+            <h1 class="text-xl font-bold text-gray-900">Sistem Iuran</h1>
+        </div>
+        <div class="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-200 uppercase font-bold">
+            AD
+        </div>
     </div>
+
+    <main class="px-5 pt-6 safe-area-bottom">
+        
+        <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2rem] p-6 text-white shadow-xl shadow-blue-100 mb-8">
+            <span class="text-blue-100 text-sm opacity-80 uppercase tracking-widest font-semibold">Total Saldo Terkumpul</span>
+            <h2 id="totalIuran" class="text-3xl font-bold mt-1">Rp 0</h2>
+            <div class="mt-4 pt-4 border-t border-white/20 flex justify-between items-center">
+                <span class="text-xs text-blue-100">Update otomatis • Realtime</span>
+                <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">SaaS Ver 2.0</span>
+            </div>
+        </div>
+
+        <section id="input-section" class="space-y-4">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="font-bold text-gray-800 text-lg">Input Data Baru</h3>
+            </div>
+            
+            <form id="iuranForm" class="space-y-4">
+                <div class="space-y-2 text-sm">
+                    <input type="text" id="namaJenazah" placeholder="Nama Jenazah" class="w-full bg-white border border-gray-200 px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-gray-700" required>
+                    <input type="text" id="ahliWaris" placeholder="Ahli Waris (Pembayar)" class="w-full bg-white border border-gray-200 px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-gray-700" required>
+                    <input type="number" id="noHP" placeholder="No. WhatsApp (62812...)" class="w-full bg-white border border-gray-200 px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-gray-700" required>
+                    <input type="number" id="jumlahIuran" placeholder="Jumlah Iuran (Rp)" class="w-full bg-white border border-gray-200 px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-gray-700" required>
+                </div>
+                <button type="submit" class="w-full bg-gray-900 text-white font-bold py-5 rounded-2xl shadow-lg shadow-gray-200 hover:bg-black active:scale-95 transition-all">
+                    Simpan & Kirim Kwitansi
+                </button>
+            </form>
+        </section>
+
+        <section id="list-section" class="mt-10">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-gray-800 text-lg">Riwayat Transaksi</h3>
+                <span class="text-blue-600 text-xs font-bold uppercase">Lihat Semua</span>
+            </div>
+            <div id="tableBody" class="space-y-3">
+                <div class="animate-pulse flex space-x-4 p-4 bg-white rounded-2xl">
+                    <div class="rounded-full bg-slate-200 h-10 w-10"></div>
+                    <div class="flex-1 space-y-3 py-1">
+                        <div class="h-2 bg-slate-200 rounded"></div>
+                        <div class="h-2 bg-slate-200 rounded w-1/2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-gray-100 px-10 py-4 flex justify-between items-center z-50">
+        <button class="text-blue-600 flex flex-col items-center">
+            <span class="text-xl">🏠</span>
+            <span class="text-[10px] font-bold mt-1 uppercase">Home</span>
+        </button>
+        <button class="text-gray-400 flex flex-col items-center">
+            <span class="text-xl">📑</span>
+            <span class="text-[10px] font-bold mt-1 uppercase">Laporan</span>
+        </button>
+        <button class="text-gray-400 flex flex-col items-center">
+            <span class="text-xl">⚙️</span>
+            <span class="text-[10px] font-bold mt-1 uppercase">Profil</span>
+        </button>
+    </nav>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // GANTI DENGAN CONFIG FIREBASE KAMU
+        // CONFIG FIREBASE
         const firebaseConfig = {
             apiKey: "...",
             authDomain: "...",
@@ -116,7 +112,7 @@
                 ahliWaris: document.getElementById('ahliWaris').value,
                 noHP: document.getElementById('noHP').value,
                 iuran: parseInt(document.getElementById('jumlahIuran').value),
-                tanggal: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' })
+                tanggal: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'short' })
             };
             push(dbRef, data);
             kirimWA(data);
@@ -124,26 +120,27 @@
         });
 
         onValue(dbRef, (snapshot) => {
-            const tableBody = document.getElementById('tableBody');
+            const container = document.getElementById('tableBody');
             let total = 0;
-            tableBody.innerHTML = '';
+            container.innerHTML = '';
             
             snapshot.forEach((child) => {
                 const val = child.val();
                 total += val.iuran;
-                tableBody.innerHTML += `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-4">
-                            <p class="font-bold text-slate-800">${val.namaJenazah}</p>
-                            <p class="text-xs text-slate-400">Oleh: ${val.ahliWaris}</p>
-                        </td>
-                        <td class="p-4">
-                            <span class="font-semibold text-slate-700">Rp ${val.iuran.toLocaleString()}</span>
-                        </td>
-                        <td class="p-4 text-center">
-                            <button onclick="ulangWA('${val.ahliWaris}', '${val.noHP}', '${val.iuran}', '${val.namaJenazah}')" class="bg-green-500 hover:bg-green-600 text-white text-xs px-4 py-2 rounded-lg font-bold transition shadow-sm">Kirim WA</button>
-                        </td>
-                    </tr>
+                container.innerHTML += `
+                    <div class="bg-white p-4 rounded-[1.5rem] border border-gray-50 shadow-sm flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="h-12 w-12 bg-gray-50 rounded-2xl flex items-center justify-center text-xl shadow-inner">👤</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">${val.namaJenazah}</h4>
+                                <p class="text-xs text-gray-400 uppercase font-semibold tracking-tighter">${val.ahliWaris} • ${val.tanggal}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-blue-600">Rp ${val.iuran.toLocaleString()}</p>
+                            <button onclick="window.openWA('${val.ahliWaris}', '${val.noHP}', '${val.iuran}', '${val.namaJenazah}')" class="text-[10px] text-green-500 font-bold uppercase tracking-wider">Kwitansi</button>
+                        </div>
+                    </div>
                 `;
             });
             document.getElementById('totalIuran').innerText = `Rp ${total.toLocaleString()}`;
@@ -154,8 +151,8 @@
             window.open(`https://wa.me/${data.noHP}?text=${pesan}`, '_blank');
         };
 
-        window.ulangWA = (ahli, no, iuran, jenazah) => {
-            const data = { ahliWaris: ahli, noHP: no, iuran: parseInt(iuran), namaJenazah: jenazah, tanggal: 'Kwitansi Duplikat' };
+        window.openWA = (ahli, no, iuran, jenazah) => {
+            const data = { ahliWaris: ahli, noHP: no, iuran: parseInt(iuran), namaJenazah: jenazah, tanggal: 'Baru Saja' };
             window.kirimWA(data);
         };
     </script>
