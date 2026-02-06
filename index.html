@@ -3,72 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Iuran Warga</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Sistem Iuran Duka | SaaS Style</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+    </style>
 </head>
-<body class="bg-light">
-    <div class="container py-5">
-        <h2 class="text-center mb-4">Input Iuran Duka Cita</h2>
-        
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <form id="iuranForm">
-                    <div class="mb-3">
-                        <label>Nama Jenazah</label>
-                        <input type="text" id="namaJenazah" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label>Ahli Waris (Pembayar)</label>
-                        <input type="text" id="ahliWaris" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label>No. HP (WhatsApp)</label>
-                        <input type="number" id="noHP" class="form-control" placeholder="62812xxx" required>
-                    </div>
-                    <div class="mb-3">
-                        <label>Jumlah Iuran (Rp)</label>
-                        <input type="number" id="jumlahIuran" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Simpan & Generate Kwitansi</button>
-                </form>
-            </div>
-        </div>
+<body class="text-slate-800">
 
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h4>Riwayat Iuran</h4>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Jenazah</th>
-                            <th>Ahli Waris</th>
-                            <th>Iuran</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody"></tbody>
-                    <tfoot>
-                        <tr class="table-dark">
-                            <td colspan="2"><strong>Total Terkumpul</strong></td>
-                            <td colspan="2"><strong id="totalIuran">Rp 0</strong></td>
-                        </tr>
-                    </tfoot>
-                </table>
+    <div class="min-h-screen flex flex-col md:flex-row">
+        <aside class="w-full md:w-64 bg-slate-900 text-white p-6 shadow-xl">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center font-bold">S</div>
+                <h1 class="text-xl font-bold tracking-tight">SI-DUKA</h1>
             </div>
-        </div>
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center p-3 bg-blue-600 rounded-xl transition">📊 Dashboard</a>
+                <a href="#" class="flex items-center p-3 text-slate-400 hover:text-white transition">📜 Riwayat</a>
+                <a href="#" class="flex items-center p-3 text-slate-400 hover:text-white transition">⚙️ Settings</a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-6 md:p-10">
+            <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Input Iuran Baru</h2>
+                    <p class="text-slate-500">Kelola dana duka cita warga dengan transparan.</p>
+                </div>
+                <div class="px-6 py-3 bg-white shadow-sm rounded-2xl border border-slate-200">
+                    <span class="text-sm text-slate-500 block">Total Terkumpul</span>
+                    <span id="totalIuran" class="text-xl font-bold text-blue-600 uppercase">Rp 0</span>
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+                        <form id="iuranForm" class="space-y-4">
+                            <div>
+                                <label class="text-sm font-semibold text-slate-600 mb-1 block">Nama Jenazah</label>
+                                <input type="text" id="namaJenazah" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Contoh: Alm. Budi" required>
+                            </div>
+                            <div>
+                                <label class="text-sm font-semibold text-slate-600 mb-1 block">Ahli Waris (Pembayar)</label>
+                                <input type="text" id="ahliWaris" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Nama pengirim" required>
+                            </div>
+                            <div>
+                                <label class="text-sm font-semibold text-slate-600 mb-1 block">No. WhatsApp</label>
+                                <input type="number" id="noHP" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="628123xxx" required>
+                            </div>
+                            <div>
+                                <label class="text-sm font-semibold text-slate-600 mb-1 block">Jumlah Iuran (Rp)</label>
+                                <input type="number" id="jumlahIuran" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="0" required>
+                            </div>
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl shadow-lg transition transform active:scale-95">
+                                Simpan & Kirim Kwitansi
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                            <h3 class="font-bold">Transaksi Terakhir</h3>
+                            <span class="px-3 py-1 bg-green-100 text-green-600 text-xs font-bold rounded-full uppercase">Live Update</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-slate-50 text-slate-400 text-xs uppercase font-semibold">
+                                    <tr>
+                                        <th class="p-4">Detail</th>
+                                        <th class="p-4">Iuran</th>
+                                        <th class="p-4 text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody" class="divide-y divide-slate-100">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+        // GANTI DENGAN CONFIG FIREBASE KAMU
         const firebaseConfig = {
-            // MASUKKAN CONFIG FIREBASE KAMU DI SINI
-            apiKey: "AIzaSy...",
-            authDomain: "project-id.firebaseapp.com",
-            databaseURL: "https://project-id.firebaseio.com",
-            projectId: "project-id",
-            storageBucket: "project-id.appspot.com",
+            apiKey: "...",
+            authDomain: "...",
+            databaseURL: "...",
+            projectId: "...",
+            storageBucket: "...",
             messagingSenderId: "...",
             appId: "..."
         };
@@ -77,7 +109,6 @@
         const db = getDatabase(app);
         const dbRef = ref(db, 'iuran');
 
-        // Submit Data
         document.getElementById('iuranForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const data = {
@@ -85,14 +116,13 @@
                 ahliWaris: document.getElementById('ahliWaris').value,
                 noHP: document.getElementById('noHP').value,
                 iuran: parseInt(document.getElementById('jumlahIuran').value),
-                tanggal: new Date().toLocaleDateString('id-ID')
+                tanggal: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' })
             };
             push(dbRef, data);
             kirimWA(data);
             e.target.reset();
         });
 
-        // Tampilkan Data & Hitung Total Otomatis
         onValue(dbRef, (snapshot) => {
             const tableBody = document.getElementById('tableBody');
             let total = 0;
@@ -102,21 +132,31 @@
                 const val = child.val();
                 total += val.iuran;
                 tableBody.innerHTML += `
-                    <tr>
-                        <td>${val.namaJenazah}</td>
-                        <td>${val.ahliWaris}</td>
-                        <td>Rp ${val.iuran.toLocaleString()}</td>
-                        <td><button onclick="ulangWA('${val.ahliWaris}', '${val.noHP}', '${val.iuran}', '${val.namaJenazah}')" class="btn btn-sm btn-success">Kirim WA</button></td>
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4">
+                            <p class="font-bold text-slate-800">${val.namaJenazah}</p>
+                            <p class="text-xs text-slate-400">Oleh: ${val.ahliWaris}</p>
+                        </td>
+                        <td class="p-4">
+                            <span class="font-semibold text-slate-700">Rp ${val.iuran.toLocaleString()}</span>
+                        </td>
+                        <td class="p-4 text-center">
+                            <button onclick="ulangWA('${val.ahliWaris}', '${val.noHP}', '${val.iuran}', '${val.namaJenazah}')" class="bg-green-500 hover:bg-green-600 text-white text-xs px-4 py-2 rounded-lg font-bold transition shadow-sm">Kirim WA</button>
+                        </td>
                     </tr>
                 `;
             });
             document.getElementById('totalIuran').innerText = `Rp ${total.toLocaleString()}`;
         });
 
-        // Fungsi Kwitansi WhatsApp
         window.kirimWA = (data) => {
-            const pesan = `*KWITANSI DIGITAL*%0A-----------------------%0A*Terima Kasih Pak/Bu ${data.ahliWaris}*%0ATelah membayar iuran duka cita.%0A%0A*Detail:*%0A- Alm/Ahli: ${data.namaJenazah}%0A- Jumlah: Rp ${data.iuran.toLocaleString()}%0A- Tanggal: ${data.tanggal}%0A-----------------------%0A_Pesan otomatis sistem._`;
+            const pesan = `*KWITANSI DIGITAL*%0A-----------------------%0A*Terima Kasih Pak/Bu ${data.ahliWaris}*%0A%0A*Detail:*%0A- Alm/Ahli: ${data.namaJenazah}%0A- Jumlah: Rp ${data.iuran.toLocaleString()}%0A- Tanggal: ${data.tanggal}%0A-----------------------%0A_Pesan ini adalah bukti pembayaran sah._`;
             window.open(`https://wa.me/${data.noHP}?text=${pesan}`, '_blank');
+        };
+
+        window.ulangWA = (ahli, no, iuran, jenazah) => {
+            const data = { ahliWaris: ahli, noHP: no, iuran: parseInt(iuran), namaJenazah: jenazah, tanggal: 'Kwitansi Duplikat' };
+            window.kirimWA(data);
         };
     </script>
 </body>
