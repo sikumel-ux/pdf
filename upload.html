@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub PDF Uploader</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        button { cursor: pointer; background: #238636; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 10px; }
+        button:disabled { background: #ccc; }
+        #status { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h3>Upload PDF ke GitHub</h3>
+    <input type="file" id="pdfFile" accept="application/pdf">
+    <br>
+    <button id="uploadBtn" onclick="uploadKeGoogleScript()">Upload Sekarang</button>
+    <div id="status"></div>
+</div>
+
+<script>
+    async function uploadKeGoogleScript() {
+        const fileInput = document.getElementById('pdfFile');
+        const btn = document.getElementById('uploadBtn');
+        const statusDiv = document.getElementById('status');
+
+        if (!fileInput.files[0]) {
+            alert("Pilih file PDF dulu ya!");
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        // Loading state
+        btn.disabled = true;
+        statusDiv.innerText = "⏳ Sedang memproses file...";
+        statusDiv.style.color = "black";
+
+        reader.onload = async () => {
+            try {
+                // INI URL SCRIPT KAMU
+                const webAppUrl = "https://script.google.com/macros/s/AKfycbwSPEg5bVbq1YSTNya7tUqHmenhKORDgYTVqOnbGKU-eFUFfZNPgkcFVcYWZVMaRIpv/exec";
+
+                const response = await fetch(webAppUrl, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        name: file.name,
+                        content: reader.result
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    statusDiv.innerText = "✅ Berhasil diunggah ke GitHub!";
+                    statusDiv.style.color = "green";
+                } else {
+                    statusDiv.innerText = "❌ Gagal: " + result.message;
+                    statusDiv.style.color = "red";
+                }
+            } catch (error) {
+                statusDiv.innerText = "❌ Terjadi kesalahan koneksi/CORS.";
+                statusDiv.style.color = "red";
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+            }
+        };
+
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</body>
+</html>
