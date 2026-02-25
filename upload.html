@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahika Trans Files | Verifikasi Sistem</title>
+    <title>Mahika Trans Files | Cloud Upload</title>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -12,123 +12,119 @@
             --mahika-yellow: #facc15; 
             --white: #ffffff;
             --light-bg: #f3f4f6;
-            --danger: #ef4444;
+            --success: #22c55e;
         }
 
         * { box-sizing: border-box; }
-        body { margin: 0; background-color: var(--light-bg); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        body { margin: 0; background-color: var(--light-bg); font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        /* Header Section */
+        /* Header */
         .top-section {
             background: radial-gradient(circle at 50% 0%, #074a8d 0%, #053a6f 100%);
-            height: 180px; display: flex; flex-direction: column; align-items: center; padding-top: 35px;
+            height: 160px; display: flex; flex-direction: column; align-items: center; padding-top: 30px;
         }
-        .title-brand { font-size: 32px; font-weight: 800; letter-spacing: -1px; margin: 0; color: var(--white); }
+        .title-brand { font-size: 32px; font-weight: 800; letter-spacing: -1.5px; margin: 0; color: var(--white); }
         .brand-mahika { color: var(--mahika-yellow); }
         .subtitle { font-size: 10px; color: var(--mahika-yellow); text-align: center; letter-spacing: 2px; font-weight: 600; margin-top: 5px; text-transform: uppercase; }
 
         /* Container */
-        .main-container { max-width: 400px; margin: -60px auto 40px auto; padding: 0 15px; }
+        .main-container { max-width: 400px; margin: -50px auto 40px auto; padding: 0 15px; }
 
-        /* Card Style */
-        .search-card { 
+        /* Card */
+        .upload-card { 
             background: var(--white); border-radius: 24px; 
             box-shadow: 0 15px 40px rgba(0,0,0,0.1); padding: 25px; 
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin: 0 0 8px 4px; letter-spacing: 0.5px; }
+
+        /* Input Styling */
+        .file-input-wrapper {
+            position: relative; border: 2px dashed #e2e8f0; border-radius: 16px;
+            padding: 30px 20px; text-align: center; transition: all 0.3s ease;
+            cursor: pointer; background: #f8fafc;
+        }
+        .file-input-wrapper:hover { border-color: var(--deep-blue); background: #f1f5f9; }
+        .file-input-wrapper i { color: var(--deep-blue); margin-bottom: 10px; }
+        .file-input-wrapper p { font-size: 13px; font-weight: 700; color: var(--deep-blue); margin: 5px 0 0 0; }
+        
+        input[type="file"] {
+            position: absolute; inset: 0; opacity: 0; cursor: pointer;
+        }
+
+        /* Button */
+        .btn-upload {
+            width: 100%; padding: 16px; background: var(--deep-blue); color: var(--white); border: none;
+            border-radius: 16px; font-weight: 800; font-size: 14px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
             transition: all 0.3s ease;
         }
+        .btn-upload:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(5, 58, 111, 0.3); }
+        .btn-upload:disabled { opacity: 0.7; cursor: not-allowed; }
 
-        /* Verifikasi State */
-        #verifying-ui { text-align: center; padding: 20px; }
-        .spinner { 
-            border: 4px solid rgba(5, 58, 111, 0.1); border-left-color: var(--deep-blue); 
-            border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px;
+        /* Status Result */
+        .result-box {
+            margin-top: 20px; background: #f0fdf4; border: 2px solid var(--success);
+            border-radius: 18px; padding: 15px; display: none;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Form Content */
-        .form-group { margin-bottom: 18px; position: relative; }
-        label { display: block; font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin: 0 0 8px 4px; }
-
-        .file-display-box {
-            background-color: #f8fafc; border: 1.5px solid #f1f5f9; padding: 15px;
-            border-radius: 12px; display: flex; align-items: center; gap: 12px;
-            font-weight: 700; color: var(--deep-blue); font-size: 14px;
+        .res-title { font-size: 11px; font-weight: 800; color: var(--success); text-transform: uppercase; }
+        .res-filename { font-size: 14px; font-weight: 700; color: var(--deep-blue); margin-top: 4px; word-break: break-all; }
+        
+        .action-btns { display: flex; gap: 10px; margin-top: 12px; }
+        .mini-btn {
+            flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #dcfce7;
+            background: white; font-size: 11px; font-weight: 700; color: var(--deep-blue);
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;
         }
+        .mini-btn:hover { background: #dcfce7; }
 
-        /* Buttons */
-        .btn-search {
-            width: 100%; padding: 16px; background: var(--deep-blue); color: var(--white); border: none;
-            border-radius: 14px; font-weight: 800; font-size: 14px; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
+        /* Footer */
+        .action-area { margin-top: 30px; text-align: center; }
+        .btn-whatsapp {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: var(--deep-blue); color: var(--mahika-yellow); text-decoration: none;
+            padding: 16px; border-radius: 18px; font-weight: 800; font-size: 14px;
+            border: 2px solid var(--mahika-yellow); transition: 0.3s;
         }
-        .btn-search:hover { background: #074a8d; transform: translateY(-2px); }
-        .btn-search:disabled { background: #94a3b8; cursor: not-allowed; }
-
-        /* Result Item */
-        .result-item {
-            margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 20px;
-        }
-        .status-badge {
-            display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 800;
-            text-transform: uppercase; margin-bottom: 10px;
-        }
-        .status-success { background: #dcfce7; color: #166534; }
-        .status-error { background: #fee2e2; color: #991b1b; }
-
-        .hidden { display: none; }
+        .btn-whatsapp:hover { transform: scale(1.02); background: #074a8d; }
     </style>
 </head>
 <body>
 
 <div class="top-section">
     <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
-    <div class="subtitle">Cloud File Manager System</div>
+    <div class="subtitle">Secure Cloud Storage System</div>
 </div>
 
 <div class="main-container">
-    <div class="search-card">
-        
-        <div id="verifying-ui">
-            <div class="spinner"></div>
-            <p style="font-size: 13px; font-weight: 600; color: var(--deep-blue);">Memverifikasi Izin Akses...</p>
-        </div>
-
-        <div id="upload-ui" class="hidden">
-            <div class="form-group">
-                <label>File Target Terdeteksi</label>
-                <div class="file-display-box">
-                    <i data-lucide="file-text"></i>
-                    <span id="targetFileName">-</span>
-                </div>
+    <div class="upload-card">
+        <div class="form-group">
+            <label>Dokumen PDF</label>
+            <div class="file-input-wrapper">
+                <i data-lucide="file-up" style="width: 40px; height: 40px;"></i>
+                <p id="file-label">Klik atau pilih file PDF</p>
+                <input type="file" id="pdfInput" accept="application/pdf" onchange="updateLabel()">
             </div>
+        </div>
 
-            <div class="form-group">
-                <label>Pilih File Pengganti</label>
-                <input type="file" id="fileInput" accept="application/pdf" style="padding-left: 15px;">
+        <button class="btn-upload" id="uploadBtn" onclick="startUpload()">
+            <i data-lucide="send"></i> UPLOAD KE SERVER
+        </button>
+
+        <div id="resultBox" class="result-box">
+            <div class="res-title">Berhasil Tersimpan</div>
+            <div class="res-filename" id="doneName">nama-file.pdf</div>
+            <div class="action-btns">
+                <button class="mini-btn" onclick="copyDirectLink()"><i data-lucide="link" size="14"></i> Copy Link</button>
+                <button class="mini-btn" style="color: #ef4444;" onclick="location.reload()"><i data-lucide="refresh-cw" size="14"></i> Baru</button>
             </div>
-
-            <button class="btn-search" id="uploadBtn" onclick="executeUpload()">
-                <i data-lucide="upload-cloud"></i> UPDATE FILE SEKARANG
-            </button>
         </div>
-
-        <div id="error-ui" class="hidden" style="text-align: center;">
-            <i data-lucide="shield-alert" style="width: 48px; height: 48px; color: var(--danger); margin-bottom: 15px;"></i>
-            <h3 style="color: var(--deep-blue); margin: 0;">Akses Ditolak</h3>
-            <p style="font-size: 12px; color: #64748b;">Halaman tidak dapat dibuka karena file tidak ditemukan atau parameter salah.</p>
-        </div>
-
-        <div id="result-area" class="hidden result-item">
-            <div id="statusBadge" class="status-badge">Berhasil</div>
-            <div id="finalMsg" style="font-size: 13px; font-weight: 700; color: var(--deep-blue);"></div>
-        </div>
-
     </div>
 
     <div class="action-area">
-        <div class="action-label">Butuh Bantuan Operasional?</div>
         <a href="https://wa.me/628123456789" class="btn-whatsapp">
-            <i data-lucide="message-circle"></i> HUBUNGI ADMIN MAHIKA
+            <i data-lucide="message-square"></i> HUBUNGI ADMIN MAHIKA
         </a>
     </div>
 </div>
@@ -137,56 +133,26 @@
     lucide.createIcons();
 
     const API_URL = "https://script.google.com/macros/s/AKfycbyzNaowGlzUAvsfX0DTnb98BiXM5JkYgK45po94lh2NPj-7rU41QZZ0BV3vBvMFltRFCw/exec";
-    const GITHUB_REPO = "USERNAME/REPO_KAMU"; // GANTI INI
-    
-    let fileSha = "";
-    let fileName = "";
+    let lastFileUrl = "";
 
-    // 1. FUNGSI VALIDASI (METODE 2)
-    async function checkSecurity() {
-        const params = new URLSearchParams(window.location.search);
-        fileName = params.get('file');
-
-        if (!fileName) {
-            showError();
-            return;
-        }
-
-        try {
-            // Cek ke GitHub API apakah file ada
-            const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/uploads/${fileName}`);
-            
-            if (res.status === 200) {
-                const data = await res.json();
-                fileSha = data.sha; // Simpan SHA untuk keperluan update/delete
-                showUpload(fileName);
-            } else {
-                showError();
-            }
-        } catch (e) {
-            showError();
+    function updateLabel() {
+        const input = document.getElementById('pdfInput');
+        if(input.files[0]) {
+            document.getElementById('file-label').innerText = input.files[0].name;
+            document.getElementById('file-label').style.color = "var(--success)";
         }
     }
 
-    function showUpload(name) {
-        document.getElementById('verifying-ui').classList.add('hidden');
-        document.getElementById('upload-ui').classList.remove('hidden');
-        document.getElementById('targetFileName').innerText = name;
-    }
-
-    function showError() {
-        document.getElementById('verifying-ui').classList.add('hidden');
-        document.getElementById('error-ui').classList.remove('hidden');
-    }
-
-    // 2. FUNGSI UPLOAD (MODERN VERSION)
-    async function executeUpload() {
-        const input = document.getElementById('fileInput');
+    async function startUpload() {
+        const fileInput = document.getElementById('pdfInput');
         const btn = document.getElementById('uploadBtn');
-        if (!input.files[0]) return alert("Pilih file PDF pengganti!");
+        const file = fileInput.files[0];
+
+        if (!file) return alert("Pilih filenya dulu, Bro!");
 
         btn.disabled = true;
-        btn.innerHTML = "Sedang Mengupdate...";
+        btn.innerHTML = '<i data-lucide="loader-2" style="animation: spin 1s linear infinite;"></i> Mengirim...';
+        lucide.createIcons();
 
         const reader = new FileReader();
         reader.onload = async () => {
@@ -194,42 +160,46 @@
                 const response = await fetch(API_URL, {
                     method: "POST",
                     body: JSON.stringify({
-                        action: "upload",
-                        name: fileName,
+                        name: file.name,
                         content: reader.result,
-                        sha: fileSha // Kirim SHA agar GitHub menimpa file lama
+                        action: "upload"
                     })
                 });
 
-                const res = await response.json();
-                if (res.content) {
-                    showFinalResult(true, "File berhasil diperbarui di server Mahika.");
+                const data = await response.json();
+                if (data.content) {
+                    showSuccess(file.name);
                 } else {
-                    showFinalResult(false, "Gagal memperbarui file.");
+                    alert("Gagal upload. Cek konfigurasi GitHub-mu.");
                 }
-            } catch (err) {
-                showFinalResult(false, "Terjadi kesalahan koneksi API.");
+            } catch (e) {
+                alert("Error koneksi API.");
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<i data-lucide="upload-cloud"></i> UPDATE FILE SEKARANG';
+                btn.innerHTML = '<i data-lucide="send"></i> UPLOAD KE SERVER';
                 lucide.createIcons();
             }
         };
-        reader.readAsDataURL(input.files[0]);
+        reader.readAsDataURL(file);
     }
 
-    function showFinalResult(isSuccess, msg) {
-        const area = document.getElementById('result-area');
-        const badge = document.getElementById('statusBadge');
-        area.classList.remove('hidden');
-        badge.className = isSuccess ? 'status-badge status-success' : 'status-badge status-error';
-        badge.innerText = isSuccess ? 'Berhasil' : 'Gagal';
-        document.getElementById('finalMsg').innerText = msg;
+    function showSuccess(name) {
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('doneName').innerText = name;
+        document.getElementById('uploadBtn').style.display = 'none';
+        // Simulasi link (Ganti USERNAME/REPO sesuai aslinya)
+        lastFileUrl = `https://raw.githubusercontent.com/USERNAME/REPO/main/uploads/${name}`;
     }
 
-    // Jalankan validasi saat halaman dimuat
-    checkSecurity();
-
+    function copyDirectLink() {
+        navigator.clipboard.writeText(lastFileUrl);
+        alert("Link file berhasil disalin!");
+    }
 </script>
+
+<style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
 </body>
 </html>
