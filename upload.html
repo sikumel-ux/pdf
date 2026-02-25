@@ -1,89 +1,67 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mahika Trans | Manager</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#053a6f">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Mahika Trans</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header class="top-section">
+<div class="top-section">
     <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
-    <div class="subtitle">Cloud Management System V2.0</div>
-</header>
+    <p class="subtitle">Cloud Manager</p>
+</div>
 
-<main class="main-container">
-    <section id="view-home" class="view">
-        <div class="section-header">
-            <h3><i class="fa-solid fa-folder-open"></i> File Saya</h3>
-            <button class="btn-refresh" onclick="fetchFiles()"><i class="fa-solid fa-rotate"></i></button>
+<div class="main-container">
+    <div id="view-home" class="view active-view">
+        <h3 style="margin-bottom:15px; font-size:16px;">📂 File Saya</h3>
+        <div id="file-list">
+            <div class="loading-state">Memuat data...</div>
         </div>
-        <div id="file-list" class="file-grid">
-            <div class="loading-state">Menarik data dari cloud...</div>
-        </div>
-    </section>
+    </div>
 
-    <section id="view-upload" class="view">
-        <div class="upload-card">
-            <h3 style="margin-top:0; color:var(--deep-blue)">Upload PDF Baru</h3>
-            <div class="file-input-wrapper" onclick="document.getElementById('pdfInput').click()">
-                <i data-lucide="upload-cloud" style="width:48px; height:48px; color:var(--deep-blue)"></i>
-                <p id="file-label">Ketuk untuk pilih dokumen</p>
+    <div id="view-upload" class="view">
+        <div class="card">
+            <h3 style="margin-bottom:15px;">Upload Baru</h3>
+            <div style="border:2px dashed #ccc; padding:40px; border-radius:15px; margin-bottom:15px;" onclick="document.getElementById('pdfInput').click()">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size:30px; color:#053a6f;"></i>
+                <p id="file-label" style="font-size:12px; margin-top:10px;">Pilih PDF</p>
                 <input type="file" id="pdfInput" accept="application/pdf" hidden>
             </div>
-            <button class="btn-main" id="uploadBtn">
-                <i class="fa-solid fa-cloud-arrow-up"></i> SIMPAN KE CLOUD
-            </button>
+            <button class="btn-main" id="uploadBtn">MULAI UPLOAD</button>
         </div>
-    </section>
+    </div>
 
-    <section id="view-setting" class="view">
-        <div class="placeholder-card">
-            <i class="fa-solid fa-gears" style="font-size:40px; color:var(--deep-blue)"></i>
-            <p>Pengaturan Sistem sedang dikalibrasi.</p>
-        </div>
-    </section>
+    <div id="view-setting" class="view">
+        <div class="card">Fitur Pengaturan sedang disiapkan.</div>
+    </div>
 
-    <section id="view-profile" class="view">
-        <div class="placeholder-card">
-            <i class="fa-solid fa-circle-user" style="font-size:40px; color:var(--deep-blue)"></i>
-            <p>Profil Admin Mahika Trans.</p>
-        </div>
-    </section>
-</main>
+    <div id="view-profile" class="view">
+        <div class="card">Admin Mahika Trans</div>
+    </div>
+</div>
 
-<nav class="bottom-nav">
-    <div class="nav-item active" onclick="switchView('home', this)">
-        <i class="fa-solid fa-house"></i>
-        <span>Home</span>
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('home', this)">
+        <i class="fa-solid fa-house"></i><span>Home</span>
     </div>
-    <div class="nav-item" onclick="switchView('upload', this)">
-        <i class="fa-solid fa-cloud-arrow-up"></i>
-        <span>Upload</span>
+    <div class="nav-item" onclick="switchTab('upload', this)">
+        <i class="fa-solid fa-plus-circle"></i><span>Upload</span>
     </div>
-    <div class="nav-item" onclick="switchView('setting', this)">
-        <i class="fa-solid fa-gear"></i>
-        <span>Setting</span>
+    <div class="nav-item" onclick="switchTab('setting', this)">
+        <i class="fa-solid fa-cog"></i><span>Setting</span>
     </div>
-    <div class="nav-item" onclick="switchView('profile', this)">
-        <i class="fa-solid fa-user"></i>
-        <span>Profile</span>
+    <div class="nav-item" onclick="switchTab('profile', this)">
+        <i class="fa-solid fa-user"></i><span>Profile</span>
     </div>
-</nav>
+</div>
 
 <div id="toast" class="toast"></div>
 
 <script src="app.js"></script>
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-    }
-</script>
 </body>
-</html>
+    </html>
+    
