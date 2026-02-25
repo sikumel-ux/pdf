@@ -2,78 +2,309 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>GitHub PDF Uploader</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahika Trans Files | Cloud Storage</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        button { cursor: pointer; background: #238636; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 10px; }
-        button:disabled { background: #ccc; }
-        #status { margin-top: 15px; font-weight: bold; }
+        :root {
+            --mahika-blue: #0A2647;
+            --mahika-light: #144272;
+            --accent: #2C74B3;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top, var(--mahika-light), var(--mahika-blue));
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            padding: 2.5rem 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass);
+            margin-bottom: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 { 
+            margin: 0; 
+            letter-spacing: 4px; 
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+        h1 span { font-weight: 900; color: var(--accent); text-shadow: 0 0 15px rgba(44, 116, 179, 0.6); }
+
+        .container {
+            width: 90%;
+            max-width: 550px;
+            background: var(--glass);
+            padding: 40px;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            padding: 50px 20px;
+            border-radius: 18px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .upload-zone:hover { 
+            border-color: var(--accent); 
+            background: rgba(255,255,255,0.08);
+            transform: scale(1.02);
+        }
+
+        .upload-zone i { margin-bottom: 15px; display: block; }
+
+        input[type="file"] { display: none; }
+
+        .btn-main {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            margin-top: 25px;
+            transition: 0.3s;
+        }
+
+        .btn-main:hover:not(:disabled) { 
+            background: #3a8cd4;
+            box-shadow: 0 8px 20px rgba(44, 116, 179, 0.4);
+        }
+
+        .btn-main:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* File List Area */
+        #fileResult {
+            margin-top: 30px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .file-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--accent);
+        }
+
+        .file-info { flex-grow: 1; overflow: hidden; padding-right: 15px; }
+        .file-name { 
+            font-weight: 600; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            color: #efefef;
+        }
+
+        .actions { display: flex; gap: 8px; }
+
+        .icon-btn { 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            color: white; 
+            padding: 8px; 
+            border-radius: 8px; 
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .icon-btn:hover { background: var(--accent); border-color: var(--accent); }
+        .del-btn:hover { background: var(--danger) !important; border-color: var(--danger) !important; }
+
+        #statusText { font-size: 14px; margin-top: 10px; color: #ccc; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h3>Upload PDF ke GitHub</h3>
-    <input type="file" id="pdfFile" accept="application/pdf">
-    <br>
-    <button id="uploadBtn" onclick="uploadKeGoogleScript()">Upload Sekarang</button>
-    <div id="status"></div>
+<header>
+    <h1>Mahika<span>Trans</span> Files</h1>
+</header>
+
+<div class="container">
+    <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <i data-lucide="cloud-lightning" style="width: 50px; height: 50px; color: var(--accent); margin: 0 auto;"></i>
+        <p id="fileNamePreview">Pilih atau Tarik file PDF di sini</p>
+        <input type="file" id="fileInput" accept="application/pdf" onchange="updatePreview()">
+    </div>
+
+    <button class="btn-main" id="uploadBtn" onclick="handleUpload()">
+        <i data-lucide="upload"></i> Upload ke Mahika Cloud
+    </button>
+    
+    <div id="statusText"></div>
+
+    <div id="fileResult" style="display:none;">
+        <div class="file-card">
+            <div class="file-info">
+                <small style="color: var(--accent); text-transform: uppercase; font-size: 10px; letter-spacing: 1px;">Cloud Path Aktif</small>
+                <div class="file-name" id="fileNameDisplay">nama-file.pdf</div>
+            </div>
+            <div class="actions">
+                <button class="icon-btn" onclick="copyLink()" title="Salin Link Publik"><i data-lucide="copy"></i></button>
+                <button class="icon-btn del-btn" onclick="deleteFile()" title="Hapus Permanen"><i data-lucide="trash-2"></i></button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-    async function uploadKeGoogleScript() {
-        const fileInput = document.getElementById('pdfFile');
-        const btn = document.getElementById('uploadBtn');
-        const statusDiv = document.getElementById('status');
+    // Inisialisasi Icon Lucide
+    lucide.createIcons();
 
-        if (!fileInput.files[0]) {
-            alert("Pilih file PDF dulu ya!");
+    // Link API Google Apps Script kamu
+    const API_URL = "https://script.google.com/macros/s/AKfycbyzNaowGlzUAvsfX0DTnb98BiXM5JkYgK45po94lh2NPj-7rU41QZZ0BV3vBvMFltRFCw/exec";
+    
+    let currentFileSha = ""; // Disimpan untuk proses delete
+    let currentFileName = "";
+
+    function updatePreview() {
+        const input = document.getElementById('fileInput');
+        if (input.files[0]) {
+            document.getElementById('fileNamePreview').innerText = "File terpilih: " + input.files[0].name;
+            document.getElementById('fileNamePreview').style.color = "var(--success)";
+        }
+    }
+
+    async function handleUpload() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        const btn = document.getElementById('uploadBtn');
+        const status = document.getElementById('statusText');
+
+        if (!file) {
+            alert("Silakan pilih file PDF terlebih dahulu!");
             return;
         }
 
-        const file = fileInput.files[0];
-        const reader = new FileReader();
-
-        // Loading state
+        // UI Loading
         btn.disabled = true;
-        statusDiv.innerText = "⏳ Sedang memproses file...";
-        statusDiv.style.color = "black";
+        btn.innerHTML = '<i data-lucide="loader-2" class="spin"></i> Memproses...';
+        status.innerText = "Mengonversi file ke Base64 dan mengirim ke GitHub...";
+        lucide.createIcons();
 
+        const reader = new FileReader();
         reader.onload = async () => {
             try {
-                // INI URL SCRIPT KAMU
-                const webAppUrl = "https://script.google.com/macros/s/AKfycbwSPEg5bVbq1YSTNya7tUqHmenhKORDgYTVqOnbGKU-eFUFfZNPgkcFVcYWZVMaRIpv/exec";
-
-                const response = await fetch(webAppUrl, {
+                const response = await fetch(API_URL, {
                     method: "POST",
                     body: JSON.stringify({
                         name: file.name,
-                        content: reader.result
+                        content: reader.result,
+                        action: "upload"
                     })
                 });
 
-                const result = await response.json();
+                const resData = await response.json();
 
-                if (result.status === "success") {
-                    statusDiv.innerText = "✅ Berhasil diunggah ke GitHub!";
-                    statusDiv.style.color = "green";
+                if (resData.content && resData.content.sha) {
+                    currentFileSha = resData.content.sha;
+                    currentFileName = file.name;
+                    
+                    // Tampilkan Card Hasil
+                    document.getElementById('fileResult').style.display = 'block';
+                    document.getElementById('fileNameDisplay').innerText = file.name;
+                    status.innerText = "✅ File berhasil tersimpan!";
+                    status.style.color = "var(--success)";
                 } else {
-                    statusDiv.innerText = "❌ Gagal: " + result.message;
-                    statusDiv.style.color = "red";
+                    throw new Error("Gagal mendapatkan respon SHA dari GitHub");
                 }
             } catch (error) {
-                statusDiv.innerText = "❌ Terjadi kesalahan koneksi/CORS.";
-                statusDiv.style.color = "red";
                 console.error(error);
+                alert("Gagal Upload: Pastikan Token & Repo di Script sudah benar.");
+                status.innerText = "❌ Terjadi kesalahan.";
             } finally {
                 btn.disabled = false;
+                btn.innerHTML = '<i data-lucide="upload"></i> Upload ke Mahika Cloud';
+                lucide.createIcons();
             }
         };
-
         reader.readAsDataURL(file);
     }
+
+    function copyLink() {
+        // Ganti USERNAME dan REPO sesuai milikmu jika ingin link raw-nya benar
+        // Tapi sementara pakai alert untuk simulasi sukses
+        const dummyUrl = `https://github.com/REPOS-KAMU/uploads/${currentFileName}`;
+        navigator.clipboard.writeText(dummyUrl);
+        alert("Link file berhasil disalin ke clipboard!");
+    }
+
+    async function deleteFile() {
+        if (!confirm("Apakah Anda yakin ingin menghapus file ini dari server Mahika?")) return;
+
+        const btn = document.getElementById('uploadBtn');
+        const status = document.getElementById('statusText');
+
+        status.innerText = "Sedang menghapus file...";
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify({
+                    action: "delete",
+                    name: currentFileName,
+                    sha: currentFileSha
+                })
+            });
+
+            if (response.ok) {
+                alert("File berhasil dihapus!");
+                document.getElementById('fileResult').style.display = 'none';
+                document.getElementById('fileInput').value = "";
+                document.getElementById('fileNamePreview').innerText = "Pilih atau Tarik file PDF di sini";
+                status.innerText = "";
+            }
+        } catch (e) {
+            alert("Gagal menghapus file.");
+        }
+    }
 </script>
+
+<style>
+    /* Animasi putar untuk loader */
+    .spin {
+        animation: rotate 2s linear infinite;
+    }
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
 
 </body>
 </html>
