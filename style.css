@@ -7,59 +7,74 @@
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-body { margin: 0; background-color: var(--light-bg); font-family: 'Plus Jakarta Sans', sans-serif; padding-bottom: 100px; }
+
+body { 
+    margin: 0; 
+    background-color: var(--light-bg); 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    padding-bottom: 100px; 
+}
 
 .top-section {
     background: radial-gradient(circle at 50% 0%, #074a8d 0%, #053a6f 100%);
     height: 140px; display: flex; flex-direction: column; align-items: center; padding-top: 25px;
     position: sticky; top: 0; z-index: 100;
 }
+
 .title-brand { font-size: 28px; font-weight: 800; letter-spacing: -1px; color: var(--white); margin: 0; }
 .brand-mahika { color: var(--mahika-yellow); }
 .subtitle { font-size: 9px; color: var(--mahika-yellow); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
 
-.main-container { max-width: 500px; margin: -30px auto 0; padding: 0 15px; }
-.hidden { display: none !important; }
+.main-container { max-width: 500px; margin: -30px auto 0; padding: 0 15px; position: relative; z-index: 101; }
+
+/* View Management */
+.view { display: none; animation: slideUp 0.3s ease-out; }
+.view.active-view { display: block; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* UI Components */
+.upload-card, .placeholder-card { 
+    background: white; border-radius: 24px; padding: 30px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; 
+}
+
+.file-input-wrapper { 
+    border: 2px dashed #e2e8f0; border-radius: 16px; padding: 40px 20px; 
+    background: #f8fafc; cursor: pointer; margin-bottom: 20px; 
+}
+
+.btn-main { 
+    width: 100%; padding: 16px; background: var(--deep-blue); color: var(--white); 
+    border: none; border-radius: 16px; font-weight: 800; cursor: pointer; 
+}
 
 /* File List UI */
-.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; color: var(--deep-blue); }
-.section-header h3 { font-size: 16px; margin: 0; font-weight: 800; }
-.btn-refresh { background: none; border: none; color: var(--deep-blue); font-size: 18px; cursor: pointer; }
-
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .file-grid { display: grid; gap: 12px; }
 .file-card { 
-    background: var(--white); padding: 15px; border-radius: 18px; 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 12px;
+    background: white; padding: 15px; border-radius: 18px; 
+    display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
-.file-icon { width: 45px; height: 45px; background: #fee2e2; color: #ef4444; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-.file-info { flex: 1; overflow: hidden; }
-.file-info h4 { margin: 0; font-size: 13px; color: var(--deep-blue); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.file-info p { margin: 2px 0 0; font-size: 10px; color: var(--text-muted); font-weight: 600; }
 
-.file-actions { display: flex; gap: 8px; }
-.btn-icon { background: var(--light-bg); border: none; width: 32px; height: 32px; border-radius: 8px; color: var(--deep-blue); cursor: pointer; transition: 0.2s; }
-.btn-icon:hover { background: var(--deep-blue); color: var(--white); }
-
-/* Bottom Nav */
+/* Navigation */
 .bottom-nav {
     position: fixed; bottom: 0; left: 0; right: 0; background: var(--white);
     display: flex; justify-content: space-around; padding: 12px 10px 25px;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.08); border-radius: 25px 25px 0 0;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.05); border-radius: 25px 25px 0 0; z-index: 200;
 }
 .nav-item { text-align: center; color: var(--text-muted); cursor: pointer; flex: 1; transition: 0.3s; }
-.nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
-.nav-item span { font-size: 10px; font-weight: 700; }
 .nav-item.active { color: var(--deep-blue); transform: translateY(-5px); }
-
-/* Upload UI */
-.upload-card { background: white; border-radius: 24px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-.file-input-wrapper { border: 2px dashed #e2e8f0; border-radius: 16px; padding: 40px 20px; background: #f8fafc; cursor: pointer; margin-bottom: 20px; }
-.btn-main { width: 100%; padding: 16px; background: var(--deep-blue); color: var(--white); border: none; border-radius: 16px; font-weight: 800; cursor: pointer; }
+.nav-item i { font-size: 20px; margin-bottom: 4px; display: block; }
+.nav-item span { font-size: 10px; font-weight: 700; }
 
 /* Toast */
 .toast {
-    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+    position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
     background: #1e293b; color: white; padding: 12px 25px; border-radius: 50px;
-    font-size: 12px; font-weight: 700; z-index: 1000; opacity: 0; transition: 0.4s; pointer-events: none;
+    font-size: 12px; font-weight: 700; z-index: 1000; transition: 0.4s;
 }
-.toast.show { opacity: 1; bottom: 110px; }
+.toast.show { bottom: 110px; }
