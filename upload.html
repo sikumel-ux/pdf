@@ -3,60 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahika Trans Files</title>
+    <title>Mahika Trans | Cloud Manager</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#053a6f">
-    <link rel="apple-touch-icon" href="icon-192.png">
-    
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-<div class="top-section">
+<header class="top-section">
     <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
-    <div class="subtitle">Secure Cloud Storage System</div>
-</div>
+    <div class="subtitle">Cloud Management System v2.0</div>
+</header>
 
-<div class="main-container">
-    <div class="upload-card">
-        <div class="form-group">
-            <label>Dokumen</label>
+<main class="main-container">
+    <section id="view-home" class="view">
+        <div class="section-header">
+            <h3><i class="fa-solid fa-folder-open"></i> File Saya</h3>
+            <button class="btn-refresh" onclick="fetchFiles()"><i class="fa-solid fa-rotate"></i></button>
+        </div>
+        <div id="file-list" class="file-grid">
+            <div class="loading-state">Menarik data dari cloud...</div>
+        </div>
+    </section>
+
+    <section id="view-upload" class="view hidden">
+        <div class="upload-card">
+            <h3>Upload PDF Baru</h3>
             <div class="file-input-wrapper" onclick="document.getElementById('pdfInput').click()">
-                <i data-lucide="file-up" style="width: 40px; height: 40px;"></i>
-                <p id="file-label">Klik atau pilih file</p>
+                <i data-lucide="upload-cloud"></i>
+                <p id="file-label">Ketuk untuk pilih dokumen</p>
                 <input type="file" id="pdfInput" accept="application/pdf" hidden>
             </div>
+            <button class="btn-main" id="uploadBtn">
+                <i class="fa-solid fa-cloud-arrow-up"></i> SIMPAN KE CLOUD
+            </button>
         </div>
+    </section>
 
-        <button class="btn-upload" id="uploadBtn">
-            <i data-lucide="send"></i> UPLOAD
-        </button>
-
-        <div id="resultBox" class="result-box">
-            <div class="res-title">Berhasil Tersimpan</div>
-            <div class="res-filename" id="doneName">nama-file.pdf</div>
-            <div class="action-btns">
-                <button class="mini-btn" id="copyBtn"><i data-lucide="link" size="14"></i> Copy Link</button>
-                <button class="mini-btn" style="color: #ef4444;" onclick="location.reload()"><i data-lucide="refresh-cw" size="14"></i> Baru</button>
-            </div>
+    <section id="view-setting" class="view hidden">
+        <div class="placeholder-card">
+            <i class="fa-solid fa-gears"></i>
+            <p>Pengaturan Sistem sedang dikalibrasi.</p>
         </div>
-    </div>
+    </section>
 
-    <div class="action-area">
-        <a href="https://wa.me/628123456789" class="btn-whatsapp">
-            <i data-lucide="message-square"></i> HUBUNGI ADMIN MAHIKA
-        </a>
+    <section id="view-profile" class="view hidden">
+        <div class="placeholder-card">
+            <i class="fa-solid fa-circle-user"></i>
+            <p>Profile</p>
+        </div>
+    </section>
+</main>
+
+<nav class="bottom-nav">
+    <div class="nav-item active" onclick="switchView('home', this)">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
     </div>
-</div>
+    <div class="nav-item" onclick="switchView('upload', this)">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <span>Upload</span>
+    </div>
+    <div class="nav-item" onclick="switchView('setting', this)">
+        <i class="fa-solid fa-gear"></i>
+        <span>Setting</span>
+    </div>
+    <div class="nav-item" onclick="switchView('profile', this)">
+        <i class="fa-solid fa-user"></i>
+        <span>Profile</span>
+    </div>
+</nav>
+
+<div id="toast" class="toast"></div>
 
 <script src="app.js"></script>
-<script>
-    // Register Service Worker untuk PWA
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-    }
-</script>
 </body>
-</html>
+    </html>
+    
