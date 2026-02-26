@@ -3,95 +3,111 @@
     --mahika-yellow: #facc15; 
     --white: #ffffff;
     --light-bg: #f3f4f6;
-    --text-muted: #94a3b8;
+    --glass: rgba(255, 255, 255, 0.9);
 }
 
-/* Reset Total */
-* { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0;
-    -webkit-tap-highlight-color: transparent; 
+/* Reset & Body */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+body { background-color: var(--light-bg); padding-bottom: 100px; }
+
+/* Header & Titles */
+.top-section {
+    background: linear-gradient(135deg, #074a8d 0%, #053a6f 100%);
+    padding: 40px 20px 60px;
+    text-align: center;
+    clip-path: ellipse(150% 100% at 50% 0%);
+}
+.title-brand { font-size: 30px; font-weight: 800; color: white; letter-spacing: -1px; }
+.brand-mahika { color: var(--mahika-yellow); }
+.subtitle { color: rgba(255,255,255,0.8); font-size: 10px; letter-spacing: 3px; font-weight: 700; text-transform: uppercase; margin-top: 5px; }
+
+/* Section Title (File Saya) - Perbaikan Warna */
+.section-title { 
+    color: var(--deep-blue); 
+    font-size: 18px; 
+    font-weight: 800; 
+    margin: 20px 0 15px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
 }
 
-body { 
-    background-color: var(--light-bg); 
-    font-family: 'Plus Jakarta Sans', sans-serif; 
-    height: 100vh;
+.main-container { max-width: 500px; margin: -30px auto 0; padding: 0 15px; }
+
+/* Upload Area - Center Alignment */
+.card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(5, 58, 111, 0.1);
+    text-align: center; /* Membuat semua di tengah */
+}
+
+.upload-box {
+    border: 2px dashed #cbd5e1;
+    border-radius: 20px;
+    padding: 40px 20px;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: 0.3s;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Mencegah double scroll */
+    align-items: center; /* Ikon & Teks Center */
+    justify-content: center;
+    margin-bottom: 25px;
 }
 
-/* Header */
-.top-section {
-    background: radial-gradient(circle at 50% 0%, #074a8d 0%, #053a6f 100%);
-    padding: 30px 0 50px;
-    text-align: center;
-    flex-shrink: 0;
-}
-.title-brand { font-size: 28px; font-weight: 800; color: var(--white); letter-spacing: -1px; }
-.brand-mahika { color: var(--mahika-yellow); }
-.subtitle { font-size: 9px; color: var(--mahika-yellow); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.upload-box:hover { border-color: var(--deep-blue); background: #f1f5f9; }
 
-/* Main Content Area */
-.main-container { 
-    flex: 1;
-    overflow-y: auto; /* Konten scroll di sini */
-    padding: 0 15px 100px;
-    margin-top: -30px;
+.upload-box i { font-size: 45px; color: var(--deep-blue); margin-bottom: 15px; }
+
+#file-label { 
+    font-size: 14px; 
+    font-weight: 700; 
+    color: #64748b; 
+    max-width: 100%;
+    word-wrap: break-word;
 }
 
-/* View Control */
-.view { display: none; }
-.view.active-view { display: block !important; }
-
-/* Cards */
-.card {
-    background: white; 
-    border-radius: 20px; 
-    padding: 20px; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    margin-bottom: 20px;
-}
-
-/* File List Item */
-.file-card {
-    background: white; border-radius: 15px; padding: 12px;
-    display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-}
-
-/* Navigasi Bawah (Fixed) */
-.bottom-nav {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: var(--white);
-    height: 75px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-    border-radius: 20px 20px 0 0;
-    z-index: 999;
-}
-.nav-item { 
-    text-align: center; 
-    color: var(--text-muted); 
-    flex: 1; 
-    font-size: 20px;
+/* Button - Modern & Keren */
+.btn-main {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(to right, #053a6f, #074a8d);
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.5px;
     cursor: pointer;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 10px 20px rgba(5, 58, 111, 0.2);
+    transition: 0.3s;
 }
-.nav-item span { font-size: 10px; font-weight: 700; margin-top: 4px; }
-.nav-item.active { color: var(--deep-blue); }
 
-/* Utility */
-.loading-state { text-align: center; padding: 40px; font-size: 12px; color: var(--text-muted); }
-.toast {
-    position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
-    background: #333; color: #fff; padding: 10px 20px; border-radius: 30px;
-    font-size: 11px; z-index: 2000; display: none;
-    }
+.btn-main:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(5, 58, 111, 0.3);
+}
+
+.btn-main:active { transform: translateY(-1px); }
+
+/* Bottom Nav Fix */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: white; height: 85px;
+    display: flex; justify-content: space-around; align-items: center;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+    border-radius: 30px 30px 0 0;
+    z-index: 1000;
+    padding-bottom: 15px;
+}
+.nav-item { color: #94a3b8; text-align: center; transition: 0.3s; cursor: pointer; }
+.nav-item.active { color: var(--deep-blue); font-weight: 800; }
+.nav-item i { font-size: 22px; display: block; margin-bottom: 5px; }
+.nav-item span { font-size: 10px; }
+    
