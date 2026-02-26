@@ -1,4 +1,4 @@
-const GITHUB_REPO = "sikumel-ux/mahika-repo"; // GANTI INI
+const GITHUB_REPO = "sikumel-ux/pdf"; // GANTI INI
 
 function switchTab(viewId, el) {
     // Sembunyikan SEMUA view tanpa terkecuali
