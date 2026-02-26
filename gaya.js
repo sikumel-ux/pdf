@@ -1,7 +1,7 @@
 // Konfigurasi Repo & API
 const GITHUB_REPO = "sikumel-ux/pdf"; 
 const API_URL = "https://script.google.com/macros/s/AKfycbyzNaowGlzUAvsfX0DTnb98BiXM5JkYgK45po94lh2NPj-7rU41QZZ0BV3vBvMFltRFCw/exec";
-const MY_DOMAIN = "https://files.mahikatrans.my.id";
+const MY_DOMAIN = "https://files.mahikatrans.my.id/uploads";
 
 let allFiles = []; // Cache untuk fitur pencarian
 
