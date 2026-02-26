@@ -16,6 +16,7 @@
 </div>
 
 <div class="main-container">
+
     <div id="view-home" class="view active-view">
         <h3 class="section-title"><i class="fa-solid fa-folder-tree"></i> File Saya</h3>
         <div id="file-list">
@@ -25,11 +26,13 @@
     <div id="view-upload" class="view">
         <div class="card">
             <h3 style="color:var(--deep-blue); margin-bottom:20px; font-weight:800;">Upload Dokumen</h3>
-            <div class="upload-box" onclick="document.getElementById('pdfInput').click()">
+            
+            <div class="upload-box" id="drop-area" onclick="document.getElementById('pdfInput').click()">
                 <i class="fa-solid fa-file-circle-plus"></i>
                 <p id="file-label">Pilih file PDF untuk diupload</p>
                 <input type="file" id="pdfInput" accept="application/pdf" hidden>
             </div>
+
             <button class="btn-main" id="uploadBtn">
                 <span>MULAI UPLOAD</span>
                 <i class="fa-solid fa-arrow-right-long"></i>
@@ -41,36 +44,46 @@
         <div class="card">
             <i class="fa-solid fa-gears" style="font-size: 40px; color: var(--deep-blue); margin-bottom: 15px;"></i>
             <h3 style="color:var(--deep-blue); margin-bottom:10px;">Pengaturan</h3>
-            <p style="font-size: 12px; color: #64748b;">Konfigurasi Mahika Cloud V2.0</p>
+            <p style="font-size: 12px; color: #64748b;">Versi Sistem 2.1.0 (Stable)</p>
+            <div style="margin-top: 20px; padding: 10px; background: #f8fafc; border-radius: 10px; font-size: 11px; color: #053a6f;">
+                Storage: <strong>sikumel-ux/pdf</strong>
+            </div>
         </div>
     </div>
 
     <div id="view-profile" class="view">
         <div class="card">
             <i class="fa-solid fa-circle-user" style="font-size: 40px; color: var(--deep-blue); margin-bottom: 15px;"></i>
-            <h3 style="color:var(--deep-blue); margin-bottom:10px;">Admin Profile</h3>
-            <p style="font-size: 12px; color: #64748b;">Mahika Trans Management</p>
+            <h3 style="color:var(--deep-blue); margin-bottom:10px;">Profil Admin</h3>
+            <p style="font-size: 14px; font-weight: 700; color: #1e293b;">Mahika Trans Manager</p>
+            <p style="font-size: 11px; color: #94a3b8; margin-top: 5px;">Status: Online</p>
         </div>
     </div>
+
 </div>
 
 <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('home', this)">
-        <i class="fa-solid fa-house"></i><span>Home</span>
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
     </div>
     <div class="nav-item" onclick="switchTab('upload', this)">
-        <i class="fa-solid fa-circle-plus"></i><span>Upload</span>
+        <i class="fa-solid fa-circle-plus"></i>
+        <span>Upload</span>
     </div>
     <div class="nav-item" onclick="switchTab('setting', this)">
-        <i class="fa-solid fa-sliders"></i><span>Setting</span>
+        <i class="fa-solid fa-sliders"></i>
+        <span>Setting</span>
     </div>
     <div class="nav-item" onclick="switchTab('profile', this)">
-        <i class="fa-solid fa-user-gear"></i><span>Profile</span>
+        <i class="fa-solid fa-user-gear"></i>
+        <span>Profile</span>
     </div>
 </div>
 
 <div id="toast" class="toast"></div>
 
 <script src="app.js"></script>
+
 </body>
 </html>
