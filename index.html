@@ -2,159 +2,76 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Iuran App</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F3F4F6; }
-        .safe-area-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 80px); }
-        .tab-active { color: #2563eb; }
-        input:focus { border-color: #2563eb; ring: 2px #bfdbfe; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Mahika Trans | Cloud Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="antialiased">
+<body>
 
-    <div class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 py-4 flex justify-between items-center">
-        <div>
-            <p class="text-xs text-gray-500 font-medium uppercase tracking-wider">Dashboard</p>
-            <h1 class="text-xl font-bold text-gray-900">Sistem Iuran</h1>
-        </div>
-        <div class="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-200 uppercase font-bold">
-            AD
+<div class="top-section">
+    <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+    <p class="subtitle">Cloud Management System</p>
+</div>
+
+<div class="main-container">
+    <div id="view-home" class="view active-view">
+        <h3 class="section-title"><i class="fa-solid fa-folder-tree"></i> File Saya</h3>
+        <div id="file-list">
+            <div class="loading-state">Menghubungkan ke server...</div>
         </div>
     </div>
 
-    <main class="px-5 pt-6 safe-area-bottom">
-        
-        <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2rem] p-6 text-white shadow-xl shadow-blue-100 mb-8">
-            <span class="text-blue-100 text-sm opacity-80 uppercase tracking-widest font-semibold">Total Saldo Terkumpul</span>
-            <h2 id="totalIuran" class="text-3xl font-bold mt-1">Rp 0</h2>
-            <div class="mt-4 pt-4 border-t border-white/20 flex justify-between items-center">
-                <span class="text-xs text-blue-100">Update otomatis • Realtime</span>
-                <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">SaaS Ver 2.0</span>
+    <div id="view-upload" class="view">
+        <div class="card">
+            <h3 style="color:var(--deep-blue); margin-bottom:20px; font-weight:800;">Upload Dokumen</h3>
+            <div class="upload-box" onclick="document.getElementById('pdfInput').click()">
+                <i class="fa-solid fa-file-circle-plus"></i>
+                <p id="file-label">Pilih file PDF untuk diupload</p>
+                <input type="file" id="pdfInput" accept="application/pdf" hidden>
             </div>
+            <button class="btn-main" id="uploadBtn">
+                <span>MULAI UPLOAD</span>
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </button>
         </div>
+    </div>
 
-        <section id="input-section" class="space-y-4">
-            <div class="flex items-center justify-between mb-2">
-                <h3 class="font-bold text-gray-800 text-lg">Input Data Baru</h3>
-            </div>
-            
-            <form id="iuranForm" class="space-y-4">
-                <div class="space-y-2 text-sm">
-                    <input type="text" id="namaJenazah" placeholder="Nama Jenazah" class="w-full bg-white border border-gray-200 px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-gray-700" required>
-                    <input type="text" id="ahliWaris" placeholder="Ahli Waris (Pembayar)" class="w-full bg-white border border-gray-200 px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-gray-700" required>
-                    <input type="number" id="noHP" placeholder="No. WhatsApp (62812...)" class="w-full bg-white border border-gray-200 px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-gray-700" required>
-                    <input type="number" id="jumlahIuran" placeholder="Jumlah Iuran (Rp)" class="w-full bg-white border border-gray-200 px-5 py-4 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all text-gray-700" required>
-                </div>
-                <button type="submit" class="w-full bg-gray-900 text-white font-bold py-5 rounded-2xl shadow-lg shadow-gray-200 hover:bg-black active:scale-95 transition-all">
-                    Simpan & Kirim Kwitansi
-                </button>
-            </form>
-        </section>
+    <div id="view-setting" class="view">
+        <div class="card">
+            <i class="fa-solid fa-gears" style="font-size: 40px; color: var(--deep-blue); margin-bottom: 15px;"></i>
+            <p style="font-weight: 700; color: var(--deep-blue);">PENGATURAN</p>
+            <p style="font-size: 12px; color: #64748b; margin-top: 10px;">Fitur sedang dalam pengembangan.</p>
+        </div>
+    </div>
 
-        <section id="list-section" class="mt-10">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="font-bold text-gray-800 text-lg">Riwayat Transaksi</h3>
-                <span class="text-blue-600 text-xs font-bold uppercase">Lihat Semua</span>
-            </div>
-            <div id="tableBody" class="space-y-3">
-                <div class="animate-pulse flex space-x-4 p-4 bg-white rounded-2xl">
-                    <div class="rounded-full bg-slate-200 h-10 w-10"></div>
-                    <div class="flex-1 space-y-3 py-1">
-                        <div class="h-2 bg-slate-200 rounded"></div>
-                        <div class="h-2 bg-slate-200 rounded w-1/2"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+    <div id="view-profile" class="view">
+        <div class="card">
+            <i class="fa-solid fa-circle-user" style="font-size: 40px; color: var(--deep-blue); margin-bottom: 15px;"></i>
+            <p style="font-weight: 700; color: var(--deep-blue);">ADMIN MAHIKA</p>
+            <p style="font-size: 12px; color: #64748b; margin-top: 10px;">Versi Aplikasi 2.0.1</p>
+        </div>
+    </div>
+</div>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-gray-100 px-10 py-4 flex justify-between items-center z-50">
-        <button class="text-blue-600 flex flex-col items-center">
-            <span class="text-xl">🏠</span>
-            <span class="text-[10px] font-bold mt-1 uppercase">Home</span>
-        </button>
-        <button class="text-gray-400 flex flex-col items-center">
-            <span class="text-xl">📑</span>
-            <span class="text-[10px] font-bold mt-1 uppercase">Laporan</span>
-        </button>
-        <button class="text-gray-400 flex flex-col items-center">
-            <span class="text-xl">⚙️</span>
-            <span class="text-[10px] font-bold mt-1 uppercase">Profil</span>
-        </button>
-    </nav>
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('home', this)">
+        <i class="fa-solid fa-house"></i><span>Home</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('upload', this)">
+        <i class="fa-solid fa-circle-plus"></i><span>Upload</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('setting', this)">
+        <i class="fa-solid fa-sliders"></i><span>Setting</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('profile', this)">
+        <i class="fa-solid fa-user-gear"></i><span>Profile</span>
+    </div>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<div id="toast" class="toast"></div>
 
-        // CONFIG FIREBASE
-        const firebaseConfig = {
-            apiKey: "...",
-            authDomain: "...",
-            databaseURL: "...",
-            projectId: "...",
-            storageBucket: "...",
-            messagingSenderId: "...",
-            appId: "..."
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const dbRef = ref(db, 'iuran');
-
-        document.getElementById('iuranForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const data = {
-                namaJenazah: document.getElementById('namaJenazah').value,
-                ahliWaris: document.getElementById('ahliWaris').value,
-                noHP: document.getElementById('noHP').value,
-                iuran: parseInt(document.getElementById('jumlahIuran').value),
-                tanggal: new Date().toLocaleDateString('id-ID', { day:'numeric', month:'short' })
-            };
-            push(dbRef, data);
-            kirimWA(data);
-            e.target.reset();
-        });
-
-        onValue(dbRef, (snapshot) => {
-            const container = document.getElementById('tableBody');
-            let total = 0;
-            container.innerHTML = '';
-            
-            snapshot.forEach((child) => {
-                const val = child.val();
-                total += val.iuran;
-                container.innerHTML += `
-                    <div class="bg-white p-4 rounded-[1.5rem] border border-gray-50 shadow-sm flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="h-12 w-12 bg-gray-50 rounded-2xl flex items-center justify-center text-xl shadow-inner">👤</div>
-                            <div>
-                                <h4 class="font-bold text-gray-900">${val.namaJenazah}</h4>
-                                <p class="text-xs text-gray-400 uppercase font-semibold tracking-tighter">${val.ahliWaris} • ${val.tanggal}</p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-bold text-blue-600">Rp ${val.iuran.toLocaleString()}</p>
-                            <button onclick="window.openWA('${val.ahliWaris}', '${val.noHP}', '${val.iuran}', '${val.namaJenazah}')" class="text-[10px] text-green-500 font-bold uppercase tracking-wider">Kwitansi</button>
-                        </div>
-                    </div>
-                `;
-            });
-            document.getElementById('totalIuran').innerText = `Rp ${total.toLocaleString()}`;
-        });
-
-        window.kirimWA = (data) => {
-            const pesan = `*KWITANSI DIGITAL*%0A-----------------------%0A*Terima Kasih Pak/Bu ${data.ahliWaris}*%0A%0A*Detail:*%0A- Alm/Ahli: ${data.namaJenazah}%0A- Jumlah: Rp ${data.iuran.toLocaleString()}%0A- Tanggal: ${data.tanggal}%0A-----------------------%0A_Pesan ini adalah bukti pembayaran sah._`;
-            window.open(`https://wa.me/${data.noHP}?text=${pesan}`, '_blank');
-        };
-
-        window.openWA = (ahli, no, iuran, jenazah) => {
-            const data = { ahliWaris: ahli, noHP: no, iuran: parseInt(iuran), namaJenazah: jenazah, tanggal: 'Baru Saja' };
-            window.kirimWA(data);
-        };
-    </script>
+<script src="app.js"></script>
 </body>
 </html>
