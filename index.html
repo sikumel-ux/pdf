@@ -3,74 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Mahika Trans | Cloud Manager</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mahika Trans | Cloud</title>
+    <link rel="stylesheet" href="gaya.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="top-section">
-    <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
-    <p class="subtitle">Cloud Management System</p>
+    <div>
+        <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+        <p class="subtitle">Cloud Management System</p>
+    </div>
 </div>
 
 <div class="main-container">
     <div id="view-home" class="view active-view">
-        <h3 class="section-title"><i class="fa-solid fa-folder-tree"></i> File Saya</h3>
-        <div id="file-list">
+        <div class="search-card">
+            <div class="form-group">
+                <label>Cari Dokumen</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Ketik nama file...">
+                </div>
             </div>
+            
+            <div id="file-list" style="margin-top: 20px;">
+                </div>
+        </div>
     </div>
 
-    <div id="view-upload" class="view">
-        <div class="card">
-            <h3 style="color:var(--deep-blue); margin-bottom:20px; font-weight:800;">Upload Dokumen</h3>
-            <div class="upload-box" onclick="document.getElementById('pdfInput').click()">
-                <i class="fa-solid fa-file-circle-plus"></i>
-                <p id="file-label">Pilih file PDF untuk diupload</p>
-                <input type="file" id="pdfInput" accept="application/pdf" hidden>
+    <div id="view-upload" class="view" style="display:none;">
+        <div class="search-card">
+            <div class="form-group">
+                <label>Pilih File PDF</label>
+                <div class="upload-box" onclick="document.getElementById('pdfInput').click()" style="border: 2px dashed #f1f5f9; padding: 30px; text-align: center; border-radius: 12px; cursor: pointer;">
+                    <i class="fa-solid fa-file-circle-plus" style="font-size: 30px; color: var(--deep-blue);"></i>
+                    <p id="file-label" style="font-size: 12px; font-weight: 700; color: #94a3b8; margin-top: 10px;">Ketuk untuk pilih PDF</p>
+                    <input type="file" id="pdfInput" accept="application/pdf" hidden>
+                </div>
             </div>
-            <button class="btn-main" id="uploadBtn">
-                <span>MULAI UPLOAD</span>
-                <i class="fa-solid fa-arrow-right-long"></i>
-            </button>
+            <button class="btn-search" id="uploadBtn">UPLOAD KE CLOUD</button>
         </div>
     </div>
 
-    <div id="view-setting" class="view">
-        <div class="card">
-            <i class="fa-solid fa-gears" style="font-size: 40px; color: var(--deep-blue); margin-bottom: 15px;"></i>
-            <p style="font-weight: 700; color: var(--deep-blue);">PENGATURAN</p>
-            <p style="font-size: 12px; color: #64748b; margin-top: 10px;">Konfigurasi sistem Mahika Trans.</p>
-        </div>
-    </div>
-
-    <div id="view-profile" class="view">
-        <div class="card">
-            <i class="fa-solid fa-circle-user" style="font-size: 40px; color: var(--deep-blue); margin-bottom: 15px;"></i>
-            <p style="font-weight: 700; color: var(--deep-blue);">ADMIN MAHIKA</p>
-            <p style="font-size: 12px; color: #64748b; margin-top: 10px;">Logged in as Manager</p>
-        </div>
+    <div class="action-area">
+        <p class="action-label">Butuh Bantuan?</p>
+        <a href="https://wa.me/628123456789" class="btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>HUBUNGI ADMIN</span>
+        </a>
     </div>
 </div>
 
-<div class="bottom-nav">
-    <div class="nav-item active" onclick="switchTab('home', this)">
-        <i class="fa-solid fa-house"></i><span>Home</span>
+<div class="bottom-nav" style="position: fixed; bottom: 0; left: 0; right: 0; background: white; height: 70px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); border-radius: 20px 20px 0 0;">
+    <div class="nav-item" onclick="switchTab('home', this)" style="text-align:center; cursor:pointer; color: var(--deep-blue);">
+        <i class="fa-solid fa-house" style="font-size: 20px;"></i>
+        <p style="font-size: 10px; font-weight: 700;">Home</p>
     </div>
-    <div class="nav-item" onclick="switchTab('upload', this)">
-        <i class="fa-solid fa-circle-plus"></i><span>Upload</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('setting', this)">
-        <i class="fa-solid fa-sliders"></i><span>Setting</span>
-    </div>
-    <div class="nav-item" onclick="switchTab('profile', this)">
-        <i class="fa-solid fa-user-gear"></i><span>Profile</span>
+    <div class="nav-item" onclick="switchTab('upload', this)" style="text-align:center; cursor:pointer; color: #94a3b8;">
+        <i class="fa-solid fa-circle-plus" style="font-size: 20px;"></i>
+        <p style="font-size: 10px; font-weight: 700;">Upload</p>
     </div>
 </div>
 
-<div id="toast" class="toast"></div>
+<div id="toast" class="toast" style="position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 10px 20px; border-radius: 50px; font-size: 12px; transition: 0.4s; z-index: 9999;"></div>
 
-<script src="app.js"></script>
+<script src="gaya.js"></script>
 </body>
 </html>
