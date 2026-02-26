@@ -17,13 +17,15 @@
 
 <div class="main-container">
     <div id="view-home" class="view active-view">
-        <h3 class="section-title"><i class="fa-solid fa-folder-tree"></i> File Saya</h3>
-        <div id="file-list"></div>
+        <div class="main-card">
+            <h3 class="section-title"><i class="fa-solid fa-folder-tree"></i> File Saya</h3>
+            <div id="file-list"></div>
+        </div>
     </div>
 
     <div id="view-upload" class="view">
-        <h3 class="section-title"><i class="fa-solid fa-cloud-arrow-up"></i> Upload PDF</h3>
-        <div class="card">
+        <div class="main-card">
+            <h3 class="section-title"><i class="fa-solid fa-cloud-arrow-up"></i> Upload PDF</h3>
             <div class="upload-box" onclick="document.getElementById('pdfInput').click()">
                 <i class="fa-solid fa-file-pdf"></i>
                 <p id="file-label">Ketuk untuk pilih file</p>
@@ -37,17 +39,9 @@
     </div>
 
     <div id="view-setting" class="view">
-        <h3 class="section-title"><i class="fa-solid fa-gears"></i> Pengaturan</h3>
-        <div class="card">
-            <p style="font-size: 13px; color: #64748b;">Mahika Cloud Storage V2.5.1<br>Repository: <b>sikumel-ux/pdf</b></p>
-        </div>
-    </div>
-
-    <div id="view-profile" class="view">
-        <h3 class="section-title"><i class="fa-solid fa-circle-user"></i> Profil</h3>
-        <div class="card">
-            <p style="font-weight: 800; color: var(--deep-blue);">Mahika Trans Manager</p>
-            <p style="font-size: 11px; color: #94a3b8;">Admin Administrator</p>
+        <div class="main-card">
+            <h3 class="section-title"><i class="fa-solid fa-gears"></i> Pengaturan</h3>
+            <p style="font-size: 12px; color: #64748b;">V2.5.2 • sikumel-ux/pdf</p>
         </div>
     </div>
 </div>
