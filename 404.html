@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Halaman Tidak Ditemukan | Mahika Trans</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        
+        .error-content {
+            text-align: center;
+            padding: 40px 10px;
+        }
+        .error-content i {
+            font-size: 60px;
+            color: var(--mahika-yellow);
+            margin-bottom: 20px;
+            display: block;
+        }
+        .error-content h2 {
+            color: var(--deep-blue);
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .error-content p {
+            color: var(--text-slate);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .countdown {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-slate);
+            margin-top: 20px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-section">
+    <div>
+        <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+        <p class="subtitle">Cloud Management System</p>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="search-card">
+        <div class="error-content">
+            <i class="fa-solid fa-compass-drafting fa-bounce"></i>
+            <h2>Waduh, Kesasar!</h2>
+            <p>Halaman yang kamu cari nggak ada, Bro. Mungkin link-nya salah atau file sudah dihapus.</p>
+            
+            
+
+            <span class="countdown" id="timer">Otomatis kembali dalam 5 detik...</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fitur Auto-Redirect ke Home
+    let seconds = 5;
+    const timerEl = document.getElementById('timer');
+    
+    const interval = setInterval(() => {
+        seconds--;
+        timerEl.innerText = `Otomatis kembali dalam ${seconds} detik...`;
+        if (seconds <= 0) {
+            clearInterval(interval);
+            window.location.href = "index.html";
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>
