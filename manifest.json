@@ -1,19 +1,14 @@
 {
-  "name": "Mahika Trans Files",
-  "short_name": "Mahika Cloud",
-  "start_url": "upload.html",
+  "name": "Mahika Cloud",
+  "short_name": "Mahika",
+  "start_url": "home.html",
   "display": "standalone",
-  "background_color": "#053a6f",
+  "background_color": "#f3f4f6",
   "theme_color": "#053a6f",
   "icons": [
     {
-      "src": "ayah.png",
+      "src": "cloud.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
       "type": "image/png"
     }
   ]
