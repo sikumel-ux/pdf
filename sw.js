@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mahika-cache-v1';
+const CACHE_NAME = 'mahika-cache-v2';
 const assets = ['home.html', 'style.css', 'app.js', 'manifest.json'];
 
 self.addEventListener('install', e => {
