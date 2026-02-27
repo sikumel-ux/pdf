@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Cloud Terminal | Mahika Trans</title>
+    <title>Cloud Portal | Mahika Trans</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        .portal-card { text-align: center; padding: 30px 15px; }
-        .cloud-status {
+        /* Style Khusus Landing Page */
+        .landing-card { text-align: center; padding: 30px 20px; }
+        
+        /* Status Pulse Hijau */
+        .status-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: #ecfdf5;
-            color: #059669;
+            background: rgba(16, 185, 129, 0.1); /* Transparan dikit biar tembus Matrix */
+            color: #10b981;
             padding: 5px 15px;
             border-radius: 50px;
             font-size: 10px;
@@ -22,6 +25,7 @@
             margin-bottom: 20px;
             text-transform: uppercase;
         }
+        
         .pulse {
             width: 8px; height: 8px; background: #10b981;
             border-radius: 50%; animation: pulse-animation 1.5s infinite;
@@ -30,71 +34,145 @@
             0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
             100% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
         }
-        .cloud-stats {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 25px 0;
-        }
-        .stat-box {
-            background: #f8fafc; padding: 15px; border-radius: 15px; border: 1px solid #f1f5f9;
-        }
+        
+        /* Box Statistik */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 25px 0; }
+        .stat-box { background: #f8fafc; padding: 15px; border-radius: 15px; border: 1px solid #f1f5f9; }
         .stat-box span { display: block; font-size: 10px; color: #94a3b8; font-weight: 700; }
         .stat-box strong { font-size: 14px; color: var(--deep-blue); }
         
-        .terminal-text {
+        /* Area Teks Terminal Courier New */
+        .terminal-box {
             font-family: 'Courier New', Courier, monospace;
-            background: #1e293b; color: #38bdf8; padding: 15px;
-            border-radius: 12px; font-size: 11px; text-align: left;
-            margin-bottom: 25px; line-height: 1.5;
+            background: rgba(30, 41, 59, 0.9); /* Sedikit transparan */
+            color: #38bdf8;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 11px;
+            text-align: left;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            border: 1px solid rgba(56, 189, 248, 0.3);
         }
     </style>
 </head>
 <body>
 
-<div class="top-section">
-    <div>
-        <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
-        <p class="subtitle">Cloud Management System</p>
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="top-section">
+        <div>
+            <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+            <p class="subtitle">Cloud Management System</p>
+        </div>
     </div>
-</div>
 
-<div class="main-container">
-    <div class="search-card portal-card">
-        <div class="cloud-status">
-            <div class="pulse"></div> Cloud Core Online
-        </div>
-
-        <h2 style="color: var(--deep-blue); font-weight: 800; margin-bottom: 10px;">Security Portal</h2>
-        <p style="color: var(--text-slate); font-size: 12px; margin-bottom: 20px;">
-            Enkripsi 256-bit aktif. Data kamu lebih aman daripada rahasia negara.
-        </p>
-
-        <div class="terminal-text">
-            > Initializing nebula_core... [OK]<br>
-            > Checking uplink to MahikaServer... [CONNECTED]<br>
-            > Scanning for intergalactic threats... [CLEAN]<br>
-            > Status: Ready to transmit data.
-        </div>
-
-        <div class="cloud-stats">
-            <div class="stat-box">
-                <span>Uptime</span>
-                <strong>99.99%</strong>
+    <div class="main-container">
+        <div class="search-card landing-card">
+            <div class="status-badge">
+                <div class="pulse"></div> Nebula Core
             </div>
-            <div class="stat-box">
-                <span>Temp</span>
-                <strong>18°C</strong>
+
+            <h2 style="color: var(--deep-blue); font-weight: 800; margin-bottom: 10px;">Security Portal</h2>
+            <p style="color: var(--text-slate); font-size: 12px; margin-bottom: 20px;">
+                Uplink enkripsi 256-bit aktif. Data kamu lebih aman dari rahasia negara.
+            </p>
+
+            <div class="terminal-box">
+                > Initializing nebula_core...<br>
+                > Uplink to MahikaServer...<br>
+                > Scanning for quantum threats...<br>
+                > > Status: Ready to transmit.
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span>Core Uptime</span>
+                    <strong>99.998%</strong>
+                </div>
+                <div class="stat-box">
+                    <span>Temp</span>
+                    <strong>16.4°C</strong>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn-main" style="text-decoration: none; display: block;">
+                MASUK KE TERMINAL
+            </a>
+        </div>
+
+        <div class="action-area">
+            <p class="action-label">Global Network Status</p>
+            <div style="font-size: 10px; color: #94a3b8; font-weight: 700; background: rgba(255,255,255,0.7); padding: 5px; border-radius: 5px;">
+                <i class="fa-solid fa-earth-asia"></i> Singapore Region : <span style="color: #10b981;">Optimal</span>
             </div>
         </div>
-
-        
     </div>
 
-    <div class="action-area">
-        <p class="action-label">Global Network Status</p>
-        <div style="font-size: 10px; color: #94a3b8; font-weight: 700;">
-            <i class="fa-solid fa-earth-asia"></i> Singapore Region : <span style="color: #10b981;">Optimal</span>
-        </div>
-    </div>
-</div>
+    <script>
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Atur ukuran kanvas agar memenuhi layar
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Karakter yang akan jatuh (campuran katakana, angka, dan huruf)
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize; // Jumlah kolom karakter
+
+        // Array untuk menyimpan posisi y dari setiap kolom
+        const rainDrops = [];
+
+        // Inisialisasi posisi y awal untuk setiap kolom
+        for (let x = 0; x < columns; x++) {
+            rainDrops = 1; // Mulai dari atas kanvas
+        }
+
+        // Fungsi untuk menggambar hujan kode Matrix
+        const drawMatrix = () => {
+            // Gambar latar belakang hitam transparan untuk memberikan efek bayangan
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Set warna teks menjadi hijau Matrix
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            // Loop untuk menggambar setiap kolom
+            for (let i = 0; i < rainDrops.length; i++) {
+                // Pilih karakter acak
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.alphabet.length));
+                // Gambar karakter pada posisi x dan y
+                ctx.fillText(text, i * fontSize, rainDrops * fontSize);
+
+                // Kembalikan posisi y ke atas jika karakter sudah mencapai bawah kanvas
+                if (rainDrops * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops = 0;
+                }
+                // Tambahkan posisi y untuk membuat karakter jatuh
+                rainDrops++;
+            }
+        };
+
+        // Jalankan fungsi drawMatrix setiap 30 milidetik
+        setInterval(drawMatrix, 30);
+
+        // Perbarui ukuran kanvas saat ukuran jendela berubah
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            // Inisialisasi ulang rainDrops saat ukuran kanvas berubah
+            for (let x = 0; x < canvas.width / fontSize; x++) {
+                rainDrops = 1;
+            }
+        });
+    </script>
 
 </body>
 </html>
