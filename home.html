@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Mahika Trans Cloud</title>
+    <meta name="theme-color" content="#053a6f">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="top-section">
+    <div>
+        <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+        <p class="subtitle">Cloud Management System</p>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="search-card">
+        <div id="home-view">
+            <div class="form-group">
+                <label>Cari Dokumen</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Ketik nama file...">
+                </div>
+            </div>
+            <div id="file-list"></div>
+        </div>
+
+        <div id="upload-view" style="display:none;">
+            <div class="form-group">
+                <label>Pilih File PDF</label>
+                <div class="upload-box" onclick="document.getElementById('pdfInput').click()">
+                    <i class="fa-solid fa-file-circle-plus"></i>
+                    <p id="file-label">Ketuk pilih PDF</p>
+                    <input type="file" id="pdfInput" accept="application/pdf" hidden>
+                </div>
+            </div>
+            <button class="btn-main" id="uploadBtn">UPLOAD KE CLOUD</button>
+        </div>
+    </div>
+
+    <div class="action-area">
+        <p class="action-label">Butuh Bantuan?</p>
+        <a href="https://wa.me/628123456789" class="btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>HUBUNGI ADMIN</span>
+        </a>
+        <button onclick="toggleUpload()" class="btn-toggle-upload">[ Buka Panel Upload ]</button>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+<script>
+    // Register Service Worker untuk PWA
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+</body>
+</html>
