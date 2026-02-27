@@ -2,91 +2,56 @@
     --deep-blue: #053a6f; 
     --mahika-yellow: #facc15; 
     --white: #ffffff;
-    --light-bg: #f4f7fa;
+    --light-bg: #f3f4f6;
+    --text-slate: #94a3b8;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-body { background-color: var(--light-bg); padding-bottom: 110px; overflow-x: hidden; }
+* { box-sizing: border-box; }
+body { margin: 0; background-color: var(--light-bg); font-family: 'Plus Jakarta Sans', sans-serif; }
 
-/* Header Tetap Mewah */
+/* Header - Dibuat lebih rapat ke atas */
 .top-section {
-    background: linear-gradient(135deg, #074a8d 0%, #053a6f 100%);
-    padding: 60px 20px 100px;
-    text-align: center;
-    clip-path: ellipse(150% 100% at 50% 0%);
+    background: radial-gradient(circle at 50% 0%, #074a8d 0%, #053a6f 100%);
+    height: 110px; 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 10px; 
     position: relative;
     z-index: 1;
 }
-.title-brand { font-size: 28px; font-weight: 800; color: white; letter-spacing: -1px; }
+.title-brand { font-size: 30px; font-weight: 800; letter-spacing: -2px; margin: 0; color: var(--white); }
 .brand-mahika { color: var(--mahika-yellow); }
-.subtitle { color: rgba(255,255,255,0.7); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
+.subtitle { font-size: 8px; color: var(--mahika-yellow); text-align: center; letter-spacing: 2px; font-weight: 600; margin-top: 3px; text-transform: uppercase; }
 
-/* Container: Kita buat konten menimpa area biru sedikit saja */
-.main-container { 
-    max-width: 500px; 
-    margin: -50px auto 0; /* Dikurangi agar tidak terlalu naik */
-    padding: 0 16px; 
-    position: relative; 
-    z-index: 10; 
-}
+/* Container */
+.main-container { max-width: 400px; margin: -45px auto 40px auto; padding: 0 15px; position: relative; z-index: 10; }
 
-/* Pembungkus Utama (Area Putih) */
-.main-card { 
-    background: var(--white); 
-    border-radius: 30px; 
-    padding: 25px 20px; 
-    box-shadow: 0 15px 35px rgba(5, 58, 111, 0.12);
-    min-height: 200px;
-}
+/* Card & Inputs */
+.search-card { background: var(--white); border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); padding: 20px; }
+.form-group { margin-bottom: 12px; }
+label { display: block; font-size: 10px; font-weight: 700; color: var(--text-slate); text-transform: uppercase; margin: 0 0 5px 4px; }
+.input-wrapper { position: relative; display: flex; align-items: center; }
+.input-wrapper i { position: absolute; left: 15px; color: var(--deep-blue); font-size: 14px; }
+input { width: 100%; padding: 12px 12px 12px 45px; border-radius: 12px; border: 1.5px solid #f1f5f9; background-color: #f8fafc; font-weight: 600; color: var(--deep-blue); outline: none; }
 
-/* Section Title SEKARANG DI DALAM AREA PUTIH */
-.section-title { 
-    color: var(--deep-blue); 
-    font-size: 18px; 
-    font-weight: 800; 
-    margin-bottom: 20px; 
-    display: flex; 
-    align-items: center; 
-    gap: 12px;
-    border-bottom: 2px solid #f1f5f9;
-    padding-bottom: 15px;
-}
-
-/* File List & Row */
-.file-row { 
-    display: flex; 
-    align-items: center; 
-    padding: 14px; 
-    background: #fdfdfd; 
-    border-radius: 20px;
-    margin-bottom: 10px;
-    border: 1px solid #f1f5f9;
-}
-.file-icon { width: 40px; height: 40px; background: #fff1f2; color: #ef4444; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 18px; margin-right: 12px; flex-shrink: 0; }
+/* File List */
+.file-row { display: flex; align-items: center; padding: 12px; background: #f8fafc; border-radius: 12px; margin-bottom: 10px; border: 1px solid #f1f5f9; }
 .file-info { flex: 1; overflow: hidden; }
-.file-name { font-size: 13px; font-weight: 700; color: var(--deep-blue); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.file-meta { font-size: 10px; color: #94a3b8; font-weight: 600; }
+.file-name { font-size: 12px; font-weight: 700; color: var(--deep-blue); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.file-meta { font-size: 10px; color: var(--text-slate); }
+.btn-action { border: none; background: none; padding: 5px; cursor: pointer; font-size: 14px; }
+.btn-copy { color: var(--deep-blue); }
+.btn-delete { color: #ef4444; }
 
-.file-actions { display: flex; gap: 8px; }
-.btn-action { border: none; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.btn-copy { background: #f0f7ff; color: #074a8d; }
-.btn-delete { background: #fff1f1; color: #ef4444; }
+/* Buttons */
+.btn-main { width: 100%; padding: 14px; background: var(--deep-blue); color: var(--white); border: none; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: 0 8px 20px rgba(5, 58, 111, 0.2); }
+.btn-whatsapp { display: flex; align-items: center; justify-content: center; gap: 12px; background: var(--deep-blue); color: var(--mahika-yellow); text-decoration: none; padding: 16px; border-radius: 16px; font-weight: 800; font-size: 14px; border: 2px solid var(--mahika-yellow); margin-top: 15px; }
+.btn-toggle-upload { background:none; border:none; color:var(--text-slate); font-size:10px; margin-top:15px; cursor:pointer; font-weight:700; width: 100%; }
 
-/* Upload Area */
-.upload-box { border: 2px dashed #cbd5e1; border-radius: 20px; padding: 40px 10px; background: #f8fafc; cursor: pointer; display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
-.upload-box i { font-size: 45px; color: var(--deep-blue); margin-bottom: 10px; }
-#file-label { font-size: 12px; font-weight: 700; color: #64748b; text-align: center; }
+/* Toast */
+.toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 10px 20px; border-radius: 50px; font-size: 12px; transition: 0.4s; z-index: 9999; }
+.toast.show { bottom: 30px; }
 
-.btn-main { width: 100%; padding: 16px; background: linear-gradient(135deg, #053a6f 0%, #0a4d8f 100%); color: white; border: none; border-radius: 15px; font-weight: 800; font-size: 14px; cursor: pointer; }
-
-/* Nav Bawah */
-.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; height: 85px; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -10px 30px rgba(0,0,0,0.05); border-radius: 25px 25px 0 0; z-index: 1000; padding-bottom: 10px; }
-.nav-item { color: #94a3b8; text-align: center; flex: 1; font-size: 10px; font-weight: 700; }
-.nav-item.active { color: var(--deep-blue); }
-.nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
-
-.view { display: none; }
-.view.active-view { display: block !important; }
-
-.toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 25px; border-radius: 50px; font-size: 12px; font-weight: 700; z-index: 2000; transition: 0.4s; }
-.toast.show { bottom: 100px; }
+/* Upload Box Custom */
+.upload-box { border: 2px dashed #f1f5f9; padding: 20px; text-align: center; border-radius: 12px; cursor: pointer; margin-bottom: 10px; }
+.upload-box i { font-size: 25px; color: var(--deep-blue); }
