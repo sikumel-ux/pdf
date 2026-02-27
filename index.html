@@ -3,39 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Halaman Tidak Ditemukan | Mahika Trans</title>
+    <title>Cloud Terminal | Mahika Trans</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        
-        .error-content {
-            text-align: center;
-            padding: 40px 10px;
-        }
-        .error-content i {
-            font-size: 60px;
-            color: var(--mahika-yellow);
-            margin-bottom: 20px;
-            display: block;
-        }
-        .error-content h2 {
-            color: var(--deep-blue);
+        .portal-card { text-align: center; padding: 30px 15px; }
+        .cloud-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #ecfdf5;
+            color: #059669;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 10px;
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
         }
-        .error-content p {
-            color: var(--text-slate);
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 30px;
+        .pulse {
+            width: 8px; height: 8px; background: #10b981;
+            border-radius: 50%; animation: pulse-animation 1.5s infinite;
         }
-        .countdown {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-slate);
-            margin-top: 20px;
-            display: block;
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            100% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        }
+        .cloud-stats {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 25px 0;
+        }
+        .stat-box {
+            background: #f8fafc; padding: 15px; border-radius: 15px; border: 1px solid #f1f5f9;
+        }
+        .stat-box span { display: block; font-size: 10px; color: #94a3b8; font-weight: 700; }
+        .stat-box strong { font-size: 14px; color: var(--deep-blue); }
+        
+        .terminal-text {
+            font-family: 'Courier New', Courier, monospace;
+            background: #1e293b; color: #38bdf8; padding: 15px;
+            border-radius: 12px; font-size: 11px; text-align: left;
+            margin-bottom: 25px; line-height: 1.5;
         }
     </style>
 </head>
@@ -49,33 +57,44 @@
 </div>
 
 <div class="main-container">
-    <div class="search-card">
-        <div class="error-content">
-            <i class="fa-solid fa-compass-drafting fa-bounce"></i>
-            <h2>Waduh, Kesasar!</h2>
-            <p>Halaman yang kamu cari nggak ada, Bro. Mungkin link-nya salah atau file sudah dihapus.</p>
-            
-            
+    <div class="search-card portal-card">
+        <div class="cloud-status">
+            <div class="pulse"></div> Cloud Core Online
+        </div>
 
-            <span class="countdown" id="timer">Otomatis kembali dalam 5 detik...</span>
+        <h2 style="color: var(--deep-blue); font-weight: 800; margin-bottom: 10px;">Security Portal</h2>
+        <p style="color: var(--text-slate); font-size: 12px; margin-bottom: 20px;">
+            Enkripsi 256-bit aktif. Data kamu lebih aman daripada rahasia negara.
+        </p>
+
+        <div class="terminal-text">
+            > Initializing nebula_core... [OK]<br>
+            > Checking uplink to MahikaServer... [CONNECTED]<br>
+            > Scanning for intergalactic threats... [CLEAN]<br>
+            > Status: Ready to transmit data.
+        </div>
+
+        <div class="cloud-stats">
+            <div class="stat-box">
+                <span>Uptime</span>
+                <strong>99.99%</strong>
+            </div>
+            <div class="stat-box">
+                <span>Temp</span>
+                <strong>18°C</strong>
+            </div>
+        </div>
+
+        
+    </div>
+
+    <div class="action-area">
+        <p class="action-label">Global Network Status</p>
+        <div style="font-size: 10px; color: #94a3b8; font-weight: 700;">
+            <i class="fa-solid fa-earth-asia"></i> Singapore Region : <span style="color: #10b981;">Optimal</span>
         </div>
     </div>
 </div>
-
-<script>
-    // Fitur Auto-Redirect ke Home
-    let seconds = 5;
-    const timerEl = document.getElementById('timer');
-    
-    const interval = setInterval(() => {
-        seconds--;
-        timerEl.innerText = `Otomatis kembali dalam ${seconds} detik...`;
-        if (seconds <= 0) {
-            clearInterval(interval);
-            window.location.href = "index.html";
-        }
-    }, 1000);
-</script>
 
 </body>
 </html>
