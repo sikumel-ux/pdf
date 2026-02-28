@@ -20,41 +20,62 @@
 
     <div class="main-container">
         <div class="search-card" style="text-align: center;">
-            <div style="background:rgba(16,185,129,0.1); color:#10b981; padding:5px 15px; border-radius:50px; font-size:10px; font-weight:800; display:inline-block; margin-bottom:20px;">
-                SECURITY ACTIVE
+            <div style="background:rgba(16,185,129,0.1); color:#10b981; padding:8px 15px; border-radius:50px; font-size:11px; font-weight:800; display:inline-block; margin-bottom:20px;">
+                <i class="fa-solid fa-shield-halved"></i> SYSTEM SECURE
             </div>
-            <h2 style="color:var(--deep-blue); font-weight:800; margin-bottom:10px;">Security Portal</h2>
-            <div style="font-family:monospace; background:#1e293b; color:#38bdf8; padding:15px; border-radius:12px; font-size:11px; text-align:left; margin-bottom:25px; line-height:1.5;">
-                > All systems operational...<br>
-                > Matrix background...<br>
-                > Uplink STABLE.
+            <h2 style="color:var(--deep-blue); font-weight:800; margin-bottom:15px;">Security Portal</h2>
+            
+            <div style="font-family:monospace; background:#1e293b; color:#38bdf8; padding:15px; border-radius:12px; font-size:11px; text-align:left; margin-bottom:30px; line-height:1.6; border:1px solid #38bdf844;">
+                > Initializing uplink... [OK]<br>
+                > Matrix background... [ACTIVE]<br>
+                > Nebula core status... [STABLE]<br>
+                > Ready for transmission.
             </div>
             
+            <a href="index.html" class="btn-main" style="text-decoration:none; display:block;">MASUK DASHBOARD</a>
         </div>
     </div>
 
     <script>
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+
+        // Fungsi vital agar canvas selalu full layar meskipun browser di-resize
+        function setupCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        setupCanvas();
+        window.addEventListener('resize', setupCanvas);
+
         const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZアァカサタナハマヤ';
         const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const rainDrops = Array(Math.floor(columns)).fill(1);
-        const draw = () => {
+        const columns = Math.floor(canvas.width / fontSize);
+        const rainDrops = Array(columns).fill(1);
+
+        const drawMatrix = () => {
+            // Efek trail (jejak) kodenya
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+
             ctx.fillStyle = '#0F0';
             ctx.font = fontSize + 'px monospace';
+
             for (let i = 0; i < rainDrops.length; i++) {
                 const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                ctx.fillText(text, i * fontSize, rainDrops * fontSize);
-                if (rainDrops * fontSize > canvas.height && Math.random() > 0.975) rainDrops = 0;
-                rainDrops++;
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                // Reset jika drop sudah lewat batas bawah layar
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
             }
         };
-        setInterval(draw, 35);
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+        // Kecepatan hujan (35ms = smooth)
+        setInterval(drawMatrix, 35);
     </script>
 </body>
 </html>
