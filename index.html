@@ -3,71 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Portal Utama | Mahika Trans</title>
+    <title>System Status | Mahika Trans</title>
     <link rel="stylesheet" href="gaya.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="top-section">
-        <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
-        <p class="subtitle">Cloud Management System</p>
+    <div class="header">
+        <h1 class="brand">MAHIKA<span>TRANS</span></h1>
     </div>
 
-    <div class="main-container">
-        <div class="search-card">
-            <div id="terminal" class="terminal-box">
-                </div>
-            
-            <div class="action-area">
-                <a href="index.html" class="btn-main">Enter Dashboard</a>
+    <div class="content-card">
+        <div class="stat-grid">
+            <div class="stat-item">
+                <i class="fa-solid fa-file-invoice"></i>
+                <span class="stat-value">124</span>
+                <span class="stat-label">Total Files</span>
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-bolt"></i>
+                <span class="stat-value">0.4s</span>
+                <span class="stat-label">Latensi API</span>
             </div>
         </div>
+
+        <div class="storage-box">
+            <div class="storage-header">
+                <span class="stat-label" style="color:var(--deep-blue)">Cloud Storage</span>
+                <span class="stat-label">65% Full</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <div class="status-list">
+            <div class="status-row">
+                <div class="status-dot"></div>
+                <span class="status-text">GitHub Uplink Stable</span>
+            </div>
+            <div class="status-row">
+                <div class="status-dot"></div>
+                <span class="status-text">Google Apps Script Active</span>
+            </div>
+            <div class="status-row">
+                <div class="status-dot"></div>
+                <span class="status-text">Database Encryption Secure</span>
+            </div>
+        </div>
+
+        <a href="index.html" class="btn-enter">MASUK KE DASHBOARD</a>
     </div>
-
-    <script>
-        const terminal = document.getElementById('terminal');
-        
-        // Pesan yang akan muncul berulang (tambahin sebanyak mungkin ke bawah)
-        const messages = [
-            "[INFO] Connecting to Nebula Core...",
-            "[SYSTEM] Uplink established via Google API.",
-            "[SECURE] 256-bit encryption active.",
-            "[AUTH] Scanning user credentials...",
-            "[AUTH] Access granted for Mahika Admin.",
-            "[CLOUD] Loading file directory...",
-            "[CLOUD] Found 142 active documents.",
-            "[SYNC] Syncing local cache with GitHub...",
-            "[INFO] System heartbeat: STABLE",
-            "[SYSTEM] Checking storage integrity...",
-            "[OK] Storage capacity: 82% remaining.",
-            "---------------------------------------",
-            "[LIVE] Monitoring incoming traffic...",
-            "[LIVE] IP 182.21.XX.XX connected.",
-            "[INFO] Initializing transmission protocol...",
-            "[SYSTEM] Auto-backup schedule: COMPLETED."
-        ];
-
-        let index = 0;
-
-        function addLine() {
-            const line = document.createElement('div');
-            line.className = 'terminal-line';
-            
-            // Ambil pesan secara looping
-            line.innerHTML = messages[index % messages.length];
-            terminal.appendChild(line);
-            
-            index++;
-
-            // Otomatis scroll ke paling bawah
-            terminal.scrollTop = terminal.scrollHeight;
-
-            // Kecepatan muncul tiap baris (acak biar natural)
-            const speed = Math.random() * (1200 - 400) + 400;
-            setTimeout(addLine, speed);
-        }
-
-        // Jalankan mesinnya
-        setTimeout(addLine, 500);
-    </script>
 </body>
 </html>
