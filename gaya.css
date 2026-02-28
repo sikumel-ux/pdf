@@ -2,67 +2,81 @@
     --deep-blue: #053a6f; 
     --mahika-yellow: #facc15; 
     --white: #ffffff;
-    --light-bg: #f3f4f6;
-    --text-slate: #94a3b8;
+    --dark-slate: #0f172a;
+    --cyan-glow: #38bdf8;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background-color: var(--light-bg); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
 
-/* Matrix Background */
-#matrix-canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    z-index: -1;
-    background-color: #000;
+html, body {
+    height: 100%;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: linear-gradient(180deg, #053a6f 0%, #000000 100%); /* Blue to Black */
+    color: var(--white);
+    overflow: hidden; /* Mencegah scroll body utama */
 }
 
-/* Header */
+/* Header Rapat Atas */
 .top-section {
-    background: radial-gradient(circle at 50% 0%, #074a8d 0%, #053a6f 100%);
-    height: 110px; 
-    display: flex; justify-content: center; padding-top: 10px; 
-    position: relative; z-index: 10;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(5, 58, 111, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(250, 204, 21, 0.2);
 }
-.title-brand { font-size: 30px; font-weight: 800; letter-spacing: -2px; color: var(--white); }
+.title-brand { font-size: 24px; font-weight: 800; letter-spacing: -1px; }
 .brand-mahika { color: var(--mahika-yellow); }
-.subtitle { font-size: 8px; color: var(--mahika-yellow); text-align: center; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
+.subtitle { font-size: 8px; color: var(--mahika-yellow); letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
 
-/* Container & Card */
-.main-container { max-width: 400px; margin: -45px auto 40px auto; padding: 0 15px; position: relative; z-index: 10; }
-.search-card { background: var(--white); border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); padding: 25px; }
+/* Full Screen Card Container */
+.main-container {
+    height: calc(100% - 80px); /* Sisa layar setelah header */
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
 
-/* Terminal Box (Efek Mesin Jalan) */
+/* Card Utama Jadi Full */
+.search-card {
+    flex: 1; /* Mengisi sisa ruang */
+    background: var(--dark-slate);
+    border-radius: 20px 20px 0 0; /* Melengkung atas saja */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+}
+
+/* Area Terminal Teks Jalan */
 .terminal-box {
-    font-family: 'Monaco', 'Consolas', monospace;
-    background: #1e293b;
-    color: #38bdf8;
-    padding: 15px;
-    border-radius: 12px;
+    flex: 1;
+    font-family: 'Fira Code', 'Monaco', monospace;
+    padding: 20px;
     font-size: 11px;
-    text-align: left;
-    margin-bottom: 25px;
-    line-height: 1.6;
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    min-height: 120px;
+    line-height: 1.8;
+    color: var(--cyan-glow);
+    overflow-y: auto; /* Biar teks bisa di-scroll kalau kepanjangan */
+    background: #020617;
 }
-.terminal-line { margin-bottom: 4px; display: block; }
-.terminal-cursor {
-    display: inline-block;
-    width: 8px; height: 15px;
-    background: #38bdf8;
-    margin-left: 5px;
-    animation: blink 0.8s infinite;
-    vertical-align: middle;
-}
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-/* Buttons */
-.btn-main { 
-    display: block; width: 100%; padding: 16px; 
-    background: linear-gradient(135deg, #053a6f 0%, #074a8d 100%); 
-    color: var(--white); border: none; border-radius: 15px; 
-    font-weight: 800; font-size: 14px; text-align: center; text-decoration: none;
-    cursor: pointer; box-shadow: 0 10px 20px rgba(5, 58, 111, 0.3); 
+.terminal-line { margin-bottom: 2px; opacity: 0; animation: fadeIn 0.3s forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Footer Action */
+.action-area {
+    padding: 20px;
+    background: #0f172a;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
+
+.btn-main { 
+    display: block; width: 100%; padding: 18px; 
+    background: var(--mahika-yellow); 
+    color: var(--deep-blue); border: none; border-radius: 12px; 
+    font-weight: 800; font-size: 15px; text-align: center; text-decoration: none;
+    text-transform: uppercase; letter-spacing: 1px;
+                   }
