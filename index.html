@@ -3,89 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Security Portal | Mahika Trans</title>
+    <title>Portal Utama | Mahika Trans</title>
     <link rel="stylesheet" href="gaya.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body style="background: #000; overflow: hidden;">
-    <canvas id="matrix-canvas"></canvas>
-
+<body>
     <div class="top-section">
-        <div>
-            <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
-            <p class="subtitle">Cloud Management System</p>
-        </div>
+        <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+        <p class="subtitle">Cloud Management System</p>
     </div>
 
     <div class="main-container">
-        <div class="search-card" style="text-align: center;">
-            <div style="background:rgba(16,185,129,0.1); color:#10b981; padding:8px 15px; border-radius:50px; font-size:11px; font-weight:800; display:inline-block; margin-bottom:20px;">
-                <i class="fa-solid fa-shield-halved"></i> SECURITY ACTIVE
-            </div>
+        <div class="search-card">
+            <div id="terminal" class="terminal-box">
+                </div>
             
-            <div class="terminal-box" id="terminal">
-                <div id="terminal-content"></div>
-                <span class="terminal-cursor"></span>
+            <div class="action-area">
+                <a href="index.html" class="btn-main">Enter Dashboard</a>
             </div>
-
-            <a href="index.html" class="btn-main">MASUK KE DASHBOARD</a>
         </div>
     </div>
 
     <script>
-        // --- MATRIX BACKGROUND ---
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const fontSize = 16;
-        const rainDrops = Array(Math.floor(canvas.width / fontSize)).fill(1);
-        setInterval(() => {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
-            rainDrops.forEach((y, i) => {
-                ctx.fillText(alphabet[Math.floor(Math.random()*alphabet.length)], i*fontSize, y*fontSize);
-                if(y*fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
-                rainDrops[i]++;
-            });
-        }, 35);
-
-        // --- TERMINAL TYPER ANIMATION (TEKS JALAN) ---
-        const logs = [
-            "> Initializing nebula_core... [OK]",
-            "> Establishing secure uplink... [CONNECTED]",
-            "> Scanning quantum encryption... [ACTIVE]",
-            "> Syncing Mahika Server... [100%]",
-            "> Memory integrity check... [STABLE]",
-            "> All systems operational.",
-            "> Ready for transmission..."
+        const terminal = document.getElementById('terminal');
+        
+        // Pesan yang akan muncul berulang (tambahin sebanyak mungkin ke bawah)
+        const messages = [
+            "[INFO] Connecting to Nebula Core...",
+            "[SYSTEM] Uplink established via Google API.",
+            "[SECURE] 256-bit encryption active.",
+            "[AUTH] Scanning user credentials...",
+            "[AUTH] Access granted for Mahika Admin.",
+            "[CLOUD] Loading file directory...",
+            "[CLOUD] Found 142 active documents.",
+            "[SYNC] Syncing local cache with GitHub...",
+            "[INFO] System heartbeat: STABLE",
+            "[SYSTEM] Checking storage integrity...",
+            "[OK] Storage capacity: 82% remaining.",
+            "---------------------------------------",
+            "[LIVE] Monitoring incoming traffic...",
+            "[LIVE] IP 182.21.XX.XX connected.",
+            "[INFO] Initializing transmission protocol...",
+            "[SYSTEM] Auto-backup schedule: COMPLETED."
         ];
 
-        const content = document.getElementById('terminal-content');
-        let lineIdx = 0;
+        let index = 0;
 
-        async function typeLine(text) {
+        function addLine() {
             const line = document.createElement('div');
             line.className = 'terminal-line';
-            content.appendChild(line);
-            for (let char of text) {
-                line.innerHTML += char;
-                await new Promise(r => setTimeout(r, 40)); // Kecepatan ketik
-            }
+            
+            // Ambil pesan secara looping
+            line.innerHTML = messages[index % messages.length];
+            terminal.appendChild(line);
+            
+            index++;
+
+            // Otomatis scroll ke paling bawah
+            terminal.scrollTop = terminal.scrollHeight;
+
+            // Kecepatan muncul tiap baris (acak biar natural)
+            const speed = Math.random() * (1200 - 400) + 400;
+            setTimeout(addLine, speed);
         }
 
-        async function startTerminal() {
-            while (true) {
-                content.innerHTML = '';
-                for (let log of logs) {
-                    await typeLine(log);
-                    await new Promise(r => setTimeout(r, 600)); // Jeda antar baris
-                }
-                await new Promise(r => setTimeout(r, 3000)); // Jeda sebelum reset
-            }
-        }
-
-        startTerminal();
+        // Jalankan mesinnya
+        setTimeout(addLine, 500);
     </script>
 </body>
 </html>
