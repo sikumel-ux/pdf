@@ -2,81 +2,101 @@
     --deep-blue: #053a6f; 
     --mahika-yellow: #facc15; 
     --white: #ffffff;
-    --dark-slate: #0f172a;
-    --cyan-glow: #38bdf8;
+    --light-slate: #f8fafc;
+    --success: #10b981;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body {
-    height: 100%;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: linear-gradient(180deg, #053a6f 0%, #000000 100%); /* Blue to Black */
+body { 
+    background-color: var(--deep-blue); 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Rapat */
+.header {
+    padding: 20px;
+    text-align: center;
     color: var(--white);
-    overflow: hidden; /* Mencegah scroll body utama */
 }
+.brand { font-size: 22px; font-weight: 800; letter-spacing: -1px; }
+.brand span { color: var(--mahika-yellow); }
 
-/* Header Rapat Atas */
-.top-section {
-    height: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: rgba(5, 58, 111, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(250, 204, 21, 0.2);
-}
-.title-brand { font-size: 24px; font-weight: 800; letter-spacing: -1px; }
-.brand-mahika { color: var(--mahika-yellow); }
-.subtitle { font-size: 8px; color: var(--mahika-yellow); letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
-
-/* Full Screen Card Container */
-.main-container {
-    height: calc(100% - 80px); /* Sisa layar setelah header */
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-}
-
-/* Card Utama Jadi Full */
-.search-card {
-    flex: 1; /* Mengisi sisa ruang */
-    background: var(--dark-slate);
-    border-radius: 20px 20px 0 0; /* Melengkung atas saja */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-}
-
-/* Area Terminal Teks Jalan */
-.terminal-box {
+/* Full Screen Card */
+.content-card {
     flex: 1;
-    font-family: 'Fira Code', 'Monaco', monospace;
-    padding: 20px;
-    font-size: 11px;
-    line-height: 1.8;
-    color: var(--cyan-glow);
-    overflow-y: auto; /* Biar teks bisa di-scroll kalau kepanjangan */
-    background: #020617;
+    background: var(--light-slate);
+    border-radius: 30px 30px 0 0;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.terminal-line { margin-bottom: 2px; opacity: 0; animation: fadeIn 0.3s forwards; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Footer Action */
-.action-area {
+/* Stat Grid */
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+.stat-item {
+    background: var(--white);
     padding: 20px;
-    background: #0f172a;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center;
+}
+.stat-item i { font-size: 24px; color: var(--deep-blue); margin-bottom: 10px; }
+.stat-value { font-size: 18px; font-weight: 800; color: var(--deep-blue); display: block; }
+.stat-label { font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; }
+
+/* Progress Bar */
+.storage-box {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.storage-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.progress-bar {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.progress-fill {
+    width: 65%; /* Nanti bisa dibuat dinamis */
+    height: 100%;
+    background: var(--deep-blue);
 }
 
-.btn-main { 
-    display: block; width: 100%; padding: 18px; 
-    background: var(--mahika-yellow); 
-    color: var(--deep-blue); border: none; border-radius: 12px; 
-    font-weight: 800; font-size: 15px; text-align: center; text-decoration: none;
-    text-transform: uppercase; letter-spacing: 1px;
-                   }
+/* Status List */
+.status-list {
+    margin-top: 10px;
+}
+.status-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+.status-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); }
+.status-text { font-size: 13px; font-weight: 600; color: #475569; }
+
+/* Action Button */
+.btn-enter {
+    margin-top: auto;
+    background: var(--deep-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 18px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: 0 10px 20px rgba(5, 58, 111, 0.2);
+}
