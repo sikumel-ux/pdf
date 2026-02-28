@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Portal System | Mahika Trans</title>
+    <title>System Portal | Mahika Trans</title>
     <link rel="stylesheet" href="gaya.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -18,26 +18,86 @@
     <div class="main-container">
         <div class="search-card">
             <div class="content-title">
-                <div class="status-dot"></div>
-                System Operational Log
+                <div class="blink-dot"></div>
+                Nebula Core Stream:
             </div>
 
-            <div class="log-container">
-                <span class="log-line"><span class="log-time">[08:21:04]</span> INITIALIZING UPLINK... <span class="log-success">OK</span></span>
-                <span class="log-line"><span class="log-time">[08:21:05]</span> CONNECTING TO NEBULA CORE...</span>
-                <span class="log-line"><span class="log-time">[08:21:07]</span> ENCRYPTING SESS_ID: 256-BIT...</span>
-                <span class="log-line"><span class="log-time">[08:21:08]</span> SYNCING GITHUB_REPO: s_ux/pdf...</span>
-                <span class="log-line"><span class="log-time">[08:21:10]</span> FETCHING API_GAS: 100% SUCCESS</span>
-                <span class="log-line"><span class="log-time">[08:21:12]</span> MEMORY INTEGRITY: <span class="log-success">STABLE</span></span>
-                <span class="log-line"><span class="log-time">[08:21:13]</span> HEARTBEAT SENT TO SERVER...</span>
-                <span class="log-line"><span class="log-time">[08:21:15]</span> READY FOR TRANSMISSION.</span>
+            <div class="stats-row">
+                <div class="mini-card">
+                    <i class="fa-solid fa-database"></i>
+                    <span class="stat-label">Cloud Storage</span>
+                    <span class="stat-value">12.45 <small style="font-size: 9px;">GB</small></span>
+                    <div style="width: 100%; height: 3px; background: #e2e8f0; border-radius: 10px; margin-top: 8px;">
+                        <div style="width: 65%; height: 100%; background: var(--deep-blue); border-radius: 10px;"></div>
+                    </div>
+                </div>
+
+                <div class="mini-card">
+                    <i class="fa-solid fa-server"></i>
+                    <span class="stat-label">Server Status</span>
+                    <div class="status-indicator">
+                        <div class="blink-dot"></div> ONLINE
+                    </div>
+                    <span class="stat-value" style="font-size: 10px; color: var(--text-slate); margin-top: 4px;">Uptime: 99.9%</span>
+                </div>
             </div>
+
+            <div class="log-window" id="log-window">
+                </div>
             
             <div class="footer-copy">
                 &copy; 2026 MAHIKA TRANS. All Rights Reserved.<br>
-                <span style="font-size: 8px; opacity: 0.6;">Automated Cloud Management System v3.0</span>
+                <span style="font-size: 8px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px;">Secure Cloud Uplink v3.0.4</span>
             </div>
         </div>
     </div>
+
+    <script>
+        const logWindow = document.getElementById('log-window');
+        const eventTypes = ["FILE_SYNC", "AUTH_CHECK", "ENCRYPT_SCAN", "API_REQUEST", "STORAGE_DUMP"];
+        
+        const randomID = () => Math.random().toString(36).substring(2, 8).toUpperCase();
+
+        function addLogEntry() {
+            const entry = document.createElement('div');
+            entry.style.marginBottom = "12px";
+            entry.style.borderLeft = "2px solid #e2e8f0";
+            entry.style.paddingLeft = "8px";
+
+            // Data JSON Acak
+            const logObj = {
+                timestamp: new Date().toLocaleTimeString('en-GB'),
+                event: eventTypes[Math.floor(Math.random() * eventTypes.length)],
+                payload: {
+                    id: `MTX-${randomID()}`,
+                    node: "SVR-JKT-01",
+                    secure: true
+                },
+                ping: (Math.random() * 0.1).toFixed(3) + "ms"
+            };
+
+            // Format ke tampilan JSON bersih
+            entry.innerHTML = `<span style="color:#94a3b8">// Stream Update...</span><br>` + 
+                             JSON.stringify(logObj, null, 2)
+                             .replace(/"/g, '')
+                             .replace(/\{|\}/g, '');
+
+            logWindow.appendChild(entry);
+            
+            // Auto Scroll
+            logWindow.scrollTop = logWindow.scrollHeight;
+
+            // Batasi 15 baris biar gak lemot HP-nya
+            if (logWindow.childNodes.length > 15) {
+                logWindow.removeChild(logWindow.firstChild);
+            }
+
+            // Loop terus dengan jeda acak 0.8s - 2s
+            setTimeout(addLogEntry, Math.random() * (2000 - 800) + 800);
+        }
+
+        // Start the engine!
+        addLogEntry();
+    </script>
 </body>
 </html>
