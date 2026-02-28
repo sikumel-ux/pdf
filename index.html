@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Cloud Portal | Mahika Trans</title>
-    <link rel="stylesheet" href="gaya.css">
+    <title>Portal Keamanan | Mahika Trans</title>
+    <link rel="stylesheet" href="gayane.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -19,33 +19,29 @@
     </div>
 
     <div class="main-container">
-        <div class="search-card landing-card">
-            <div class="status-badge">
-                <div class="pulse"></div> Nebula Core
+        <div class="search-card" style="text-align: center;">
+            <div style="background:rgba(16,185,129,0.1); color:#10b981; padding:5px 15px; border-radius:50px; font-size:10px; font-weight:800; display:inline-block; margin-bottom:20px;">
+                SECURITY ACTIVE
             </div>
-            <h2 class="portal-title">Security Portal</h2>
-            <p class="portal-desc">Sistem enkripsi aktif. Mendukung semua format dokumen & media.</p>
-
-            <div class="terminal-box">
-                > Initializing all_file_support...<br>
+            <h2 style="color:var(--deep-blue); font-weight:800; margin-bottom:10px;">Security Portal</h2>
+            <div style="font-family:monospace; background:#1e293b; color:#38bdf8; padding:15px; border-radius:12px; font-size:11px; text-align:left; margin-bottom:25px; line-height:1.5;">
+                > All systems operational...<br>
                 > Matrix background...<br>
-                > Uplink to MahikaServer...
+                > Uplink STABLE.
             </div>
-
-            <a href="index.html" class="btn-main-link">MASUK KE DASHBOARD</a>
+            <a href="index.html" class="btn-main" style="text-decoration:none; display:block;">MASUK DASHBOARD</a>
         </div>
     </div>
 
     <script>
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZアァカサタナハマヤ';
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const rainDrops = Array(Math.floor(columns)).fill(1);
-        const drawMatrix = () => {
+        const draw = () => {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#0F0';
@@ -57,7 +53,7 @@
                 rainDrops++;
             }
         };
-        setInterval(drawMatrix, 35);
+        setInterval(draw, 35);
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
     </script>
 </body>
