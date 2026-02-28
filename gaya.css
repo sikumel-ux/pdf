@@ -1,41 +1,67 @@
 :root { 
-    --deep-blue: #053a6f; --mahika-yellow: #facc15; --white: #ffffff;
-    --light-bg: #f3f4f6; --text-slate: #94a3b8;
+    --deep-blue: #053a6f; 
+    --mahika-yellow: #facc15; 
+    --white: #ffffff;
+    --light-bg: #f3f4f6;
+    --text-slate: #94a3b8;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background-color: var(--light-bg); font-family: 'Plus Jakarta Sans', sans-serif; }
 
-/* Matrix Style */
-.matrix-body { background: #000; overflow: hidden; }
-#matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+* { box-sizing: border-box; }
+body { margin: 0; background-color: var(--light-bg); font-family: 'Plus Jakarta Sans', sans-serif; }
 
-/* Header & Layout */
-.top-section { background: radial-gradient(circle at 50% 0%, #074a8d 0%, #053a6f 100%); height: 110px; display: flex; justify-content: center; padding-top: 10px; }
-.title-brand { font-size: 30px; font-weight: 800; letter-spacing: -2px; color: var(--white); }
+/* Header - Dibuat lebih rapat ke atas */
+.top-section {
+    background: radial-gradient(circle at 50% 0%, #074a8d 0%, #053a6f 100%);
+    height: 110px; 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 10px; 
+    position: relative;
+    z-index: 1;
+}
+.title-brand { font-size: 30px; font-weight: 800; letter-spacing: -2px; margin: 0; color: var(--white); }
 .brand-mahika { color: var(--mahika-yellow); }
-.subtitle { font-size: 8px; color: var(--mahika-yellow); text-align: center; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
+.subtitle { font-size: 8px; color: var(--mahika-yellow); text-align: center; letter-spacing: 2px; font-weight: 600; margin-top: 3px; text-transform: uppercase; }
 
-.main-container { max-width: 400px; margin: -40px auto 20px auto; padding: 0 15px; position: relative; z-index: 10; }
+/* Container */
+.main-container { max-width: 400px; margin: -45px auto 40px auto; padding: 0 15px; position: relative; z-index: 10; }
+
+/* Card & Inputs */
 .search-card { background: var(--white); border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); padding: 20px; }
+.form-group { margin-bottom: 12px; }
+label { display: block; font-size: 10px; font-weight: 700; color: var(--text-slate); text-transform: uppercase; margin: 0 0 5px 4px; }
+.input-wrapper { position: relative; display: flex; align-items: center; }
+.input-wrapper i { position: absolute; left: 15px; color: var(--deep-blue); font-size: 14px; }
+input { width: 100%; padding: 12px 12px 12px 45px; border-radius: 12px; border: 1.5px solid #f1f5f9; background-color: #f8fafc; font-weight: 600; color: var(--deep-blue); outline: none; }
 
-/* File List & Icons */
+/* File List */
 .file-row { display: flex; align-items: center; padding: 12px; background: #f8fafc; border-radius: 12px; margin-bottom: 10px; border: 1px solid #f1f5f9; }
 .file-info { flex: 1; overflow: hidden; padding-left: 10px; }
-.file-name { font-size: 12px; font-weight: 700; color: var(--deep-blue); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-name { font-size: 12px; font-weight: 700; color: var(--deep-blue); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
 .file-meta { font-size: 10px; color: var(--text-slate); }
-.btn-action { border: none; background: none; cursor: pointer; padding: 5px; font-size: 14px; }
+.btn-action { border: none; background: none; padding: 5px; cursor: pointer; font-size: 14px; }
 .btn-copy { color: var(--deep-blue); }
 .btn-delete { color: #ef4444; }
 
-/* Colors for File Types */
-.fa-file-pdf { color: #ef4444; }
-.fa-file-image { color: #3b82f6; }
-.fa-file-excel { color: #10b981; }
+/* Buttons */
+.btn-main { width: 100%; padding: 14px; background: var(--deep-blue); color: var(--white); border: none; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; box-shadow: 0 8px 20px rgba(5, 58, 111, 0.2); }
+.btn-whatsapp { display: flex; align-items: center; justify-content: center; gap: 12px; background: var(--deep-blue); color: var(--mahika-yellow); text-decoration: none; padding: 16px; border-radius: 16px; font-weight: 800; font-size: 14px; border: 2px solid var(--mahika-yellow); margin-top: 15px; }
+.btn-toggle-upload { background:none; border:none; color:var(--text-slate); font-size:10px; margin-top:15px; cursor:pointer; font-weight:700; width: 100%; }
 
-/* Buttons & Elements */
-.btn-main-link { display: block; width: 100%; padding: 14px; background: var(--deep-blue); color: var(--white); text-align: center; text-decoration: none; border-radius: 12px; font-weight: 800; border: none; cursor: pointer; }
-.btn-whatsapp { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--deep-blue); color: var(--mahika-yellow); text-decoration: none; padding: 15px; border-radius: 16px; font-weight: 800; border: 2px solid var(--mahika-yellow); margin-top: 15px; }
-.upload-box { border: 2px dashed #e2e8f0; padding: 20px; text-align: center; border-radius: 15px; margin-bottom: 15px; cursor: pointer; }
-.toast { position: fixed; bottom: -50px; left: 50%; transform: translateX(-50%); background: #1e293b; color: #fff; padding: 10px 20px; border-radius: 50px; font-size: 12px; transition: 0.4s; z-index: 100; }
-.toast.show { bottom: 20px; }
-           
+/* Toast */
+.toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 10px 20px; border-radius: 50px; font-size: 12px; transition: 0.4s; z-index: 9999; }
+.toast.show { bottom: 30px; }
+
+/* Upload Box Custom */
+.upload-box { border: 2px dashed #f1f5f9; padding: 20px; text-align: center; border-radius: 12px; cursor: pointer; margin-bottom: 10px; }
+.upload-box i { font-size: 25px; color: var(--deep-blue); }
+
+/* Matrix Background Canvas */
+#matrix-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    background-color: #000;
+}
+.top-section, .main-container { position: relative; z-index: 10; }
