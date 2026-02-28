@@ -3,55 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>System Status | Mahika Trans</title>
+    <title>Portal System | Mahika Trans</title>
     <link rel="stylesheet" href="gaya.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="header">
-        <h1 class="brand">MAHIKA<span>TRANS</span></h1>
+    <div class="top-section">
+        <div>
+            <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+            <p class="subtitle">Cloud Management System</p>
+        </div>
     </div>
 
-    <div class="content-card">
-        <div class="stat-grid">
-            <div class="stat-item">
-                <i class="fa-solid fa-file-invoice"></i>
-                <span class="stat-value">124</span>
-                <span class="stat-label">Total Files</span>
+    <div class="main-container">
+        <div class="search-card">
+            <div class="content-title">
+                <div class="status-dot"></div>
+                System Operational Log
             </div>
-            <div class="stat-item">
-                <i class="fa-solid fa-bolt"></i>
-                <span class="stat-value">0.4s</span>
-                <span class="stat-label">Latensi API</span>
+
+            <div class="log-container">
+                <span class="log-line"><span class="log-time">[08:21:04]</span> INITIALIZING UPLINK... <span class="log-success">OK</span></span>
+                <span class="log-line"><span class="log-time">[08:21:05]</span> CONNECTING TO NEBULA CORE...</span>
+                <span class="log-line"><span class="log-time">[08:21:07]</span> ENCRYPTING SESS_ID: 256-BIT...</span>
+                <span class="log-line"><span class="log-time">[08:21:08]</span> SYNCING GITHUB_REPO: s_ux/pdf...</span>
+                <span class="log-line"><span class="log-time">[08:21:10]</span> FETCHING API_GAS: 100% SUCCESS</span>
+                <span class="log-line"><span class="log-time">[08:21:12]</span> MEMORY INTEGRITY: <span class="log-success">STABLE</span></span>
+                <span class="log-line"><span class="log-time">[08:21:13]</span> HEARTBEAT SENT TO SERVER...</span>
+                <span class="log-line"><span class="log-time">[08:21:15]</span> READY FOR TRANSMISSION.</span>
+            </div>
+            
+            <div class="footer-copy">
+                &copy; 2026 MAHIKA TRANS. All Rights Reserved.<br>
+                <span style="font-size: 8px; opacity: 0.6;">Automated Cloud Management System v3.0</span>
             </div>
         </div>
-
-        <div class="storage-box">
-            <div class="storage-header">
-                <span class="stat-label" style="color:var(--deep-blue)">Cloud Storage</span>
-                <span class="stat-label">65% Full</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-        </div>
-
-        <div class="status-list">
-            <div class="status-row">
-                <div class="status-dot"></div>
-                <span class="status-text">GitHub Uplink Stable</span>
-            </div>
-            <div class="status-row">
-                <div class="status-dot"></div>
-                <span class="status-text">Google Apps Script Active</span>
-            </div>
-            <div class="status-row">
-                <div class="status-dot"></div>
-                <span class="status-text">Database Encryption Secure</span>
-            </div>
-        </div>
-
-        <a href="index.html" class="btn-enter">MASUK KE DASHBOARD</a>
     </div>
 </body>
 </html>
