@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Dashboard | Mahika Trans</title>
-    <link rel="stylesheet" href="gaya.css">
+    <link rel="stylesheet" href="gayane.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -20,7 +20,7 @@
         <div class="search-card">
             <div id="home-view">
                 <div class="form-group">
-                    <label>Cari Dokumen/Media</label>
+                    <label>Cari File</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <input type="text" id="searchInput" placeholder="Ketik nama file...">
@@ -31,19 +31,19 @@
 
             <div id="upload-view" style="display:none;">
                 <div class="form-group">
-                    <label>Pilih File Apapun</label>
+                    <label>Pilih File (Semua Format)</label>
                     <div class="upload-box" onclick="document.getElementById('fileInput').click()">
                         <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <p id="file-label">Ketuk untuk pilih file</p>
+                        <p id="file-label" style="font-size:11px; margin-top:8px;">Ketuk untuk pilih file</p>
                         <input type="file" id="fileInput" hidden>
                     </div>
                 </div>
-                <button class="btn-main-link" id="uploadBtn">UPLOAD KE CLOUD</button>
+                <button class="btn-main" id="uploadBtn">UPLOAD KE CLOUD</button>
             </div>
         </div>
 
         <div class="action-area">
-            <button onclick="toggleUpload()" class="btn-toggle-upload">[ Buka/Tutup Panel Upload ]</button>
+            <button onclick="toggleUpload()" class="btn-toggle-upload">[ Panel Upload ]</button>
             <a href="https://wa.me/628123456789" class="btn-whatsapp">
                 <i class="fa-brands fa-whatsapp"></i> HUBUNGI ADMIN
             </a>
