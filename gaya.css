@@ -1,61 +1,99 @@
-/* --- MINI STATS LAYOUT --- */
+:root { 
+    --deep-blue: #053a6f; 
+    --mahika-yellow: #facc15; 
+    --white: #ffffff;
+    --light-bg: #f3f4f6;
+    --log-bg: #f8fafc;
+    --text-slate: #64748b;
+    --success: #10b981;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+    margin: 0; 
+    background-color: var(--light-bg); 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    overflow: hidden; 
+}
+
+/* Header Section */
+.top-section {
+    background: radial-gradient(circle at 50% 0%, #074a8d 0%, #053a6f 100%);
+    height: 120px; 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 15px; 
+    position: relative;
+}
+.title-brand { font-size: 30px; font-weight: 800; letter-spacing: -2px; color: var(--white); }
+.brand-mahika { color: var(--mahika-yellow); }
+.subtitle { font-size: 8px; color: var(--mahika-yellow); text-align: center; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
+
+/* Main Card Container */
+.main-container { 
+    max-width: 400px; 
+    margin: -50px auto 20px auto; 
+    padding: 0 15px; 
+    position: relative; 
+    z-index: 10; 
+}
+.search-card { 
+    background: var(--white); 
+    border-radius: 24px; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+    padding: 25px; 
+    min-height: 480px; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+/* Title & Status */
+.content-title { 
+    font-size: 11px; font-weight: 800; color: var(--deep-blue); 
+    text-transform: uppercase; letter-spacing: 1px; 
+    display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
+}
+
+/* MINI STATS CARDS */
 .stats-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     margin-bottom: 20px;
 }
-
 .mini-card {
-    background: #f8fafc; /* Abu-abu sangat muda agar senada dengan log */
+    background: var(--log-bg);
     border: 1px solid #e2e8f0;
-    padding: 15px;
+    padding: 12px;
     border-radius: 16px;
-    text-align: left;
     position: relative;
-    overflow: hidden;
 }
+.mini-card i { position: absolute; right: 10px; top: 10px; color: var(--deep-blue); opacity: 0.15; font-size: 14px; }
+.stat-label { display: block; font-size: 8px; font-weight: 800; color: var(--text-slate); text-transform: uppercase; margin-bottom: 4px; }
+.stat-value { display: block; font-size: 15px; font-weight: 800; color: var(--deep-blue); }
 
-.mini-card i {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    font-size: 18px;
-    color: var(--deep-blue);
-    opacity: 0.2;
-}
+/* Blinking Online Indicator */
+.status-indicator { display: flex; align-items: center; gap: 5px; font-size: 9px; font-weight: 800; color: var(--success); }
+.blink-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; animation: pulse 1s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.8); } }
 
-.stat-label {
-    display: block;
+/* Infinite Log Window */
+.log-window {
+    flex: 1;
+    background: var(--log-bg);
+    border-radius: 15px;
+    padding: 15px;
+    font-family: 'Fira Code', 'Courier New', monospace;
     font-size: 9px;
-    font-weight: 700;
-    color: var(--text-slate);
-    text-transform: uppercase;
-    margin-bottom: 4px;
-}
-
-.stat-value {
-    display: block;
-    font-size: 16px;
-    font-weight: 800;
+    line-height: 1.5;
     color: var(--deep-blue);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
 }
 
-.status-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 10px;
-    font-weight: 700;
-    color: #10b981; /* Warna sukses */
-}
-
-.blink-dot {
-    width: 6px;
-    height: 6px;
-    background: #10b981;
-    border-radius: 50%;
-    animation: blink 1s infinite;
-}
-
-@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+/* Footer Copyright */
+.footer-copy {
+    text-align: center; font-size: 10px; color: var(--text-slate);
+    margin-top: 20px; font-weight: 600; line-height: 1.4;
+             }
+                  
