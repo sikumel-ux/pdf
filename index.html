@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Portal Keamanan | Mahika Trans</title>
+    <title>Security Portal | Mahika Trans</title>
     <link rel="stylesheet" href="gaya.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="matrix-body">
+<body style="background: #000; overflow: hidden;">
     <canvas id="matrix-canvas"></canvas>
 
     <div class="top-section">
@@ -21,61 +20,72 @@
     <div class="main-container">
         <div class="search-card" style="text-align: center;">
             <div style="background:rgba(16,185,129,0.1); color:#10b981; padding:8px 15px; border-radius:50px; font-size:11px; font-weight:800; display:inline-block; margin-bottom:20px;">
-                <i class="fa-solid fa-shield-halved"></i> SYSTEM SECURE
-            </div>
-            <h2 style="color:var(--deep-blue); font-weight:800; margin-bottom:15px;">Security Portal</h2>
-            
-            <div style="font-family:monospace; background:#1e293b; color:#38bdf8; padding:15px; border-radius:12px; font-size:11px; text-align:left; margin-bottom:30px; line-height:1.6; border:1px solid #38bdf844;">
-                > Initializing uplink... [OK]<br>
-                > Matrix background... [ACTIVE]<br>
-                > Nebula core status... [STABLE]<br>
-                > Ready for transmission.
+                <i class="fa-solid fa-shield-halved"></i> SECURITY ACTIVE
             </div>
             
-            <a href="index.html" class="btn-main" style="text-decoration:none; display:block;">MASUK DASHBOARD</a>
+            <div class="terminal-box" id="terminal">
+                <div id="terminal-content"></div>
+                <span class="terminal-cursor"></span>
+            </div>
+
+            <a href="index.html" class="btn-main">MASUK KE DASHBOARD</a>
         </div>
     </div>
 
     <script>
+        // --- MATRIX BACKGROUND ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const fontSize = 16;
+        const rainDrops = Array(Math.floor(canvas.width / fontSize)).fill(1);
+        setInterval(() => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
+            rainDrops.forEach((y, i) => {
+                ctx.fillText(alphabet[Math.floor(Math.random()*alphabet.length)], i*fontSize, y*fontSize);
+                if(y*fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
+                rainDrops[i]++;
+            });
+        }, 35);
 
-        // Fungsi vital agar canvas selalu full layar meskipun browser di-resize
-        function setupCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        // --- TERMINAL TYPER ANIMATION (TEKS JALAN) ---
+        const logs = [
+            "> Initializing nebula_core... [OK]",
+            "> Establishing secure uplink... [CONNECTED]",
+            "> Scanning quantum encryption... [ACTIVE]",
+            "> Syncing Mahika Server... [100%]",
+            "> Memory integrity check... [STABLE]",
+            "> All systems operational.",
+            "> Ready for transmission..."
+        ];
+
+        const content = document.getElementById('terminal-content');
+        let lineIdx = 0;
+
+        async function typeLine(text) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            content.appendChild(line);
+            for (let char of text) {
+                line.innerHTML += char;
+                await new Promise(r => setTimeout(r, 40)); // Kecepatan ketik
+            }
         }
 
-        setupCanvas();
-        window.addEventListener('resize', setupCanvas);
-
-        const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZアァカサタナハマヤ';
-        const fontSize = 16;
-        const columns = Math.floor(canvas.width / fontSize);
-        const rainDrops = Array(columns).fill(1);
-
-        const drawMatrix = () => {
-            // Efek trail (jejak) kodenya
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = '#0F0';
-            ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-                // Reset jika drop sudah lewat batas bawah layar
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
+        async function startTerminal() {
+            while (true) {
+                content.innerHTML = '';
+                for (let log of logs) {
+                    await typeLine(log);
+                    await new Promise(r => setTimeout(r, 600)); // Jeda antar baris
                 }
-                rainDrops[i]++;
+                await new Promise(r => setTimeout(r, 3000)); // Jeda sebelum reset
             }
-        };
+        }
 
-        // Kecepatan hujan (35ms = smooth)
-        setInterval(drawMatrix, 35);
+        startTerminal();
     </script>
 </body>
 </html>
