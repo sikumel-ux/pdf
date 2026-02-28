@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Dashboard | Mahika Trans</title>
+    <link rel="stylesheet" href="gaya.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top-section">
+        <div>
+            <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+            <p class="subtitle">Cloud Management System</p>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="search-card">
+            <div id="home-view">
+                <div class="form-group">
+                    <label>Cari Dokumen/Media</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Ketik nama file...">
+                    </div>
+                </div>
+                <div id="file-list"></div>
+            </div>
+
+            <div id="upload-view" style="display:none;">
+                <div class="form-group">
+                    <label>Pilih File Apapun</label>
+                    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <p id="file-label">Ketuk untuk pilih file</p>
+                        <input type="file" id="fileInput" hidden>
+                    </div>
+                </div>
+                <button class="btn-main-link" id="uploadBtn">UPLOAD KE CLOUD</button>
+            </div>
+        </div>
+
+        <div class="action-area">
+            <button onclick="toggleUpload()" class="btn-toggle-upload">[ Buka/Tutup Panel Upload ]</button>
+            <a href="https://wa.me/628123456789" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> HUBUNGI ADMIN
+            </a>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="app.js"></script>
+</body>
+</html>
