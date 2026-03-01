@@ -9,91 +9,73 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body { 
     margin: 0; 
     background-color: var(--light-bg); 
     font-family: 'Plus Jakarta Sans', sans-serif; 
-    overflow: hidden; 
+    height: 100vh; /* Kunci tinggi layar */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Anti scroll body */
 }
 
-/* Header Section */
+/* Header */
 .top-section {
     background: radial-gradient(circle at 50% 0%, #074a8d 0%, #053a6f 100%);
-    height: 120px; 
-    display: flex; 
-    justify-content: center; 
-    padding-top: 15px; 
-    position: relative;
+    height: 100px; 
+    flex-shrink: 0; /* Header tidak boleh gepeng */
+    display: flex; justify-content: center; padding-top: 15px;
 }
-.title-brand { font-size: 30px; font-weight: 800; letter-spacing: -2px; color: var(--white); }
+.title-brand { font-size: 26px; font-weight: 800; color: var(--white); }
 .brand-mahika { color: var(--mahika-yellow); }
-.subtitle { font-size: 8px; color: var(--mahika-yellow); text-align: center; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
 
-/* Main Card Container */
+/* Card Container */
 .main-container { 
+    flex: 1; /* Ambil sisa ruang layar */
     max-width: 400px; 
-    margin: -50px auto 20px auto; 
-    padding: 0 15px; 
-    position: relative; 
-    z-index: 10; 
+    margin: -35px auto 0 auto; 
+    padding: 0 15px 20px 15px; 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
+
 .search-card { 
     background: var(--white); 
     border-radius: 24px; 
     box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
-    padding: 25px; 
-    min-height: 480px; 
+    padding: 20px; 
     display: flex; 
-    flex-direction: column; 
+    flex-direction: column;
+    height: 100%; /* Card mengisi sisa container */
+    overflow: hidden; /* Isi di dalam card tidak boleh tumpah keluar */
 }
 
-/* Title & Status */
-.content-title { 
-    font-size: 11px; font-weight: 800; color: var(--deep-blue); 
-    text-transform: uppercase; letter-spacing: 1px; 
-    display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
-}
-
-/* MINI STATS CARDS */
+/* Mini Stats */
 .stats-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;
 }
-.mini-card {
-    background: var(--log-bg);
-    border: 1px solid #e2e8f0;
-    padding: 12px;
-    border-radius: 16px;
-    position: relative;
-}
-.mini-card i { position: absolute; right: 10px; top: 10px; color: var(--deep-blue); opacity: 0.15; font-size: 14px; }
-.stat-label { display: block; font-size: 8px; font-weight: 800; color: var(--text-slate); text-transform: uppercase; margin-bottom: 4px; }
-.stat-value { display: block; font-size: 15px; font-weight: 800; color: var(--deep-blue); }
+.mini-card { background: var(--log-bg); border: 1px solid #e2e8f0; padding: 12px; border-radius: 16px; }
+.stat-label { font-size: 8px; font-weight: 800; color: var(--text-slate); text-transform: uppercase; }
+.stat-value { font-size: 14px; font-weight: 800; color: var(--deep-blue); }
 
-/* Blinking Online Indicator */
-.status-indicator { display: flex; align-items: center; gap: 5px; font-size: 9px; font-weight: 800; color: var(--success); }
-.blink-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; animation: pulse 1s infinite; }
-@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.8); } }
-
-/* Infinite Log Window */
+/* FIXED LOG WINDOW */
 .log-window {
-    flex: 1;
+    flex: 1; /* Ini yang bikin area log membesar maksimal di dalam card */
     background: var(--log-bg);
     border-radius: 15px;
-    padding: 15px;
-    font-family: 'Fira Code', 'Courier New', monospace;
+    padding: 12px;
+    font-family: 'Fira Code', monospace;
     font-size: 9px;
-    line-height: 1.5;
     color: var(--deep-blue);
-    overflow: hidden;
+    overflow-y: auto; /* Aktifkan scroll di dalam log saja */
     border: 1px solid #e2e8f0;
+    scrollbar-width: none; /* Hilangkan scrollbar di Firefox */
 }
+.log-window::-webkit-scrollbar { display: none; } /* Hilangkan scrollbar di Chrome/Safari */
 
-/* Footer Copyright */
 .footer-copy {
-    text-align: center; font-size: 10px; color: var(--text-slate);
-    margin-top: 20px; font-weight: 600; line-height: 1.4;
-             }
-                  
+    text-align: center; font-size: 9px; color: var(--text-slate);
+    padding-top: 15px; font-weight: 600; flex-shrink: 0;
+}
