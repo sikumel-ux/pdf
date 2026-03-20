@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Mahika Trans Cloud</title>
+    <meta name="theme-color" content="#053a6f">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Tambahan untuk Navigasi & UI */
+        .fab-container { position: fixed; bottom: 30px; right: 20px; z-index: 999; }
+        .fab { 
+            background: #053a6f; color: white; width: 60px; height: 60px; 
+            border-radius: 50%; border: none; shadow: 0 4px 15px rgba(0,0,0,0.3); 
+            font-size: 24px; cursor: pointer; transition: 0.3s;
+        }
+        .fab:active { transform: scale(0.9); }
+        .hidden { display: none !important; }
+        .upload-box { border: 2px dashed #ccc; padding: 40px; text-align: center; border-radius: 12px; cursor: pointer; }
+        .upload-box i { font-size: 40px; color: #053a6f; margin-bottom: 10px; }
+        .btn-main { width: 100%; padding: 15px; background: #053a6f; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer; }
+        .btn-main:disabled { background: #ccc; }
+    </style>
+</head>
+<body>
+
+<div class="top-section">
+    <div>
+        <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+        <p class="subtitle">Cloud Management System</p>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="search-card">
+        <div id="home-view">
+            <div class="form-group">
+                <label>Cari Dokumen</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Ketik nama file...">
+                </div>
+            </div>
+            <div id="file-list"></div>
+        </div>
+
+        <div id="upload-view" class="hidden">
+            <h2 style="margin-bottom: 15px; color: #053a6f;">Upload PDF Baru</h2>
+            <div class="form-group">
+                <label>Pilih File PDF</label>
+                <div class="upload-box" onclick="document.getElementById('pdfInput').click()">
+                    <i class="fa-solid fa-file-circle-plus"></i>
+                    <p id="file-label">Ketuk untuk pilih PDF</p>
+                    <input type="file" id="pdfInput" accept="application/pdf" hidden>
+                </div>
+            </div>
+            <button class="btn-main" id="uploadBtn">UPLOAD KE CLOUD</button>
+        </div>
+    </div>
+</div>
+
+<div class="fab-container">
+    <button class="fab" id="toggleViewBtn">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+    // Konfigurasi API dari Saved Info kamu
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx9JsUb0saYvFnH8vpCn2JZu_AzdrXXXmQIcGfMW0dsTvPndFQC_CtKyLhMx_6Kjd_IEg/exec";
+
+    const homeView = document.getElementById('home-view');
+    const uploadView = document.getElementById('upload-view');
+    const toggleBtn = document.getElementById('toggleViewBtn');
+    const pdfInput = document.getElementById('pdfInput');
+    const fileLabel = document.getElementById('file-label');
+    const uploadBtn = document.getElementById('uploadBtn');
+
+    // 1. Logika Pindah Tampilan
+    toggleBtn.addEventListener('click', () => {
+        const isHome = !homeView.classList.contains('hidden');
+        if (isHome) {
+            homeView.classList.add('hidden');
+            uploadView.classList.remove('hidden');
+            toggleBtn.innerHTML = '<i class="fa-solid fa-house"></i>'; // Ubah icon ke Home
+        } else {
+            homeView.classList.remove('hidden');
+            uploadView.classList.add('hidden');
+            toggleBtn.innerHTML = '<i class="fa-solid fa-plus"></i>'; // Ubah icon ke Plus
+        }
+    });
+
+    // 2. Deteksi File Terpilih
+    pdfInput.addEventListener('change', function() {
+        if(this.files[0]) {
+            fileLabel.innerText = this.files[0].name;
+            fileLabel.style.color = "#27ae60";
+        }
+    });
+
+    // 3. Fungsi Upload ke Google Drive via Apps Script
+    uploadBtn.addEventListener('click', () => {
+        const file = pdfInput.files[0];
+        if (!file) return alert("Pilih file dulu, bro!");
+
+        uploadBtn.disabled = true;
+        uploadBtn.innerText = "SABAR, LAGI UPLOAD...";
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+            const rawLog = e.target.result.split(',')[1];
+            
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify({
+                    fileData: rawLog,
+                    fileName: file.name,
+                    mimeType: file.type
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert("Mantap! File berhasil di-upload.");
+                location.reload(); // Refresh setelah sukses
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Waduh, gagal upload. Cek koneksi atau script!");
+            })
+            .finally(() => {
+                uploadBtn.disabled = false;
+                uploadBtn.innerText = "UPLOAD KE CLOUD";
+            });
+        };
+    });
+</script>
+</body>
+</html>
