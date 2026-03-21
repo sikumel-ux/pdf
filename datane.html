@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive File Uploader</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+        .upload-card { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        .spinner-border { display: none; width: 1.5rem; height: 1.5rem; }
+        #statusMessage { margin-top: 1rem; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="upload-card text-center">
+    <h3 class="mb-4">Upload ke GDrive</h3>
+    <p class="text-muted small">Pilih file untuk dikirim ke folder Google Drive</p>
+    
+    <div class="mb-3">
+        <input class="form-control" type="file" id="fileInput">
+    </div>
+
+    <button class="btn btn-primary w-100 py-2" id="uploadBtn" onclick="mulaiUpload()">
+        <span id="btnText">Upload File</span>
+        <div class="spinner-border text-light" id="loader" role="status"></div>
+    </button>
+
+    <div id="statusMessage"></div>
+</div>
+
+<script>
+    /**
+     * GANTI URL DI BAWAH INI dengan URL Web App GAS Anda
+     */
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyuXszMGtTv_xFF1WfJiSk2zSGNLQjblYXdOnEE22PNEXtLs5lGAxYVlZjbMDIFtnrqjg/exec";
+
+    function mulaiUpload() {
+        const fileInput = document.getElementById('fileInput');
+        const btn = document.getElementById('uploadBtn');
+        const btnText = document.getElementById('btnText');
+        const loader = document.getElementById('loader');
+        const status = document.getElementById('statusMessage');
+
+        if (fileInput.files.length === 0) {
+            status.innerHTML = '<span class="text-danger">Pilih file dulu, bos!</span>';
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        // Persiapan UI saat loading
+        btn.disabled = true;
+        btnText.style.display = 'none';
+        loader.style.display = 'inline-block';
+        status.innerHTML = 'Sedang memproses file...';
+
+        reader.onload = function(e) {
+            const base64Data = e.target.result;
+            const payload = {
+                base64: base64Data,
+                fileName: file.name
+            };
+
+            // Mengirim data ke Google Apps Script via POST
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors", // Penting untuk menghindari error CORS di GAS
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                // Catatan: Karena menggunakan no-cors, kita tidak bisa membaca pesan sukses dari GAS
+                // Tapi jika tidak ada error catch, biasanya berhasil.
+                status.innerHTML = '<span class="text-success">File berhasil dikirim (Cek GDrive)!</span>';
+                fileInput.value = "";
+            })
+            .catch(err => {
+                status.innerHTML = '<span class="text-danger">Gagal: ' + err + '</span>';
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btnText.style.display = 'inline-block';
+                loader.style.display = 'none';
+            });
+        };
+
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</body>
+</html>
