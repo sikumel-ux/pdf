@@ -1,0 +1,15 @@
+body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #f4f7f9; }
+.top-section { background: #053a6f; color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 30px 30px; }
+.title-brand { font-weight: 800; margin: 0; letter-spacing: 1px; }
+.brand-mahika { color: #ffcc00; } /* Aksen Emas/Kuning */
+.main-container { padding: 20px; margin-top: -30px; }
+.search-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+.upload-box { border: 2px dashed #053a6f; padding: 30px; text-align: center; border-radius: 15px; cursor: pointer; color: #053a6f; }
+.btn-main { background: #053a6f; color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; margin-top: 20px; cursor: pointer; }
+.active { border-bottom: 3px solid #ffcc00; font-weight: bold; }
+.tab-menu { display: flex; justify-content: space-around; margin-bottom: 15px; }
+.tab-menu button { background: none; border: none; padding: 10px; color: #053a6f; }
+.toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 50px; }
+.toast.show { visibility: visible; }
+.success { background: #28a745; }
+.error { background: #dc3545; }
