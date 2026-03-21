@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Mahika Trans Cloud</title>
+    <meta name="theme-color" content="#053a6f">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Tombol Tambah (FAB) */
+        .fab {
+            position: fixed; bottom: 25px; right: 20px;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: #053a6f; color: white; border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            font-size: 24px; cursor: pointer; z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-section">
+    <div>
+        <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
+        <p class="subtitle">Cloud Management System</p>
+    </div>
+</div>
+
+<div class="main-container">
+    <div id="home-view">
+        <div class="search-card">
+            <div class="form-group">
+                <label>Cari Dokumen</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Ketik nama file...">
+                </div>
+            </div>
+            <div id="file-list"></div>
+        </div>
+    </div>
+
+    <div id="upload-view" style="display:none;">
+        <div class="search-card">
+            <div class="form-group">
+                <label>Upload Ke Cloud</label>
+                <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                    <i class="fa-solid fa-file-circle-plus"></i>
+                    <p id="file-label">Ketuk pilih file (PDF/Excel/Foto)</p>
+                    <input type="file" id="fileInput" hidden>
+                </div>
+            </div>
+            <button class="btn-main" id="uploadBtn">UPLOAD SEKARANG</button>
+            <button class="btn-main" onclick="toggleUpload()" style="background:#64748b; margin-top:10px;">BATAL</button>
+        </div>
+    </div>
+</div>
+
+<button class="fab" onclick="toggleUpload()">
+    <i class="fa-solid fa-plus"></i>
+</button>
+
+<div id="toast" class="toast"></div>
+
+<script src="app.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+</body>
+</html>
+  
