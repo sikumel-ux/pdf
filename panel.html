@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sikumel GitHub Storage</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --navy: #0a1931; --gold: #ffc947; --bg: #f8fafc; }
+        body { background-color: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; }
+
+        .header-curve {
+            background-color: var(--navy); height: 280px; color: white;
+            padding-top: 60px; text-align: center; border-bottom-left-radius: 50% 40px;
+            border-bottom-right-radius: 50% 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .header-curve h2 span { color: var(--gold); }
+
+        .main-container { margin-top: -100px; padding: 0 20px 60px; }
+        .main-card { 
+            background: white; border-radius: 30px; padding: 30px; 
+            max-width: 480px; margin: auto; box-shadow: 0 20px 50px rgba(10,25,49,0.15); 
+        }
+
+        /* Input Token Styling */
+        #tokenSection { display: none; text-align: center; }
+        .token-input { border-radius: 15px; padding: 12px; border: 2px solid #e2e8f0; margin-bottom: 15px; width: 100%; }
+
+        .upload-zone { 
+            border: 2px dashed #e2e8f0; padding: 30px; border-radius: 20px; 
+            background: #fcfdfe; cursor: pointer; transition: 0.3s; 
+        }
+        .upload-zone:hover { border-color: var(--gold); background: #fffdf5; }
+
+        .btn-gold {
+            background-color: var(--gold); color: var(--navy); border: none;
+            font-weight: 800; padding: 15px; border-radius: 18px; width: 100%;
+            box-shadow: 0 8px 20px rgba(255, 201, 71, 0.3); transition: 0.3s;
+        }
+        .btn-logout { font-size: 11px; cursor: pointer; color: #ef4444; text-decoration: none; }
+
+        .file-row { 
+            background: white; border-radius: 18px; padding: 12px; 
+            margin-bottom: 10px; display: flex; align-items: center; border: 1px solid #f1f5f9;
+        }
+        .file-name { font-weight: 700; font-size: 13px; color: var(--navy); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .btn-action { background: #f8fafc; border: none; width: 35px; height: 35px; border-radius: 10px; margin-left: 5px; }
+        #loader { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="header-curve">
+    <h2>SIKUMEL <span>GITHUB</span></h2>
+    <p id="subHeader"><i class="fa-brands fa-github"></i> Storage Manager</p>
+</div>
+
+<div class="container main-container">
+    <div class="main-card">
+        
+        <div id="tokenSection">
+            <i class="fa-solid fa-key fa-3x mb-3 text-muted"></i>
+            <h5 class="fw-bold">Masukkan GitHub Token</h5>
+            <p class="small text-muted mb-4">Token Classic dengan izin <b>'repo'</b></p>
+            <input type="password" id="ghTokenInput" class="token-input" placeholder="ghp_xxxxxxxxxxxxxx">
+            <button class="btn btn-gold" onclick="saveToken()">MASUK SISTEM</button>
+        </div>
+
+        <div id="mainContent" style="display: none;">
+            <div class="upload-zone text-center mb-4" onclick="document.getElementById('fileInput').click()">
+                <i class="fa-solid fa-cloud-arrow-up fa-2x mb-2 text-muted"></i>
+                <p id="fileLabel" class="mb-0 fw-bold text-muted small">Pilih file untuk diunggah</p>
+                <input type="file" id="fileInput" hidden onchange="updateLabel()">
+            </div>
+
+            <button class="btn btn-gold mb-4" id="uploadBtn" onclick="uploadToGithub()">
+                <span id="btnText">PUSH TO GITHUB</span>
+                <div class="spinner-border spinner-border-sm" id="loader"></div>
+            </button>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0 small">Folder /uploads</h6>
+                <div>
+                    <span class="btn-logout fw-bold me-2" onclick="logout()">GANTI TOKEN</span>
+                    <button class="btn btn-sm btn-light border" onclick="fetchGithubFiles()">
+                        <i class="fa-solid fa-rotate" id="refreshIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="fileListContainer">
+                <p class="text-center text-muted py-4 small">Memuat data...</p>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    // DATA REPO (Tetap di sini)
+    const REPO_CONFIG = {
+        username: "sikumel-ux",
+        repo: "pdf",
+        path: "uploads"
+    };
+
+    let CURRENT_TOKEN = localStorage.getItem("gh_token");
+
+    // CEK LOGIN SAAT START
+    window.onload = function() {
+        if (!CURRENT_TOKEN) {
+            document.getElementById('tokenSection').style.display = 'block';
+        } else {
+            document.getElementById('mainContent').style.display = 'block';
+            fetchGithubFiles();
+        }
+    };
+
+    function saveToken() {
+        const input = document.getElementById('ghTokenInput').value.trim();
+        if (input.startsWith('ghp_')) {
+            localStorage.setItem("gh_token", input);
+            location.reload();
+        } else {
+            alert("Token GitHub Classic harus diawali 'ghp_'");
+        }
+    }
+
+    function logout() {
+        if(confirm("Hapus token dari browser?")) {
+            localStorage.removeItem("gh_token");
+            location.reload();
+        }
+    }
+
+    function updateLabel() {
+        const input = document.getElementById('fileInput');
+        if (input.files[0]) document.getElementById('fileLabel').innerText = input.files[0].name;
+    }
+
+    async function uploadToGithub() {
+        const fileInput = document.getElementById('fileInput');
+        if (!fileInput.files[0]) return alert("Pilih file!");
+
+        const btn = document.getElementById('uploadBtn');
+        const loader = document.getElementById('loader');
+        const btnText = document.getElementById('btnText');
+
+        btn.disabled = true; loader.style.display = "inline-block"; btnText.style.display = "none";
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = async () => {
+            const content = reader.result.split(',')[1]; 
+            const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+            const url = `https://api.github.com/repos/${REPO_CONFIG.username}/${REPO_CONFIG.repo}/contents/${REPO_CONFIG.path}/${cleanName}`;
+
+            try {
+                const res = await fetch(url, {
+                    method: "PUT",
+                    headers: { "Authorization": `token ${CURRENT_TOKEN}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: `Upload: ${cleanName}`, content: content })
+                });
+
+                if (res.ok) {
+                    alert("Berhasil!");
+                    fileInput.value = "";
+                    document.getElementById('fileLabel').innerText = "Pilih file untuk diunggah";
+                    fetchGithubFiles();
+                } else {
+                    const data = await res.json();
+                    if(data.message.includes("credentials")) alert("Bad Credentials! Silakan Ganti Token.");
+                    else alert("Gagal: " + data.message);
+                }
+            } catch (e) { alert("Error Koneksi!"); }
+            finally { btn.disabled = false; loader.style.display = "none"; btnText.style.display = "inline-block"; }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    async function fetchGithubFiles() {
+        const container = document.getElementById('fileListContainer');
+        const url = `https://api.github.com/repos/${REPO_CONFIG.username}/${REPO_CONFIG.repo}/contents/${REPO_CONFIG.path}`;
+
+        try {
+            const res = await fetch(url, { headers: { "Authorization": `token ${CURRENT_TOKEN}` } });
+            if (res.status === 401) {
+                container.innerHTML = `<p class="text-center text-danger small">Bad Credentials! Klik Ganti Token.</p>`;
+                return;
+            }
+            if (res.status === 404) {
+                container.innerHTML = `<p class="text-center text-muted small py-4">Folder /uploads kosong.</p>`;
+                return;
+            }
+            const data = await res.json();
+            container.innerHTML = data.map(file => `
+                <div class="file-row">
+                    <span class="file-name">${file.name}</span>
+                    <div class="d-flex">
+                        <a href="${file.html_url}" target="_blank" class="btn-action text-center pt-1"><i class="fa-solid fa-eye"></i></a>
+                        <button onclick="deleteFile('${file.path}', '${file.sha}')" class="btn-action text-danger ms-2"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        } catch (e) { container.innerHTML = `<p class="text-center text-danger small">Error mengambil data.</p>`; }
+    }
+
+    async function deleteFile(path, sha) {
+        if (!confirm("Hapus file?")) return;
+        const url = `https://api.github.com/repos/${REPO_CONFIG.username}/${REPO_CONFIG.repo}/contents/${path}`;
+        await fetch(url, {
+            method: "DELETE",
+            headers: { "Authorization": `token ${CURRENT_TOKEN}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ message: "Delete", sha: sha })
+        });
+        fetchGithubFiles();
+    }
+</script>
+
+</body>
+</html>
