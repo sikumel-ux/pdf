@@ -3,63 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Dashboard | Mahika Trans</title>
+    <title>Dashboard Cloud | Mahika Trans</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #0066ff;
             --dark: #0f172a;
             --bg: #f8fafc;
-            --card: #ffffff;
             --text-main: #1e293b;
             --text-sub: #64748b;
-            --danger: #ef4444;
+            --white: #ffffff;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
 
-        .top-section {
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding-bottom: 100px;
+        }
+
+        /* Header Section */
+        .header {
             background: var(--dark);
-            color: white;
-            padding: 45px 20px 60px;
+            color: var(--white);
+            padding: 50px 20px 70px;
             text-align: center;
             border-bottom-left-radius: 35px;
             border-bottom-right-radius: 35px;
         }
-        .title-brand { font-size: 26px; font-weight: 800; letter-spacing: 1px; }
-        .brand-mahika { color: var(--primary); }
-        .subtitle { font-size: 11px; opacity: 0.6; margin-top: 4px; text-transform: uppercase; letter-spacing: 2px; }
 
-        .main-container {
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .header h1 span {
+            color: var(--primary);
+        }
+
+        .header p {
+            font-size: 11px;
+            opacity: 0.6;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Main Container */
+        .container {
             max-width: 500px;
-            margin: -40px auto 100px;
+            margin: -45px auto 0;
             padding: 0 18px;
         }
 
-        .search-card {
-            background: var(--card);
+        .card {
+            background: var(--white);
             padding: 24px;
             border-radius: 24px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.06);
         }
 
-        .form-group label {
-            display: block;
-            font-weight: 700;
-            font-size: 13px;
-            margin-bottom: 10px;
+        /* Search Bar */
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
             color: var(--text-sub);
         }
 
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        .input-wrapper i { position: absolute; left: 15px; color: var(--text-sub); }
-        .input-wrapper input {
+        .search-box input {
             width: 100%;
             padding: 14px 14px 14px 45px;
             border: 1.5px solid #e2e8f0;
@@ -68,35 +96,21 @@
             font-size: 14px;
             transition: 0.3s;
         }
-        .input-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(0,102,255,0.1); }
 
-        #file-list { margin-top: 20px; max-height: 400px; overflow-y: auto; }
-        .file-row {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border-bottom: 1px solid #f1f5f9;
-            gap: 12px;
-            animation: fadeIn 0.4s ease;
+        .search-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0,102,255,0.1);
         }
-        .file-info { flex: 1; min-width: 0; }
-        .file-name { display: block; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .file-meta { font-size: 10px; color: var(--text-sub); }
 
-        .btn-action {
-            border: none;
-            background: #f1f5f9;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
-            color: var(--text-sub);
-            transition: 0.2s;
+        /* File List Area */
+        #f-list {
+            margin-top: 10px;
+            max-height: 400px;
+            overflow-y: auto;
         }
-        .btn-copy:hover { background: #dbeafe; color: var(--primary); }
-        .btn-delete:hover { background: #fee2e2; color: var(--danger); }
 
-        .upload-box {
+        /* Upload Area */
+        .upload-zone {
             border: 2px dashed #cbd5e1;
             border-radius: 18px;
             padding: 40px 20px;
@@ -105,11 +119,25 @@
             background: #f8fafc;
             transition: 0.3s;
         }
-        .upload-box:hover { border-color: var(--primary); background: #eff6ff; }
-        .upload-box i { font-size: 38px; color: var(--primary); margin-bottom: 10px; }
-        .upload-box p { font-size: 12px; font-weight: 600; color: var(--text-sub); }
 
-        .btn-main {
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .upload-zone i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .upload-zone p {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-sub);
+        }
+
+        .btn-upload {
             width: 100%;
             background: var(--primary);
             color: white;
@@ -122,23 +150,32 @@
             box-shadow: 0 6px 15px rgba(0, 102, 255, 0.25);
             transition: 0.2s;
         }
-        .btn-main:disabled { background: #94a3b8; cursor: not-allowed; }
 
-        .action-area { margin-top: 25px; text-align: center; display: flex; flex-direction: column; gap: 15px; }
-        .btn-toggle-upload { background: none; border: none; color: var(--primary); font-weight: 800; font-size: 13px; cursor: pointer; }
-        .btn-whatsapp {
-            text-decoration: none;
-            background: #25d366;
-            color: white;
-            padding: 14px;
-            border-radius: 14px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .btn-upload:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
         }
 
+        /* Footer Buttons */
+        .action-footer {
+            margin-top: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-switch {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        /* Toast Notification */
         .toast {
             position: fixed;
             bottom: -60px;
@@ -149,55 +186,59 @@
             padding: 12px 24px;
             border-radius: 50px;
             font-size: 12px;
-            transition: 0.4s;
+            transition: 0.4s ease-in-out;
             z-index: 9999;
-            opacity: 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .toast.show { bottom: 30px; opacity: 1; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .toast.show {
+            bottom: 30px;
+        }
+
+        /* Scrollbar Style */
+        #f-list::-webkit-scrollbar { width: 4px; }
+        #f-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
 </head>
 <body>
-    <div class="top-section">
-        <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
-        <p class="subtitle">Cloud Management System</p>
+
+    <div class="header">
+        <h1>MAHIKA<span>TRANS</span></h1>
+        <p>Google Drive Cloud Management</p>
     </div>
 
-    <div class="main-container">
-        <div class="search-card">
-            <div id="home-view">
-                <div class="form-group">
-                    <label>Cari File</label>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="searchInput" placeholder="Ketik nama file...">
-                    </div>
+    <div class="container">
+        <div class="card">
+            
+            <div id="v-list">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="sInp" placeholder="Cari nama file...">
                 </div>
-                <div id="file-list"></div>
+                <div id="f-list">
+                    </div>
             </div>
 
-            <div id="upload-view" style="display:none;">
-                <div class="form-group">
-                    <label>Pilih File (Semua Format)</label>
-                    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                        <p id="file-label">Ketuk untuk pilih file</p>
-                        <input type="file" id="fileInput" hidden>
-                    </div>
+            <div id="v-up" style="display:none;">
+                <div class="upload-zone" onclick="document.getElementById('fileI').click()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p id="l-file">Ketuk untuk memilih file</p>
+                    <input type="file" id="fileI" hidden>
                 </div>
-                <button class="btn-main" id="uploadBtn">UPLOAD KE CLOUD</button>
+                <button class="btn-upload" id="btnU">MULAI UPLOAD</button>
             </div>
+
         </div>
 
-        <div class="action-area">
-            <button onclick="toggleUpload()" id="btnToggle" class="btn-toggle-upload">[ Panel Upload ]</button>
-            <a href="https://wa.me/628123456789" class="btn-whatsapp">
-                <i class="fa-brands fa-whatsapp"></i> HUBUNGI ADMIN
-            </a>
+        <div class="action-footer">
+            <button onclick="toggleV()" id="btnT" class="btn-switch">[ + Upload File Baru ]</button>
         </div>
     </div>
 
-    <div id="toast" class="toast"></div>
+    <div id="toast" class="toast">Pesan sistem</div>
+
     <script src="pdf.js"></script>
+
 </body>
-</html>
+    </html>
+    
