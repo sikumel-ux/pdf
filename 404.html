@@ -62,20 +62,7 @@
     </div>
 </div>
 
-<script>
-    // Fitur Auto-Redirect ke Home
-    let seconds = 5;
-    const timerEl = document.getElementById('timer');
-    
-    const interval = setInterval(() => {
-        seconds--;
-        timerEl.innerText = `Otomatis kembali dalam ${seconds} detik...`;
-        if (seconds <= 0) {
-            clearInterval(interval);
-            window.location.href = "index.html";
-        }
-    }, 1000);
-</script>
+
 
 </body>
 </html>
