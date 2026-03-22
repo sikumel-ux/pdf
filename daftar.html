@@ -10,321 +10,172 @@
     
     <style>
         :root {
-            /* Palette Warna Modern: Biru Gelap & Kuning Gold */
-            --bg-body: #f4f6f9;
-            --primary-dark: #0a1931; /* Biru Navy Elegan */
-            --accent-gold: #ffc947; /* Kuning Gold Premium */
+            --navy: #0a1931;
+            --gold: #ffc947;
             --white: #ffffff;
-            --text-main: #1e293b;
-            --text-sub: #64748b;
-            --shadow: 0 10px 30px rgba(10, 25, 49, 0.08);
-            --transition: all 0.3s ease;
+            --bg: #f4f7fa;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --shadow: 0 10px 25px rgba(10, 25, 49, 0.1);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif; /* Font Modern */
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-dark); overflow-x: hidden; }
 
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            padding-bottom: 100px; /* Ruang untuk tombol bawah mobile */
-        }
-
-        /* --- Header Curve Section --- */
+        /* --- Header Curve --- */
         .header {
-            background-color: var(--primary-dark);
+            background-color: var(--navy);
             color: var(--white);
-            padding: 60px 20px 90px;
+            padding: 50px 20px 80px;
             text-align: center;
+            border-bottom-left-radius: 50% 30px;
+            border-bottom-right-radius: 50% 30px;
             position: relative;
-            /* Membuat lengkungan di bawah */
-            border-bottom-left-radius: 50% 20px;
-            border-bottom-right-radius: 50% 20px;
         }
 
-        .header h1 {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
+        .header h1 { font-size: 26px; font-weight: 800; letter-spacing: 1px; }
+        .header h1 span { color: var(--gold); }
+        .header p { font-size: 10px; opacity: 0.7; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px; }
 
-        .header h1 span {
-            color: var(--accent-gold); /* Aksen Gold */
-        }
-
-        .header p {
-            font-size: 12px;
-            opacity: 0.7;
-            margin-top: 5px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* --- Main Container --- */
+        /* --- Container & Card --- */
         .container {
-            max-width: 500px;
-            margin: -50px auto 0; /* Mengangkat container agar tumpang tindih dengan header */
+            max-width: 480px;
+            margin: -40px auto 100px;
             padding: 0 20px;
-            position: relative;
-            z-index: 10;
         }
 
-        /* --- Card Style --- */
         .card {
             background: var(--white);
-            padding: 30px;
             border-radius: 24px;
+            padding: 25px;
             box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* --- Upload Section --- */
+        /* --- Upload Zone --- */
         .upload-zone {
             border: 2px dashed #cbd5e1;
             border-radius: 20px;
-            padding: 40px 20px;
+            padding: 35px 20px;
             text-align: center;
-            cursor: pointer;
             background: #f8fafc;
-            transition: var(--transition);
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 20px;
         }
 
-        .upload-zone:hover {
-            border-color: var(--accent-gold);
-            background: #fffdf5;
-        }
+        .upload-zone:hover { border-color: var(--gold); background: #fffdf5; }
+        .upload-zone i { font-size: 40px; color: var(--navy); margin-bottom: 15px; }
+        .upload-zone p { font-size: 13px; font-weight: 700; color: var(--text-light); }
 
-        .upload-zone i {
-            font-size: 48px;
-            color: var(--primary-dark);
-            margin-bottom: 15px;
-        }
-
-        .upload-zone p {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-sub);
-        }
-
-        .btn-primary {
+        /* --- Buttons --- */
+        .btn-main {
             width: 100%;
-            background: var(--primary-dark);
+            background: var(--navy);
             color: var(--white);
             border: none;
-            padding: 18px;
+            padding: 16px;
             border-radius: 16px;
-            font-weight: 700;
-            font-size: 15px;
-            margin-top: 25px;
+            font-weight: 800;
+            font-size: 14px;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(10, 25, 49, 0.15);
-            transition: var(--transition);
+            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            box-shadow: 0 6px 15px rgba(10, 25, 49, 0.2);
         }
 
-        .btn-primary:hover {
-            background-color: #14284b;
-            transform: translateY(-2px);
-        }
+        .btn-main:active { transform: scale(0.98); }
+        .btn-main:disabled { background: #94a3b8; cursor: not-allowed; }
 
-        .btn-primary:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .btn-primary .spinner-border {
-            width: 1rem;
-            height: 1rem;
-            border: 2px solid currentColor;
-            border-right-color: transparent;
-            border-radius: 50%;
-            display: none; /* Sembunyi secara default */
-            animation: spinner-border .75s linear infinite;
-        }
-
-        @keyframes spinner-border {
-            to { transform: rotate(360deg); }
-        }
-
-        /* --- File List Section --- */
-        .list-header {
+        /* --- File List --- */
+        .list-head {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin: 10px 0 20px;
         }
 
-        .list-header h3 {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--primary-dark);
-        }
+        .list-head h3 { font-size: 16px; font-weight: 800; color: var(--navy); }
+        .refresh-btn { background: none; border: none; color: var(--gold); font-weight: 700; font-size: 12px; cursor: pointer; }
 
-        .btn-refresh {
-            background: none;
-            border: none;
-            color: var(--text-sub);
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+        #f-list { max-height: 350px; overflow-y: auto; }
 
-        .btn-refresh:hover {
-            color: var(--accent-gold);
-        }
-
-        #f-list {
-            margin-top: 15px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        /* Gaya Item File dalam Daftar */
         .f-item {
             display: flex;
             align-items: center;
-            padding: 15px;
-            border-radius: 16px;
+            padding: 12px;
             background: #f8fafc;
-            margin-bottom: 12px;
-            gap: 15px;
-            transition: var(--transition);
+            border-radius: 16px;
+            margin-bottom: 10px;
+            gap: 12px;
+            border: 1px solid transparent;
+            transition: 0.2s;
         }
 
-        .f-item:hover {
-            background: #f1f5f9;
-        }
+        .f-item:hover { border-color: #e2e8f0; background: var(--white); }
+        .f-icon { width: 40px; height: 40px; background: var(--white); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #ef4444; font-size: 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .f-info { flex: 1; min-width: 0; }
+        .f-name { display: block; font-size: 13px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .f-size { font-size: 10px; color: var(--text-light); }
+        
+        .f-actions { display: flex; gap: 6px; }
+        .btn-circle { width: 32px; height: 32px; border-radius: 10px; border: none; background: var(--white); color: var(--text-light); cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s; }
+        .btn-circle:hover { background: var(--gold); color: var(--navy); }
 
-        .f-icon {
-            width: 48px;
-            height: 48px;
-            background: #fff;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ef4444; /* Warna Merah PDF */
-            font-size: 22px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
-
-        .f-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .f-name {
-            display: block;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .f-meta {
-            font-size: 11px;
-            color: var(--text-sub);
-            margin-top: 2px;
-        }
-
-        .f-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-action {
-            border: none;
-            background: var(--white);
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            cursor: pointer;
-            color: var(--text-sub);
-            transition: var(--transition);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
-
-        .btn-action:hover {
-            background: var(--accent-gold);
-            color: var(--primary-dark);
-            transform: scale(1.05);
-        }
-
-        /* --- Bottom Navigation (Untuk Mobile) --- */
-        .bottom-nav {
+        /* --- Navigation Bottom --- */
+        .nav-bottom {
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--primary-dark);
-            padding: 10px 25px;
+            background: var(--navy);
+            padding: 8px 20px;
             border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(10, 25, 49, 0.2);
-            z-index: 100;
             display: flex;
-            gap: 15px;
+            gap: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
 
-        .btn-nav {
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.6);
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            padding: 10px;
-            transition: var(--transition);
-        }
+        .nav-item { background: none; border: none; color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 700; cursor: pointer; padding: 8px 12px; transition: 0.3s; }
+        .nav-item.active { color: var(--gold); }
 
-        .btn-nav.active {
-            color: var(--accent-gold);
-        }
-
-        /* --- Toast Notification --- */
+        /* --- Toast --- */
         .toast {
             position: fixed;
-            bottom: -70px;
+            bottom: -60px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1e293b;
-            color: var(--white);
-            padding: 14px 28px;
+            background: #334155;
+            color: white;
+            padding: 10px 20px;
             border-radius: 50px;
-            font-size: 13px;
-            transition: var(--transition);
+            font-size: 12px;
+            transition: 0.4s;
             z-index: 9999;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
+        .toast.show { bottom: 90px; }
 
-        .toast.show {
-            bottom: 90px; /* Muncul di atas bottom nav */
+        .spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
         }
-
-        /* Scrollbar Style */
-        #f-list::-webkit-scrollbar { width: 4px; }
-        #f-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>MAHIKA<span>TRANS</span></h1>
-        <p>Google Drive Cloud Management</p>
+        <p>Cloud Storage</p>
     </div>
 
     <div class="container">
@@ -333,20 +184,20 @@
             <div id="v-up" style="display:none;">
                 <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
-                    <p id="label-file">Ketuk untuk memilih file</p>
+                    <p id="label-file">Pilih berkas untuk diunggah</p>
                     <input type="file" id="fileInput" hidden>
                 </div>
-                <button class="btn-primary" id="btnUpload">
-                    <span id="btnText">MULAI UPLOAD</span>
-                    <div class="spinner-border" id="loader"></div>
+                <button class="btn-main" id="btnUpload">
+                    <span id="btnText">UNGGAH SEKARANG</span>
+                    <div class="spinner" id="loader"></div>
                 </button>
             </div>
 
             <div id="v-list">
-                <div class="list-header">
-                    <h3>Daftar Dokumen</h3>
-                    <button onclick="loadFiles()" class="btn-refresh">
-                        <i class="fa-solid fa-sync" id="syncIcon"></i> Sinkronisasi
+                <div class="list-head">
+                    <h3>File Terimpan</h3>
+                    <button onclick="loadFiles()" class="refresh-btn">
+                        <i class="fa-solid fa-sync" id="syncIcon"></i> Refresh
                     </button>
                 </div>
                 <div id="f-list">
@@ -356,38 +207,32 @@
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <button onclick="switchView('list')" id="nav-list" class="btn-nav active">
-            <i class="fa-solid fa-folder-open"></i> File Saya
-        </button>
-        <button onclick="switchView('up')" id="nav-up" class="btn-nav">
-            <i class="fa-solid fa-circle-plus"></i> Tambah Baru
-        </button>
+    <div class="nav-bottom">
+        <button onclick="changeTab('list')" id="tab-list" class="nav-item active"><i class="fa-solid fa-folder"></i><br>Berkas</button>
+        <button onclick="changeTab('up')" id="tab-up" class="nav-item"><i class="fa-solid fa-plus-circle"></i><br>Tambah</button>
     </div>
 
     <div id="toast" class="toast">Pesan sistem</div>
 
     <script src="app.js"></script>
     <script>
-        // Fungsi tambahan untuk menangani navigasi bawah
-        function switchView(view) {
-            const vList = document.getElementById('v-list'), 
-                  vUp = document.getElementById('v-up'),
-                  navList = document.getElementById('nav-list'),
-                  navUp = document.getElementById('nav-up');
+        function changeTab(view) {
+            const vList = document.getElementById('v-list'), vUp = document.getElementById('v-up');
+            const tList = document.getElementById('tab-list'), tUp = document.getElementById('tab-up');
 
-            if (view === 'up') {
-                vList.style.display = 'none';
-                vUp.style.display = 'block';
-                navList.classList.remove('active');
-                navUp.classList.add('active');
+            if(view === 'up') {
+                vList.style.display = 'none'; vUp.style.display = 'block';
+                tList.classList.remove('active'); tUp.classList.add('active');
             } else {
-                vList.style.display = 'block';
-                vUp.style.display = 'none';
-                navList.classList.add('active');
-                navUp.classList.remove('active');
+                vList.style.display = 'block'; vUp.style.display = 'none';
+                tList.classList.add('active'); tUp.classList.remove('active');
             }
         }
+        
+        // Membantu update label file saat user milih file
+        document.getElementById('fileInput').addEventListener('change', function() {
+            if(this.files[0]) document.getElementById('label-file').innerText = this.files[0].name;
+        });
     </script>
 </body>
 </html>
