@@ -14,7 +14,7 @@
             --navy: #0a1931;
             --gold: #ffc947;
             --gold-dark: #eab308;
-            --bg-body: #f1f5f9;
+            --bg-body: #f8fafc;
         }
 
         body { 
@@ -24,50 +24,53 @@
             padding: 0;
         }
 
-        /* --- Header Curve Section --- */
+        /* --- Header Curve Section (REVISI: Ditambah tinggi agar tidak nabrak) --- */
         .header-curve {
             background-color: var(--navy);
-            height: 220px;
+            height: 280px; /* Ditambah biar lega */
             color: white;
-            padding-top: 50px;
+            padding-top: 70px; /* Diturunkan dikit dari atas layar */
             text-align: center;
-            border-bottom-left-radius: 50% 30px;
-            border-bottom-right-radius: 50% 30px;
+            border-bottom-left-radius: 50% 35px;
+            border-bottom-right-radius: 50% 35px;
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
         .header-curve h2 {
             font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            font-size: 28px;
         }
 
         .header-curve h2 span { color: var(--gold); }
-        .header-curve p { font-size: 13px; opacity: 0.8; }
+        .header-curve p { font-size: 12px; opacity: 0.8; letter-spacing: 1px; }
 
-        /* --- Main Card --- */
+        /* --- Main Card Container (REVISI: Jarak tumpuk dikurangi) --- */
         .main-container {
-            margin-top: -80px; /* Menumpuk di atas curve */
-            padding-bottom: 50px;
+            margin-top: -90px; /* Jarak aman agar tidak nabrak teks header */
+            padding-bottom: 60px;
+            padding-left: 15px;
+            padding-right: 15px;
         }
 
         .main-card { 
             background: white; 
-            border-radius: 24px; 
-            box-shadow: 0 15px 35px rgba(10, 25, 49, 0.1); 
-            padding: 30px; 
-            max-width: 650px; 
+            border-radius: 28px; 
+            box-shadow: 0 20px 40px rgba(10, 25, 49, 0.12); 
+            padding: 25px; 
+            max-width: 500px; /* Lebih ramping untuk tampilan HP */
             margin: auto; 
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(0,0,0,0.02);
         }
 
         /* --- Upload Zone --- */
         .upload-zone { 
-            border: 2px dashed #cbd5e1; 
-            padding: 35px 20px; 
-            border-radius: 18px; 
-            background: #f8fafc; 
+            border: 2px dashed #e2e8f0; 
+            padding: 30px 20px; 
+            border-radius: 20px; 
+            background: #fcfdfe; 
             cursor: pointer; 
             transition: all 0.3s ease; 
         }
@@ -75,10 +78,9 @@
         .upload-zone:hover { 
             border-color: var(--gold); 
             background: #fffdf5; 
-            transform: translateY(-2px);
         }
 
-        .upload-zone i { color: var(--navy); }
+        .upload-zone i { color: var(--navy); opacity: 0.8; }
         
         /* --- Buttons --- */
         .btn-gold {
@@ -86,67 +88,50 @@
             color: var(--navy);
             border: none;
             font-weight: 800;
-            padding: 14px;
-            border-radius: 14px;
+            padding: 16px;
+            border-radius: 18px;
             transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 201, 71, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 201, 71, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
         }
 
-        .btn-gold:hover {
-            background-color: var(--gold-dark);
-            color: var(--navy);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 201, 71, 0.4);
-        }
+        .btn-gold:active { transform: scale(0.98); }
 
-        /* --- File Rows --- */
-        .file-list-container {
-            margin-top: 30px;
-        }
+        /* --- File List Section --- */
+        .file-list-container { margin-top: 25px; }
 
         .file-row { 
-            background: #f8fafc;
-            border-radius: 15px;
-            padding: 15px; 
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 12px 15px; 
             margin-bottom: 12px;
             display: flex; 
             align-items: center; 
             justify-content: space-between; 
-            transition: 0.2s;
-            border: 1px solid #edf2f7;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
 
-        .file-row:hover {
-            background: #ffffff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-color: var(--gold);
-        }
-
-        .file-info { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0; }
-        .file-name { font-weight: 600; font-size: 14px; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .file-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+        .file-name { font-weight: 700; font-size: 13px; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         .btn-action {
-            background: white;
-            border: 1px solid #e2e8f0;
-            color: var(--text-dark);
-            width: 35px;
-            height: 35px;
-            border-radius: 10px;
+            background: #f8fafc;
+            border: none;
+            color: var(--navy);
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             transition: 0.2s;
         }
 
-        .btn-action:hover {
-            background-color: var(--navy);
-            color: white;
-        }
-
-        .btn-delete:hover {
-            background-color: #ef4444;
-            color: white;
-        }
+        .btn-action:hover { background-color: var(--gold); color: var(--navy); }
+        .btn-delete:hover { background-color: #fee2e2; color: #ef4444; }
 
         #loader { display: none; }
     </style>
@@ -155,7 +140,7 @@
 
 <div class="header-curve">
     <h2>MAHIKA <span>CLOUD</span></h2>
-    <p><i class="fa-solid fa-shield-halved"></i> Google Drive Secure Storage System</p>
+    <p><i class="fa-solid fa-shield-halved"></i> SECURE STORAGE SYSTEM</p>
 </div>
 
 <div class="container main-container">
@@ -163,41 +148,41 @@
         
         <div class="upload-zone text-center mb-4" onclick="document.getElementById('fileInput').click()">
             <i class="fa-solid fa-cloud-arrow-up fa-3x mb-3"></i>
-            <p id="fileLabel" class="mb-0 fw-bold text-secondary">Klik atau seret file ke sini</p>
+            <p id="fileLabel" class="mb-0 fw-bold text-muted small">Klik atau seret file ke sini</p>
             <input type="file" id="fileInput" hidden onchange="updateLabel()">
         </div>
 
-        <button class="btn btn-gold w-100 py-3 mb-4 fw-bold" id="uploadBtn" onclick="jalankanUpload()">
+        <button class="btn btn-gold w-100 mb-4" id="uploadBtn" onclick="jalankanUpload()">
             <span id="btnText"><i class="fa-solid fa-paper-plane me-2"></i>MULAI UPLOAD</span>
-            <div class="spinner-border spinner-border-sm" id="loader" role="status"></div>
+            <div class="spinner-border spinner-border-sm" id="loader"></div>
         </button>
 
-        <div class="d-flex justify-content-between align-items: center; border-top pt-4">
-            <h6 class="fw-bold mb-0 text-navy" style="color: #0a1931;">Daftar Berkas</h6>
-            <button class="btn btn-sm btn-light border fw-bold" onclick="muatDaftarFile()" style="font-size: 11px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold mb-0 text-navy" style="font-size: 14px;">Daftar Berkas</h6>
+            <button class="btn btn-sm btn-light border fw-bold text-muted" onclick="muatDaftarFile()" style="font-size: 10px; border-radius: 8px;">
                 <i class="fa-solid fa-rotate me-1" id="refreshIcon"></i> REFRESH
             </button>
         </div>
 
         <div id="fileContainer" class="file-list-container">
-            <p class="text-center text-muted py-4 small">Menghubungkan ke server...</p>
+            <p class="text-center text-muted py-4 small">Menghubungkan...</p>
         </div>
         
     </div>
     
     <div class="text-center mt-4">
-        <p class="text-muted small">&copy; 2026 Mahika Trans Digital. All Rights Reserved.</p>
+        <p class="text-muted" style="font-size: 10px; opacity: 0.6;">&copy; 2026 Mahika Trans Digital</p>
     </div>
 </div>
 
 <script>
-    // URL TETAP (Sama dengan kode asli kamu)
+    // URL Web App GAS Kamu
     const URL_GAS = "https://script.google.com/macros/s/AKfycbw8MNPykhpLqt4r9b7dPYon9RdfZbzFRBOvx6mOmEOLCJCk3Va-iX6o1QH2f-ZtlZA/exec";
 
     function updateLabel() {
         const input = document.getElementById('fileInput');
         if (input.files.length > 0) {
-            document.getElementById('fileLabel').innerHTML = `<span class="text-navy">${input.files[0].name}</span>`;
+            document.getElementById('fileLabel').innerHTML = `<span style="color:#0a1931;">${input.files[0].name}</span>`;
         }
     }
 
@@ -207,7 +192,7 @@
         const loader = document.getElementById('loader');
         const btnText = document.getElementById('btnText');
 
-        if (input.files.length === 0) return alert("Waduh, pilih file dulu bos!");
+        if (input.files.length === 0) return alert("Pilih filenya dulu, bro!");
 
         btn.disabled = true;
         loader.style.display = "inline-block";
@@ -227,11 +212,11 @@
                 mode: "no-cors",
                 body: JSON.stringify(payload)
             }).then(() => {
-                alert("Mantap! File berhasil terupload.");
+                alert("Upload Berhasil!");
                 input.value = "";
-                document.getElementById('fileLabel').innerText = "Klik untuk Pilih File";
+                document.getElementById('fileLabel').innerText = "Klik atau seret file ke sini";
                 muatDaftarFile();
-            }).catch(err => alert("Gagal bro: " + err))
+            }).catch(err => alert("Gagal: " + err))
             .finally(() => {
                 btn.disabled = false;
                 loader.style.display = "none";
@@ -254,7 +239,7 @@
             const data = await response.json();
 
             if (data.length === 0) {
-                container.innerHTML = `<div class="text-center py-4 text-muted small">Folder kosong, belum ada data.</div>`;
+                container.innerHTML = `<div class="text-center py-4 text-muted small">Folder kosong.</div>`;
             } else {
                 container.innerHTML = data.map(f => `
                     <div class="file-row">
@@ -263,10 +248,10 @@
                             <span class="file-name">${f.name}</span>
                         </div>
                         <div class="d-flex gap-2">
-                            <a href="${f.url}" target="_blank" class="btn-action shadow-sm" title="Lihat">
+                            <a href="${f.url}" target="_blank" class="btn-action" title="Lihat">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
-                            <button onclick="hapusFile('${f.id}')" class="btn-action btn-delete shadow-sm" title="Hapus">
+                            <button onclick="hapusFile('${f.id}')" class="btn-action btn-delete" title="Hapus">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
@@ -274,18 +259,15 @@
                 `).join('');
             }
         } catch (e) {
-            container.innerHTML = `<p class="text-center text-danger small py-4">Gagal muat data: Periksa koneksi atau URL GAS.</p>`;
+            container.innerHTML = `<p class="text-center text-danger small py-4">Gagal muat data.</p>`;
         } finally {
             refreshIcon.classList.remove('fa-spin');
         }
     }
 
     async function hapusFile(id) {
-        if (!confirm("Yakin mau hapus file ini?")) return;
-        
-        // UI Feedback sederhana
-        document.getElementById('fileContainer').style.opacity = '0.5';
-        
+        if (!confirm("Hapus file ini?")) return;
+        document.getElementById('fileContainer').style.opacity = '0.4';
         try {
             await fetch(URL_GAS, {
                 method: "POST",
@@ -293,7 +275,7 @@
             });
             muatDaftarFile();
         } catch (e) {
-            alert("Gagal hapus data.");
+            alert("Gagal hapus.");
         } finally {
             document.getElementById('fileContainer').style.opacity = '1';
         }
