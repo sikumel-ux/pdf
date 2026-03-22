@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar File GDrive | Mahika Trans</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #f0f2f5; min-height: 100vh; padding: 2rem 1rem; }
+        .data-card { background: white; padding: 1.5rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 800px; margin: auto; }
+        .file-icon { font-size: 1.5rem; color: #0d6efd; }
+        .table-responsive { margin-top: 1rem; }
+        .btn-refresh { margin-bottom: 1rem; }
+        #loader { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="data-card">
+    <div class="d-flex justify-content-between align-items: center; mb-3">
+        <h3>File di GDrive</h3>
+        <button class="btn btn-outline-primary btn-sm" onclick="ambilDaftarFile()">
+            <i class="fa-solid fa-sync" id="syncIcon"></i> Refresh Data
+        </button>
+    </div>
+
+    <div id="loader" class="text-center my-4">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 text-muted">Mengambil data dari Google Drive...</p>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Nama File</th>
+                    <th>Ukuran</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="fileTableBody">
+                </tbody>
+        </table>
+    </div>
+    
+    <div class="text-center mt-3">
+        <a href="index.html" class="btn btn-link btn-sm">Kembali ke Halaman Upload</a>
+    </div>
+</div>
+
+<script>
+    /**
+     * PASTIKAN URL INI SAMA DENGAN DI HALAMAN UPLOAD
+     */
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyuXszMGtTv_xFF1WfJiSk2zSGNLQjblYXdOnEE22PNEXtLs5lGAxYVlZjbMDIFtnrqjg/exec";
+
+    async function ambilDaftarFile() {
+        const tableBody = document.getElementById('fileTableBody');
+        const loader = document.getElementById('loader');
+        const syncIcon = document.getElementById('syncIcon');
+
+        // Reset UI
+        tableBody.innerHTML = "";
+        loader.style.display = "block";
+        syncIcon.classList.add('fa-spin');
+
+        try {
+            // Kita kirim request POST dengan action "list"
+            const response = await fetch(WEB_APP_URL, {
+                method: "POST",
+                // Di sini kita TIDAK pakai no-cors agar bisa baca datanya
+                body: JSON.stringify({ action: "list" })
+            });
+
+            const data = await response.json();
+            
+            if (data.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">Folder kosong, belum ada upload.</td></tr>';
+            } else {
+                data.forEach(file => {
+                    const row = `
+                        <tr>
+                            <td>
+                                <i class="fa-regular fa-file-pdf file-icon me-2"></i>
+                                <span class="fw-bold">${file.name}</span>
+                            </td>
+                            <td class="small text-muted">${(file.size / 1024).toFixed(1)} KB</td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="${file.url}" target="_blank" class="btn btn-sm btn-outline-success">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+                                    <button onclick="hapusFile('${file.id}', '${file.name}')" class="btn btn-sm btn-outline-danger">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            }
+        } catch (err) {
+            tableBody.innerHTML = `<tr><td colspan="3" class="text-center text-danger">Gagal mengambil data: ${err}</td></tr>`;
+        } finally {
+            loader.style.display = "none";
+            syncIcon.classList.remove('fa-spin');
+        }
+    }
+
+    async function hapusFile(id, name) {
+        if (!confirm(`Yakin mau hapus file "${name}"?`)) return;
+        
+        try {
+            await fetch(WEB_APP_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "delete", id: id })
+            });
+            alert("File terhapus!");
+            ambilDaftarFile(); // Refresh list
+        } catch (err) {
+            alert("Gagal hapus: " + err);
+        }
+    }
+
+    // Jalankan saat halaman dibuka
+    window.onload = ambilDaftarFile;
+</script>
+
+</body>
+  </html>
+  
