@@ -3,141 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Mahika Trans Cloud</title>
-    <meta name="theme-color" content="#053a6f">
-    <link rel="stylesheet" href="style.css">
+    <title>Dashboard | Mahika Trans</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* CSS Tambahan untuk Navigasi & UI */
-        .fab-container { position: fixed; bottom: 30px; right: 20px; z-index: 999; }
-        .fab { 
-            background: #053a6f; color: white; width: 60px; height: 60px; 
-            border-radius: 50%; border: none; shadow: 0 4px 15px rgba(0,0,0,0.3); 
-            font-size: 24px; cursor: pointer; transition: 0.3s;
+        :root {
+            --primary: #0066ff;
+            --dark: #0f172a;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --danger: #ef4444;
         }
-        .fab:active { transform: scale(0.9); }
-        .hidden { display: none !important; }
-        .upload-box { border: 2px dashed #ccc; padding: 40px; text-align: center; border-radius: 12px; cursor: pointer; }
-        .upload-box i { font-size: 40px; color: #053a6f; margin-bottom: 10px; }
-        .btn-main { width: 100%; padding: 15px; background: #053a6f; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer; }
-        .btn-main:disabled { background: #ccc; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
+
+        .top-section {
+            background: var(--dark);
+            color: white;
+            padding: 45px 20px 60px;
+            text-align: center;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+        }
+        .title-brand { font-size: 26px; font-weight: 800; letter-spacing: 1px; }
+        .brand-mahika { color: var(--primary); }
+        .subtitle { font-size: 11px; opacity: 0.6; margin-top: 4px; text-transform: uppercase; letter-spacing: 2px; }
+
+        .main-container {
+            max-width: 500px;
+            margin: -40px auto 100px;
+            padding: 0 18px;
+        }
+
+        .search-card {
+            background: var(--card);
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: var(--text-sub);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrapper i { position: absolute; left: 15px; color: var(--text-sub); }
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            outline: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .input-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(0,102,255,0.1); }
+
+        #file-list { margin-top: 20px; max-height: 400px; overflow-y: auto; }
+        .file-row {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #f1f5f9;
+            gap: 12px;
+            animation: fadeIn 0.4s ease;
+        }
+        .file-info { flex: 1; min-width: 0; }
+        .file-name { display: block; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .file-meta { font-size: 10px; color: var(--text-sub); }
+
+        .btn-action {
+            border: none;
+            background: #f1f5f9;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-sub);
+            transition: 0.2s;
+        }
+        .btn-copy:hover { background: #dbeafe; color: var(--primary); }
+        .btn-delete:hover { background: #fee2e2; color: var(--danger); }
+
+        .upload-box {
+            border: 2px dashed #cbd5e1;
+            border-radius: 18px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8fafc;
+            transition: 0.3s;
+        }
+        .upload-box:hover { border-color: var(--primary); background: #eff6ff; }
+        .upload-box i { font-size: 38px; color: var(--primary); margin-bottom: 10px; }
+        .upload-box p { font-size: 12px; font-weight: 600; color: var(--text-sub); }
+
+        .btn-main {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0, 102, 255, 0.25);
+            transition: 0.2s;
+        }
+        .btn-main:disabled { background: #94a3b8; cursor: not-allowed; }
+
+        .action-area { margin-top: 25px; text-align: center; display: flex; flex-direction: column; gap: 15px; }
+        .btn-toggle-upload { background: none; border: none; color: var(--primary); font-weight: 800; font-size: 13px; cursor: pointer; }
+        .btn-whatsapp {
+            text-decoration: none;
+            background: #25d366;
+            color: white;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 12px;
+            transition: 0.4s;
+            z-index: 9999;
+            opacity: 0;
+        }
+        .toast.show { bottom: 30px; opacity: 1; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-
-<div class="top-section">
-    <div>
+    <div class="top-section">
         <h1 class="title-brand">MAHIKA<span class="brand-mahika">TRANS</span></h1>
         <p class="subtitle">Cloud Management System</p>
     </div>
-</div>
 
-<div class="main-container">
-    <div class="search-card">
-        <div id="home-view">
-            <div class="form-group">
-                <label>Cari Dokumen</label>
-                <div class="input-wrapper">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" placeholder="Ketik nama file...">
+    <div class="main-container">
+        <div class="search-card">
+            <div id="home-view">
+                <div class="form-group">
+                    <label>Cari File</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Ketik nama file...">
+                    </div>
                 </div>
+                <div id="file-list"></div>
             </div>
-            <div id="file-list"></div>
+
+            <div id="upload-view" style="display:none;">
+                <div class="form-group">
+                    <label>Pilih File (Semua Format)</label>
+                    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <p id="file-label">Ketuk untuk pilih file</p>
+                        <input type="file" id="fileInput" hidden>
+                    </div>
+                </div>
+                <button class="btn-main" id="uploadBtn">UPLOAD KE CLOUD</button>
+            </div>
         </div>
 
-        <div id="upload-view" class="hidden">
-            <h2 style="margin-bottom: 15px; color: #053a6f;">Upload PDF Baru</h2>
-            <div class="form-group">
-                <label>Pilih File PDF</label>
-                <div class="upload-box" onclick="document.getElementById('pdfInput').click()">
-                    <i class="fa-solid fa-file-circle-plus"></i>
-                    <p id="file-label">Ketuk untuk pilih PDF</p>
-                    <input type="file" id="pdfInput" accept="application/pdf" hidden>
-                </div>
-            </div>
-            <button class="btn-main" id="uploadBtn">UPLOAD KE CLOUD</button>
+        <div class="action-area">
+            <button onclick="toggleUpload()" id="btnToggle" class="btn-toggle-upload">[ Panel Upload ]</button>
+            <a href="https://wa.me/628123456789" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> HUBUNGI ADMIN
+            </a>
         </div>
     </div>
-</div>
 
-<div class="fab-container">
-    <button class="fab" id="toggleViewBtn">
-        <i class="fa-solid fa-plus"></i>
-    </button>
-</div>
-
-<div id="toast" class="toast"></div>
-
-<script>
-    // Konfigurasi API dari Saved Info kamu
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx9JsUb0saYvFnH8vpCn2JZu_AzdrXXXmQIcGfMW0dsTvPndFQC_CtKyLhMx_6Kjd_IEg/exec";
-
-    const homeView = document.getElementById('home-view');
-    const uploadView = document.getElementById('upload-view');
-    const toggleBtn = document.getElementById('toggleViewBtn');
-    const pdfInput = document.getElementById('pdfInput');
-    const fileLabel = document.getElementById('file-label');
-    const uploadBtn = document.getElementById('uploadBtn');
-
-    // 1. Logika Pindah Tampilan
-    toggleBtn.addEventListener('click', () => {
-        const isHome = !homeView.classList.contains('hidden');
-        if (isHome) {
-            homeView.classList.add('hidden');
-            uploadView.classList.remove('hidden');
-            toggleBtn.innerHTML = '<i class="fa-solid fa-house"></i>'; // Ubah icon ke Home
-        } else {
-            homeView.classList.remove('hidden');
-            uploadView.classList.add('hidden');
-            toggleBtn.innerHTML = '<i class="fa-solid fa-plus"></i>'; // Ubah icon ke Plus
-        }
-    });
-
-    // 2. Deteksi File Terpilih
-    pdfInput.addEventListener('change', function() {
-        if(this.files[0]) {
-            fileLabel.innerText = this.files[0].name;
-            fileLabel.style.color = "#27ae60";
-        }
-    });
-
-    // 3. Fungsi Upload ke Google Drive via Apps Script
-    uploadBtn.addEventListener('click', () => {
-        const file = pdfInput.files[0];
-        if (!file) return alert("Pilih file dulu, bro!");
-
-        uploadBtn.disabled = true;
-        uploadBtn.innerText = "SABAR, LAGI UPLOAD...";
-
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function(e) {
-            const rawLog = e.target.result.split(',')[1];
-            
-            fetch(SCRIPT_URL, {
-                method: "POST",
-                body: JSON.stringify({
-                    fileData: rawLog,
-                    fileName: file.name,
-                    mimeType: file.type
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                alert("Mantap! File berhasil di-upload.");
-                location.reload(); // Refresh setelah sukses
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Waduh, gagal upload. Cek koneksi atau script!");
-            })
-            .finally(() => {
-                uploadBtn.disabled = false;
-                uploadBtn.innerText = "UPLOAD KE CLOUD";
-            });
-        };
-    });
-</script>
+    <div id="toast" class="toast"></div>
+    <script src="pdf.js"></script>
 </body>
 </html>
