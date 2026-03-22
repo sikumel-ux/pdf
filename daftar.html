@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Mahika Trans | Cloud Storage</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Palette Warna Modern: Biru Gelap & Kuning Gold */
+            --bg-body: #f4f6f9;
+            --primary-dark: #0a1931; /* Biru Navy Elegan */
+            --accent-gold: #ffc947; /* Kuning Gold Premium */
+            --white: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --shadow: 0 10px 30px rgba(10, 25, 49, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif; /* Font Modern */
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            padding-bottom: 100px; /* Ruang untuk tombol bawah mobile */
+        }
+
+        /* --- Header Curve Section --- */
+        .header {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            padding: 60px 20px 90px;
+            text-align: center;
+            position: relative;
+            /* Membuat lengkungan di bawah */
+            border-bottom-left-radius: 50% 20px;
+            border-bottom-right-radius: 50% 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .header h1 span {
+            color: var(--accent-gold); /* Aksen Gold */
+        }
+
+        .header p {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            max-width: 500px;
+            margin: -50px auto 0; /* Mengangkat container agar tumpang tindih dengan header */
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- Card Style --- */
+        .card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* --- Upload Section --- */
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8fafc;
+            transition: var(--transition);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--accent-gold);
+            background: #fffdf5;
+        }
+
+        .upload-zone i {
+            font-size: 48px;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .upload-zone p {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-sub);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--primary-dark);
+            color: var(--white);
+            border: none;
+            padding: 18px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 15px;
+            margin-top: 25px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(10, 25, 49, 0.15);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #14284b;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-primary .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            display: none; /* Sembunyi secara default */
+            animation: spinner-border .75s linear infinite;
+        }
+
+        @keyframes spinner-border {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- File List Section --- */
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .list-header h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .btn-refresh {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-refresh:hover {
+            color: var(--accent-gold);
+        }
+
+        #f-list {
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Gaya Item File dalam Daftar */
+        .f-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 16px;
+            background: #f8fafc;
+            margin-bottom: 12px;
+            gap: 15px;
+            transition: var(--transition);
+        }
+
+        .f-item:hover {
+            background: #f1f5f9;
+        }
+
+        .f-icon {
+            width: 48px;
+            height: 48px;
+            background: #fff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ef4444; /* Warna Merah PDF */
+            font-size: 22px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .f-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .f-name {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .f-meta {
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
+        .f-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action {
+            border: none;
+            background: var(--white);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--text-sub);
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .btn-action:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        /* --- Bottom Navigation (Untuk Mobile) --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-dark);
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(10, 25, 49, 0.2);
+            z-index: 100;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-nav {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 10px;
+            transition: var(--transition);
+        }
+
+        .btn-nav.active {
+            color: var(--accent-gold);
+        }
+
+        /* --- Toast Notification --- */
+        .toast {
+            position: fixed;
+            bottom: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: var(--white);
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 13px;
+            transition: var(--transition);
+            z-index: 9999;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .toast.show {
+            bottom: 90px; /* Muncul di atas bottom nav */
+        }
+
+        /* Scrollbar Style */
+        #f-list::-webkit-scrollbar { width: 4px; }
+        #f-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>MAHIKA<span>TRANS</span></h1>
+        <p>Google Drive Cloud Management</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            
+            <div id="v-up" style="display:none;">
+                <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p id="label-file">Ketuk untuk memilih file</p>
+                    <input type="file" id="fileInput" hidden>
+                </div>
+                <button class="btn-primary" id="btnUpload">
+                    <span id="btnText">MULAI UPLOAD</span>
+                    <div class="spinner-border" id="loader"></div>
+                </button>
+            </div>
+
+            <div id="v-list">
+                <div class="list-header">
+                    <h3>Daftar Dokumen</h3>
+                    <button onclick="loadFiles()" class="btn-refresh">
+                        <i class="fa-solid fa-sync" id="syncIcon"></i> Sinkronisasi
+                    </button>
+                </div>
+                <div id="f-list">
+                    </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button onclick="switchView('list')" id="nav-list" class="btn-nav active">
+            <i class="fa-solid fa-folder-open"></i> File Saya
+        </button>
+        <button onclick="switchView('up')" id="nav-up" class="btn-nav">
+            <i class="fa-solid fa-circle-plus"></i> Tambah Baru
+        </button>
+    </div>
+
+    <div id="toast" class="toast">Pesan sistem</div>
+
+    <script src="app.js"></script>
+    <script>
+        // Fungsi tambahan untuk menangani navigasi bawah
+        function switchView(view) {
+            const vList = document.getElementById('v-list'), 
+                  vUp = document.getElementById('v-up'),
+                  navList = document.getElementById('nav-list'),
+                  navUp = document.getElementById('nav-up');
+
+            if (view === 'up') {
+                vList.style.display = 'none';
+                vUp.style.display = 'block';
+                navList.classList.remove('active');
+                navUp.classList.add('active');
+            } else {
+                vList.style.display = 'block';
+                vUp.style.display = 'none';
+                navList.classList.add('active');
+                navUp.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
