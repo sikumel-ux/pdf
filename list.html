@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahika Cloud Storage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+        .main-card { background: white; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 25px; max-width: 700px; margin: auto; }
+        .upload-zone { border: 2px dashed #0d6efd; padding: 20px; border-radius: 10px; background: #f8fbff; cursor: pointer; transition: 0.3s; }
+        .upload-zone:hover { background: #eef5ff; }
+        .file-row { border-bottom: 1px solid #eee; padding: 12px 0; display: flex; align-items: center; justify-content: space-between; }
+        .file-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+        .file-name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #loader { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="main-card">
+    <div class="text-center mb-4">
+        <h3 class="fw-bold text-primary">MAHIKA CLOUD</h3>
+        <p class="text-muted small">Kelola file GDrive dalam satu pintu</p>
+    </div>
+
+    <div class="upload-zone text-center mb-4" onclick="document.getElementById('fileInput').click()">
+        <i class="fa-solid fa-cloud-arrow-up fa-2x text-primary mb-2"></i>
+        <p id="fileLabel" class="mb-0 small fw-bold">Klik untuk Pilih File</p>
+        <input type="file" id="fileInput" hidden onchange="updateLabel()">
+    </div>
+    <button class="btn btn-primary w-100 py-2 mb-4 fw-bold" id="uploadBtn" onclick="jalankanUpload()">
+        <span id="btnText">MULAI UPLOAD</span>
+        <div class="spinner-border spinner-border-sm text-light" id="loader"></div>
+    </button>
+
+    <hr>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">Daftar File</h5>
+        <button class="btn btn-sm btn-outline-secondary" onclick="muatDaftarFile()">
+            <i class="fa-solid fa-rotate" id="refreshIcon"></i> Refresh
+        </button>
+    </div>
+
+    <div id="fileContainer">
+        <p class="text-center text-muted py-4 small">Memuat data...</p>
+    </div>
+</div>
+
+<script>
+    // GANTI DENGAN LINK .EXEC KAMU YANG TERBARU
+    const URL_GAS = "https://script.google.com/macros/s/AKfycbyuXszMGtTv_xFF1WfJiSk2zSGNLQjblYXdOnEE22PNEXtLs5lGAxYVlZjbMDIFtnrqjg/exec";
+
+    function updateLabel() {
+        const input = document.getElementById('fileInput');
+        if (input.files.length > 0) document.getElementById('fileLabel').innerText = input.files[0].name;
+    }
+
+    // FUNGSI UPLOAD
+    function jalankanUpload() {
+        const input = document.getElementById('fileInput');
+        const btn = document.getElementById('uploadBtn');
+        const loader = document.getElementById('loader');
+        const btnText = document.getElementById('btnText');
+
+        if (input.files.length === 0) return alert("Pilih file dulu!");
+
+        btn.disabled = true;
+        loader.style.display = "inline-block";
+        btnText.innerText = "Mengirim...";
+
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const payload = {
+                base64: e.target.result,
+                fileName: file.name
+            };
+
+            fetch(URL_GAS, {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Upload Berhasil!");
+                input.value = "";
+                document.getElementById('fileLabel').innerText = "Klik untuk Pilih File";
+                muatDaftarFile();
+            }).finally(() => {
+                btn.disabled = false;
+                loader.style.display = "none";
+                btnText.innerText = "MULAI UPLOAD";
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // FUNGSI AMBIL LIST FILE
+    async function muatDaftarFile() {
+        const container = document.getElementById('fileContainer');
+        const refreshIcon = document.getElementById('refreshIcon');
+        refreshIcon.classList.add('fa-spin');
+
+        try {
+            const response = await fetch(URL_GAS, {
+                method: "POST",
+                body: JSON.stringify({ action: "list" })
+            });
+            const data = await response.json();
+
+            if (data.length === 0) {
+                container.innerHTML = `<p class="text-center text-muted py-4 small">Folder masih kosong.</p>`;
+            } else {
+                container.innerHTML = data.map(f => `
+                    <div class="file-row">
+                        <div class="file-info">
+                            <i class="fa-solid fa-file-pdf text-danger"></i>
+                            <span class="file-name">${f.name}</span>
+                        </div>
+                        <div class="btn-group">
+                            <a href="${f.url}" target="_blank" class="btn btn-sm btn-light text-primary"><i class="fa-solid fa-eye"></i></a>
+                            <button onclick="hapusFile('${f.id}')" class="btn btn-sm btn-light text-danger"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        } catch (e) {
+            container.innerHTML = `<p class="text-center text-danger small">Gagal muat data: ${e}</p>`;
+        } finally {
+            refreshIcon.classList.remove('fa-spin');
+        }
+    }
+
+    // FUNGSI HAPUS FILE
+    async function hapusFile(id) {
+        if (!confirm("Yakin hapus file ini?")) return;
+        await fetch(URL_GAS, {
+            method: "POST",
+            body: JSON.stringify({ action: "delete", id: id })
+        });
+        muatDaftarFile();
+    }
+
+    // Load data otomatis saat dibuka
+    window.onload = muatDaftarFile;
+</script>
+
+</body>
+</html>
