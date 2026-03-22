@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahika Cloud Storage | Premium</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #0a1931;
+            --gold: #ffc947;
+            --gold-dark: #eab308;
+            --bg-body: #f1f5f9;
+        }
+
+        body { 
+            background-color: var(--bg-body); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- Header Curve Section --- */
+        .header-curve {
+            background-color: var(--navy);
+            height: 220px;
+            color: white;
+            padding-top: 50px;
+            text-align: center;
+            border-bottom-left-radius: 50% 30px;
+            border-bottom-right-radius: 50% 30px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .header-curve h2 {
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .header-curve h2 span { color: var(--gold); }
+        .header-curve p { font-size: 13px; opacity: 0.8; }
+
+        /* --- Main Card --- */
+        .main-container {
+            margin-top: -80px; /* Menumpuk di atas curve */
+            padding-bottom: 50px;
+        }
+
+        .main-card { 
+            background: white; 
+            border-radius: 24px; 
+            box-shadow: 0 15px 35px rgba(10, 25, 49, 0.1); 
+            padding: 30px; 
+            max-width: 650px; 
+            margin: auto; 
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* --- Upload Zone --- */
+        .upload-zone { 
+            border: 2px dashed #cbd5e1; 
+            padding: 35px 20px; 
+            border-radius: 18px; 
+            background: #f8fafc; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+        
+        .upload-zone:hover { 
+            border-color: var(--gold); 
+            background: #fffdf5; 
+            transform: translateY(-2px);
+        }
+
+        .upload-zone i { color: var(--navy); }
+        
+        /* --- Buttons --- */
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--navy);
+            border: none;
+            font-weight: 800;
+            padding: 14px;
+            border-radius: 14px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 201, 71, 0.3);
+        }
+
+        .btn-gold:hover {
+            background-color: var(--gold-dark);
+            color: var(--navy);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 201, 71, 0.4);
+        }
+
+        /* --- File Rows --- */
+        .file-list-container {
+            margin-top: 30px;
+        }
+
+        .file-row { 
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 15px; 
+            margin-bottom: 12px;
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            transition: 0.2s;
+            border: 1px solid #edf2f7;
+        }
+
+        .file-row:hover {
+            background: #ffffff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-color: var(--gold);
+        }
+
+        .file-info { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 0; }
+        .file-name { font-weight: 600; font-size: 14px; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .btn-action {
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: var(--text-dark);
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .btn-action:hover {
+            background-color: var(--navy);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        #loader { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="header-curve">
+    <h2>MAHIKA <span>CLOUD</span></h2>
+    <p><i class="fa-solid fa-shield-halved"></i> Google Drive Secure Storage System</p>
+</div>
+
+<div class="container main-container">
+    <div class="main-card">
+        
+        <div class="upload-zone text-center mb-4" onclick="document.getElementById('fileInput').click()">
+            <i class="fa-solid fa-cloud-arrow-up fa-3x mb-3"></i>
+            <p id="fileLabel" class="mb-0 fw-bold text-secondary">Klik atau seret file ke sini</p>
+            <input type="file" id="fileInput" hidden onchange="updateLabel()">
+        </div>
+
+        <button class="btn btn-gold w-100 py-3 mb-4 fw-bold" id="uploadBtn" onclick="jalankanUpload()">
+            <span id="btnText"><i class="fa-solid fa-paper-plane me-2"></i>MULAI UPLOAD</span>
+            <div class="spinner-border spinner-border-sm" id="loader" role="status"></div>
+        </button>
+
+        <div class="d-flex justify-content-between align-items: center; border-top pt-4">
+            <h6 class="fw-bold mb-0 text-navy" style="color: #0a1931;">Daftar Berkas</h6>
+            <button class="btn btn-sm btn-light border fw-bold" onclick="muatDaftarFile()" style="font-size: 11px;">
+                <i class="fa-solid fa-rotate me-1" id="refreshIcon"></i> REFRESH
+            </button>
+        </div>
+
+        <div id="fileContainer" class="file-list-container">
+            <p class="text-center text-muted py-4 small">Menghubungkan ke server...</p>
+        </div>
+        
+    </div>
+    
+    <div class="text-center mt-4">
+        <p class="text-muted small">&copy; 2026 Mahika Trans Digital. All Rights Reserved.</p>
+    </div>
+</div>
+
+<script>
+    // URL TETAP (Sama dengan kode asli kamu)
+    const URL_GAS = "https://script.google.com/macros/s/AKfycbw8MNPykhpLqt4r9b7dPYon9RdfZbzFRBOvx6mOmEOLCJCk3Va-iX6o1QH2f-ZtlZA/exec";
+
+    function updateLabel() {
+        const input = document.getElementById('fileInput');
+        if (input.files.length > 0) {
+            document.getElementById('fileLabel').innerHTML = `<span class="text-navy">${input.files[0].name}</span>`;
+        }
+    }
+
+    function jalankanUpload() {
+        const input = document.getElementById('fileInput');
+        const btn = document.getElementById('uploadBtn');
+        const loader = document.getElementById('loader');
+        const btnText = document.getElementById('btnText');
+
+        if (input.files.length === 0) return alert("Waduh, pilih file dulu bos!");
+
+        btn.disabled = true;
+        loader.style.display = "inline-block";
+        btnText.style.display = "none";
+
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const payload = {
+                base64: e.target.result,
+                fileName: file.name
+            };
+
+            fetch(URL_GAS, {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Mantap! File berhasil terupload.");
+                input.value = "";
+                document.getElementById('fileLabel').innerText = "Klik untuk Pilih File";
+                muatDaftarFile();
+            }).catch(err => alert("Gagal bro: " + err))
+            .finally(() => {
+                btn.disabled = false;
+                loader.style.display = "none";
+                btnText.style.display = "inline-block";
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    async function muatDaftarFile() {
+        const container = document.getElementById('fileContainer');
+        const refreshIcon = document.getElementById('refreshIcon');
+        refreshIcon.classList.add('fa-spin');
+
+        try {
+            const response = await fetch(URL_GAS, {
+                method: "POST",
+                body: JSON.stringify({ action: "list" })
+            });
+            const data = await response.json();
+
+            if (data.length === 0) {
+                container.innerHTML = `<div class="text-center py-4 text-muted small">Folder kosong, belum ada data.</div>`;
+            } else {
+                container.innerHTML = data.map(f => `
+                    <div class="file-row">
+                        <div class="file-info">
+                            <i class="fa-solid fa-file-pdf text-danger fs-5"></i>
+                            <span class="file-name">${f.name}</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="${f.url}" target="_blank" class="btn-action shadow-sm" title="Lihat">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <button onclick="hapusFile('${f.id}')" class="btn-action btn-delete shadow-sm" title="Hapus">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        } catch (e) {
+            container.innerHTML = `<p class="text-center text-danger small py-4">Gagal muat data: Periksa koneksi atau URL GAS.</p>`;
+        } finally {
+            refreshIcon.classList.remove('fa-spin');
+        }
+    }
+
+    async function hapusFile(id) {
+        if (!confirm("Yakin mau hapus file ini?")) return;
+        
+        // UI Feedback sederhana
+        document.getElementById('fileContainer').style.opacity = '0.5';
+        
+        try {
+            await fetch(URL_GAS, {
+                method: "POST",
+                body: JSON.stringify({ action: "delete", id: id })
+            });
+            muatDaftarFile();
+        } catch (e) {
+            alert("Gagal hapus data.");
+        } finally {
+            document.getElementById('fileContainer').style.opacity = '1';
+        }
+    }
+
+    window.onload = muatDaftarFile;
+</script>
+
+</body>
+</html>
