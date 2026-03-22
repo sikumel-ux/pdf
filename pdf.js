@@ -1,116 +1,83 @@
-const GITHUB_REPO = "sikumel-ux/pdf"; 
-const API_URL = "https://script.google.com/macros/s/AKfycbxmYhZ-5C74fQaLMkAgEMjaXTiJiFzMKyzfR0MN6RTkajXWjXyXywvTft8k9S-w32CZ/exec";
-const MY_DOMAIN = "https://files.mahikatrans.my.id";
+const API_URL = "https://script.google.com/macros/s/AKfycbzqq0Q5nGjgtDMlI_36LS67gylqT_S0ZlWjT1oqSvHFapbR2P_J7UdhwDDtbJKH4lKcmg/exec";
 
-let allFiles = [];
+let db = [];
 
-// Memuat data dari GitHub API
-async function fetchFiles() {
-    const list = document.getElementById('file-list');
-    list.innerHTML = `<div style="text-align:center;padding:30px;"><i class="fa-solid fa-circle-notch fa-spin fa-2x" style="color:var(--primary)"></i></div>`;
+async function load() {
+    const list = document.getElementById('f-list');
+    list.innerHTML = `<p style="text-align:center;padding:20px;font-size:12px;">Menghubungkan...</p>`;
     try {
-        const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/uploads?t=${Date.now()}`);
-        const data = await res.json();
-        allFiles = Array.isArray(data) ? data : [];
-        renderFiles(allFiles);
-    } catch (e) { 
-        list.innerHTML = '<p style="text-align:center;color:red;font-size:12px;">Gagal memuat data.</p>'; 
+        const res = await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "list" }) });
+        db = await res.json();
+        render(db);
+    } catch (e) { list.innerHTML = '<p style="text-align:center;color:red;">Koneksi Gagal.</p>'; }
+}
+
+function render(data) {
+    const list = document.getElementById('f-list');
+    list.innerHTML = data.map(f => `
+        <div class="f-item" style="display:flex; align-items:center; padding:12px; border-bottom:1px solid #f1f5f9; gap:10px;">
+            <i class="fa-solid fa-file-invoice" style="color:#0066ff"></i>
+            <div style="flex:1; min-width:0;">
+                <b style="font-size:13px; display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${f.name}</b>
+                <small style="color:#888; font-size:10px;">${(f.size/1024).toFixed(1)} KB</small>
+            </div>
+            <div style="display:flex; gap:5px;">
+                <button onclick="ren('${f.id}', '${f.name}')" style="border:none; background:#eee; padding:8px; border-radius:5px; cursor:pointer;"><i class="fa-solid fa-pen"></i></button>
+                <button onclick="del('${f.id}', '${f.name}')" style="border:none; background:#eee; padding:8px; border-radius:5px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>`).join('') || '<p style="text-align:center;padding:20px;font-size:12px;color:#999;">Folder Kosong.</p>';
+}
+
+async function ren(id, old) {
+    const n = prompt("Nama baru:", old);
+    if (!n || n === old) return;
+    msg("Mengubah...");
+    await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "rename", id, newName: n }) });
+    load(); msg("Berhasil!");
+}
+
+async function del(id, name) {
+    if (confirm(`Hapus ${name}?`)) {
+        msg("Menghapus...");
+        await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "delete", id }) });
+        load(); msg("Terhapus!");
     }
 }
 
-// Menampilkan daftar file ke UI
-function renderFiles(files) {
-    const list = document.getElementById('file-list');
-    list.innerHTML = files.map(f => {
-        let icon = 'fa-file-lines';
-        const n = f.name.toLowerCase();
-        if(n.endsWith('.pdf')) icon = 'fa-file-pdf';
-        else if(n.match(/\.(jpg|jpeg|png|webp|gif|svg)$/)) icon = 'fa-file-image';
-        else if(n.match(/\.(xlsx|xls|csv)$/)) icon = 'fa-file-excel';
-        else if(n.match(/\.(docx|doc)$/)) icon = 'fa-file-word';
-
-        return `
-        <div class="file-row">
-            <i class="fa-solid ${icon}" style="color:var(--primary); font-size:20px;"></i>
-            <div class="file-info">
-                <span class="file-name">${f.name}</span>
-                <span class="file-meta">${(f.size/1024).toFixed(1)} KB</span>
-            </div>
-            <div class="file-actions">
-                <button onclick="copyLink('${f.name}')" class="btn-action btn-copy" title="Salin Link"><i class="fa-solid fa-link"></i></button>
-                <button onclick="deleteFile('${f.name}', '${f.sha}')" class="btn-action btn-delete" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
-            </div>
-        </div>`;
-    }).join('') || '<p style="text-align:center;font-size:12px;color:#94a3b8;padding:20px;">Cloud kosong.</p>';
+function toggleV() {
+    const l = document.getElementById('v-list'), u = document.getElementById('v-up'), b = document.getElementById('btnT');
+    const isL = l.style.display !== 'none';
+    l.style.display = isL ? 'none' : 'block';
+    u.style.display = isL ? 'block' : 'none';
+    b.innerText = isL ? "[ Kembali ke List ]" : "[ Panel Upload ]";
 }
 
-function copyLink(name) {
-    const url = `${MY_DOMAIN}/uploads/${name}`.replace(/([^:]\/)\/+/g, "$1");
-    navigator.clipboard.writeText(url).then(() => showToast("🔗 Link Berhasil Disalin!"));
-}
-
-function toggleUpload() {
-    const h = document.getElementById('home-view'), u = document.getElementById('upload-view');
-    const btn = document.getElementById('btnToggle');
-    const isHome = h.style.display !== 'none';
-    
-    h.style.display = isHome ? 'none' : 'block';
-    u.style.display = isHome ? 'block' : 'none';
-    btn.innerText = isHome ? "[ Kembali ke Dashboard ]" : "[ Panel Upload ]";
-}
-
-function showToast(msg) {
+function msg(m) {
     const t = document.getElementById('toast');
-    t.innerText = msg; t.classList.add('show');
+    t.innerText = m; t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// Event Listener saat halaman siap
 document.addEventListener('DOMContentLoaded', () => {
-    const uploadBtn = document.getElementById('uploadBtn'), fileInput = document.getElementById('fileInput');
-    
-    if(fileInput) {
-        fileInput.onchange = () => { 
-            if(fileInput.files[0]) document.getElementById('file-label').innerText = fileInput.files[0].name; 
+    const bU = document.getElementById('btnU'), fI = document.getElementById('fileI');
+    fI.onchange = () => { if(fI.files[0]) document.getElementById('l-file').innerText = fI.files[0].name; };
+    bU.onclick = async () => {
+        const file = fI.files[0]; if(!file) return msg("Pilih file!");
+        bU.innerText = "MENGIRIM..."; bU.disabled = true;
+        const reader = new FileReader();
+        reader.onload = async () => {
+            const content = reader.result.split(',')[1];
+            await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "upload", name: file.name, content, type: file.type }) });
+            msg("Sukses!"); 
+            setTimeout(() => location.reload(), 1000);
         };
-    }
-
-    if(uploadBtn) {
-        uploadBtn.onclick = async () => {
-            const file = fileInput.files[0]; 
-            if(!file) return showToast("⚠️ Pilih file dulu!");
-            
-            uploadBtn.innerText = "MENGIRIM..."; uploadBtn.disabled = true;
-            const reader = new FileReader();
-            reader.onload = async () => {
-                try {
-                    await fetch(API_URL, { 
-                        method: "POST", 
-                        body: JSON.stringify({ action: "upload", name: file.name, content: reader.result.split(',')[1] }) 
-                    });
-                    showToast("✅ Berhasil Diupload!");
-                    setTimeout(() => location.reload(), 1500);
-                } catch (err) {
-                    showToast("❌ Gagal Upload!");
-                    uploadBtn.innerText = "UPLOAD KE CLOUD"; uploadBtn.disabled = false;
-                }
-            };
-            reader.readAsDataURL(file);
-        };
-    }
-    fetchFiles();
+        reader.readAsDataURL(file);
+    };
+    load();
 });
 
-async function deleteFile(n, s) { 
-    if(confirm(`Hapus file ${n}?`)) { 
-        showToast("Menghapus...");
-        await fetch(API_URL, { method: "POST", body: JSON.stringify({ action: "delete", name: n, sha: s }) }); 
-        fetchFiles(); 
-        showToast("🗑️ Terhapus!");
-    } 
-}
-
-document.getElementById('searchInput')?.addEventListener('input', (e) => {
-    const keyword = e.target.value.toLowerCase();
-    renderFiles(allFiles.filter(f => f.name.toLowerCase().includes(keyword)));
-});
+document.getElementById('sInp').oninput = (e) => {
+    const k = e.target.value.toLowerCase();
+    render(db.filter(f => f.name.toLowerCase().includes(k)));
+};
+               
