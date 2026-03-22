@@ -83,6 +83,17 @@
 
         #loader { display: none; }
     </style>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a1931">
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log("PWA Registered, bro!"))
+      .catch((err) => console.log("Gagal register PWA", err));
+  }
+</script>
+    
 </head>
 <body>
 
