@@ -1,7 +1,7 @@
 {
   "name": "Mahika Cloud",
   "short_name": "Mahika",
-  "start_url": "home.html",
+  "start_url": "cp.html",
   "display": "standalone",
   "background_color": "#f3f4f6",
   "theme_color": "#053a6f",
