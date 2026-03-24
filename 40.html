@@ -1,47 +1,73 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404 Halaman Tidak Ditemukan - MAHIKA CLOUD</title>
-<style>
-body {
-font-family: Arial, sans-serif;
-background-color: #f4f4f4;
-color: #333;
-margin: 0;
-padding: 0;
-}
-.container {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-height: 100vh;
-}
-.icon {
-width: 100px;
-height: 100px;
-margin-bottom: 20px;
-}
-.error-code {
-font-size: 72px;
-margin: 0;
-color: #053a6f;
-}
-.message {
-font-size: 18px;
-margin-top: 10px;
-color: #94a3b8;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found - Mahika Cloud</title>
+    <style>
+        :root {
+            --deep-blue: #053a6f;
+            --mahika-yellow: #facc15;
+            --white: #ffffff;
+            --light-bg: #f3f4f6;
+            --text-slate: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: var(--deep-blue);
+        }
+
+        .container {
+            text-align: center;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 80px;
+            margin: 0;
+            line-height: 1;
+            color: var(--mahika-yellow);
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: var(--text-slate);
+            margin-top: 10px;
+        }
+
+        .brand-text {
+            font-weight: bold;
+            color: var(--deep-blue);
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<img class="icon" src="<img class="image" src="apps.png" width="300" height="300">
-<h1 class="error-code">404</h1>
-<p class="message">Maaf, halaman tidak ditemukan.</p>
-</div>
+    <div class="container">
+        <img src="apps.png" alt="Mahika Cloud Logo" class="logo">
+        <h1>404</h1>
+        <p>Waduh! Halaman yang kamu cari nggak ada di awan.</p>
+        <div class="brand-text">MAHIKA CLOUD</div>
+    </div>
 </body>
-</html>`
-  
+</html>
